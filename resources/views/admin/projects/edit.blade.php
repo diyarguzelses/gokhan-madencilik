@@ -1,0 +1,176 @@
+@extends('admin.layouts.app')
+
+@section('content')
+    <div class="card mb-5">
+        <div class="card-header border-0 pt-4 pb-4 px-4 d-flex align-items-center justify-content-between"
+             style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px 10px 0 0;">
+            <div>
+                <span class="fw-bold fs-4">Proje Düzenle</span><br>
+                <span class="fw-light fs-6">Projenizin detaylarını buradan güncelleyebilirsiniz.</span>
+            </div>
+        </div>
+
+        <div class="card-body py-3">
+            <form action="{{ route('admin.projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label for="name" class="form-label">Proje Adı</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ $project->name }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="category_id" class="form-label">Kategori</label>
+                    <select class="form-control" id="category_id" name="category_id" required>
+                        <option value="">Bir kategori seçin</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" {{ $project->category_id == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Açıklama</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" required>{{ $project->description }}</textarea>
+                </div>
+
+                <!-- Sürükle Bırak Alanı -->
+                <div class="mb-3">
+                    <label class="form-label">Yeni Görseller Yükle</label>
+                    <div id="imageDropzone" class="border border-dashed text-center p-5" style="cursor: pointer;">
+                        <p class="fw-bold">Sürükle ve Bırak veya Tıklayın</p>
+                        <p class="text-muted">Birden fazla dosya yükleyebilirsiniz (JPEG, PNG, JPG - Maksimum 2MB).</p>
+                    </div>
+                    <!-- Dosya input'unu dropzone dışında taşıdık -->
+                    <input type="file" id="images" name="images[]" class="d-none" multiple>
+                    <div id="imagePreview" class="d-flex flex-wrap mt-3"></div>
+                </div>
+
+                <!-- Mevcut Görseller -->
+                <div class="mb-3">
+                    <label class="form-label">Mevcut Görseller</label>
+                    <div class="d-flex flex-wrap">
+                        @foreach ($project->images as $image)
+                            <div class="me-3 mb-3 position-relative">
+                                <img src="{{ asset($image->image_path) }}" alt="Proje Görseli"
+                                     style="width: 100px; height: 100px; object-fit: cover;">
+                                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-image"
+                                        data-id="{{ $image->id }}">&times;</button>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success">Güncelle</button>
+                <a href="{{ route('admin.projects.index') }}" class="btn btn-secondary">Geri</a>
+            </form>
+        </div>
+    </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            const dropzone = $('#imageDropzone');
+            const fileInput = $('#images');
+            const previewContainer = $('#imagePreview');
+            let uploadedFiles = [];
+
+            // Tıklama ile dosya yükleme alanını açma
+            dropzone.on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation(); // Olayın yayılmasını durdurduk
+                fileInput.trigger('click');
+            });
+
+            // Dosya seçildiğinde önizleme oluştur
+            fileInput.on('change', function (e) {
+                const files = e.target.files;
+                handleFiles(files);
+            });
+
+            // Dosyaları işleme ve önizleme
+            function handleFiles(files) {
+                Array.from(files).forEach(file => {
+                    if (file.size > 2048 * 1024 || !['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+                        alert('Geçersiz dosya: ' + file.name);
+                        return;
+                    }
+
+                    uploadedFiles.push(file);
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const imgHtml = `
+                    <div class="me-3 mb-3 position-relative preview-image">
+                        <img src="${event.target.result}" alt="Görsel" style="width: 100px; height: 100px; object-fit: cover;">
+                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-temp-image" data-index="${uploadedFiles.length - 1}">&times;</button>
+                    </div>`;
+                        previewContainer.append(imgHtml);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // Geçici görsel silme
+            $(document).on('click', '.delete-temp-image', function () {
+                const index = $(this).data('index');
+                uploadedFiles.splice(index, 1);
+                $(this).closest('.preview-image').remove();
+
+                // Input'u güncelle
+                const dataTransfer = new DataTransfer();
+                uploadedFiles.forEach(file => dataTransfer.items.add(file));
+                fileInput[0].files = dataTransfer.files;
+            });
+
+            // Mevcut görsel silme
+            $(document).on('click', '.delete-image', function () {
+                const imageId = $(this).data('id');
+
+                Swal.fire({
+                    title: 'Emin misiniz?',
+                    text: "Bu görsel kalıcı olarak silinecektir!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet, sil!',
+                    cancelButtonText: 'Hayır'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `/projects/image/delete/${imageId}`,
+                            method: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    Swal.fire(
+                                        'Silindi!',
+                                        'Görsel başarıyla silindi.',
+                                        'success'
+                                    ).then(() => location.reload());
+                                } else {
+                                    Swal.fire(
+                                        'Hata!',
+                                        'Görsel silinirken bir sorun oluştu.',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function () {
+                                Swal.fire(
+                                    'Hata!',
+                                    'Bir hata oluştu, lütfen tekrar deneyin.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+@endsection
