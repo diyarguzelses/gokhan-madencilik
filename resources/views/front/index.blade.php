@@ -65,4 +65,37 @@
         </div>
 
     </div>
+
+    <section id="about" class="about section about_bg">
+
+        <div class="container">
+
+            <div class="row gy-4">
+                <div style="padding-bottom: 100px">
+                    <h2 style="color: var(--accent-color)">Rakamlarla Çetinler</h2>
+                    <hr class="hr">
+                </div>
+
+                <div class="col-lg-6 order-1 order-lg-1 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                    <div style="width: 500px;height: 150px;background:var(--accent-color);margin-top: 125px">
+                        <h1 class="text-center" style="color: white;padding-top: 50px;">Birlikte Üretiyoruz</h1>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+                    <h3 style="color: var(--accent-color)">1990 <br> yılından bu yanabüyüyen güç</h3>
+                    <ul class="istatistic">
+                        <li><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
+                        <li><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
+                        <li><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
+                        <li><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
+                    </ul>
+                    <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
 @endsection

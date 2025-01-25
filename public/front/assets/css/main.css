@@ -954,6 +954,16 @@ section,
 /*--------------------------------------------------------------
 # About Section
 --------------------------------------------------------------*/
+.about_bg{
+    background-image: url("../img/bg_2.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.about{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
 .about .content h3 {
   font-size: 2rem;
   font-weight: 700;
@@ -1909,6 +1919,32 @@ section,
   /* Add your styles here */
 }
 
+
+
+
+
+.istatistic{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+.istatistic li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.istatistic li h4{
+    color: var(--accent-color);
+    margin: 5px;
+
+}
+
+.hr{
+    border: 2px solid var(--accent-color);
+    opacity: 1;
+}
 
 
 
