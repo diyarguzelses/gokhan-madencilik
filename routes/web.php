@@ -58,3 +58,14 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
 });
 
+
+
+//Test Route'ları
+
+Route::get('/layout', function () {
+    return view('front.layout.app');
+});
+Route::get('/index', function () {
+    return view('front.index');
+});
+
