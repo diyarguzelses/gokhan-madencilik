@@ -30,6 +30,25 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+    <!-- Owl Carousel Theme CSS (isteğe bağlı) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <!-- =======================================================
     * Template Name: Mentor
     * Template URL: https://bootstrapmade.com/mentor-free-education-bootstrap-theme/
@@ -130,7 +149,9 @@
 </main>
 
 <footer id="footer" class="footer position-relative light-background">
-
+    <div class="container" >
+        <hr style="border: 2px solid var(--accent-color);opacity: 1;">
+    </div>
     <div class="container footer-top">
         <div class="row gy-4">
             <div class="col-lg-4 col-md-6 footer-about">
@@ -205,6 +226,8 @@
 <!-- Preloader -->
 <div id="preloader"></div>
 
+
+
 <!-- Vendor JS Files -->
 <script src="{{asset('front/assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('front/assets/vendor/php-email-form/validate.js')}}"></script>
@@ -215,6 +238,8 @@
 
 <!-- Main JS File -->
 <script src="{{asset('front/assets/js/main.js')}}"></script>
+
+
 
 </body>
 

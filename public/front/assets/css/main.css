@@ -1358,31 +1358,32 @@ section,
 }
 
 .testimonials .testimonial-item {
-  background-color: var(--surface-color);
+  /*background-color: var(--surface-color);*/
   border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
   box-sizing: content-box;
   padding: 30px 30px 30px 60px;
-  margin: 30px 15px;
+  margin: 10px 0;
   min-height: 200px;
   position: relative;
 }
 
 .testimonials .testimonial-item .testimonial-img {
-  width: 90px;
+  /*width: 50%;*/
   border-radius: 10px;
-  border: 6px solid var(--background-color);
-  position: absolute;
-  left: -45px;
+  border: 3px solid var(--background-color);
+  /*position: absolute;*/
+  /*left: -45px;*/
 }
 
 .testimonials .testimonial-item h3 {
+    color: var(--background-color);
   font-size: 18px;
   font-weight: bold;
   margin: 10px 0 5px 0;
 }
 
 .testimonials .testimonial-item h4 {
-  color: color-mix(in srgb, var(--default-color), transparent 50%);
+    color: var(--background-color);
   font-size: 14px;
   margin: 0;
 }
@@ -1418,6 +1419,7 @@ section,
 }
 
 .testimonials .testimonial-item p {
+    color: var(--background-color);
   font-style: italic;
   margin: 15px auto 15px auto;
 }
@@ -1941,12 +1943,91 @@ section,
 
 }
 
+.hr_baslik{
+    padding-bottom: 100px;
+}
+
 .hr{
     border: 2px solid var(--accent-color);
     opacity: 1;
 }
 
+.block{
+    width: 500px;
+    height: 150px;
+    background:var(--accent-color);
+    margin-top: 125px
+}
 
+
+
+
+
+
+
+
+
+
+
+
+/******* Middle section CSS Start ******/
+/* -------- Landing page ------- */
+.game-section {
+    padding: 60px 50px;
+}
+.game-section .owl-stage {
+    margin: 15px 0;
+    display: flex;
+
+}
+.game-section .item {
+    background-image: url("../img/insaat.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0 50px 60px;
+    width: 250px;
+    height: 475px;
+    display: flex;
+    align-items: flex-end;
+    -webkit-align-items: flex-end;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    cursor: pointer;
+}
+.game-section .item:after {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.54));
+}
+.game-section .item-desc {
+    padding: 0 24px 12px;
+    color: var(--background-color);
+    position: relative;
+    z-index: 1;
+
+}
+.game-section .item-desc h4 {
+    color: var(--background-color);
+}
+.game-section .owl-theme.custom-carousel .owl-dots {
+    margin-top: -20px;
+    position: relative;
+    z-index: 5;
+}
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+    background: var(--accent-color) !important;
+
+}
+/******** Middle section CSS End *******/
 
 
 

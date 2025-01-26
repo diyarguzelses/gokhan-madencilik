@@ -27,5 +27,113 @@
     .trainers-index .member_container .member_row{
         gap: 30px;
     }
+    .hr_baslik{
+        padding-bottom: 30px;
+    }
+    .block{
+        width: 500px;
+        height: 150px;
+        background:var(--accent-color);
+        margin-top: 20px;
+    }
+}
+
+
+/***** responsive css Start ******/
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    h2 {
+        margin-bottom: 32px;
+    }
+    h3 {
+        margin: 0 0 8px;
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    /* -------- Landing page ------- */
+    .game-section {
+        padding: 50px 30px;
+    }
+    .game-section .item {
+        margin: 0 12px 60px;
+        width: 260px;
+        height: 360px;
+    }
+    .game-section .item.active {
+        width: 400px;
+    }
+    .game-section .item-desc {
+        transform: translateY(calc(100% - 46px));
+        -webkit-transform: translateY(calc(100% - 46px));
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    h2 {
+        margin-bottom: 32px;
+    }
+    h3 {
+        margin: 0 0 8px;
+        font-size: 24px;
+        line-height: 32px;
+    }
+    .line-title {
+        width: 330px;
+    }
+
+    /* -------- Landing page ------- */
+    .game-section {
+        padding: 50px 30px 40px;
+    }
+    .game-section .item {
+        margin: 0 12px 60px;
+        width: 240px;
+        height: 330px;
+    }
+    .game-section .item.active {
+        width: 360px;
+    }
+    .game-section .item-desc {
+        transform: translateY(calc(100% - 42px));
+        -webkit-transform: translateY(calc(100% - 42px));
+    }
+}
+
+@media (max-width: 767px) {
+    body {
+        font-size: 14px;
+    }
+    h2 {
+        margin-bottom: 20px;
+    }
+    h3 {
+        margin: 0 0 8px;
+        font-size: 19px;
+        line-height: 24px;
+    }
+    .line-title {
+        width: 250px;
+    }
+
+    /* -------- Landing page ------- */
+    .game-section {
+        padding: 30px 15px 20px;
+    }
+    .game-section .item {
+        margin: 0 10px 40px;
+        width: 200px;
+        height: 280px;
+    }
+    .game-section .item.active {
+        width: 270px;
+        box-shadow: 6px 10px 10px rgba(0, 0, 0, 0.25);
+        -webkit-box-shadow: 6px 10px 10px rgba(0, 0, 0, 0.25);
+    }
+    .game-section .item-desc {
+        padding: 0 14px 5px;
+        transform: translateY(calc(100% - 42px));
+        -webkit-transform: translateY(calc(100% - 42px));
+    }
 }
 
