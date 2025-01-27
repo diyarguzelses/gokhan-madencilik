@@ -18,7 +18,7 @@ class AuthController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect('/');
+            return redirect('admin/');
         }
 
         return back()->withErrors(['message' => 'Kullanıcı adı veya şifre hatalı']);
