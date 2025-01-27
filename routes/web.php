@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Categories\CategoryController;
+use App\Http\Controllers\Frontend\CommunicationController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\Projects\ProjectController;
@@ -69,3 +70,6 @@ Route::get('/index', function () {
     return view('front.index');
 });
 
+
+Route::get('/communication',[CommunicationController::class,'index'])->name('communication.index');
+Route::post('/communication',[CommunicationController::class,'sendMessage'])->name('communication.sendMessage');
