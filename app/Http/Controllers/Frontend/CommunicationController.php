@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Communications;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CommunicationController extends Controller
 {
     public function index(){
         return view('front.communication.index');
     }
+
 
     public function sendMessage(Request $request)
     {
@@ -27,12 +29,31 @@ class CommunicationController extends Controller
                 'message.max' => 'Mesaj Maximum 255 karakter olmalıdır',
             ]);
 
-        $communication = new Communications();
-        $communication->name = $request->name;
-        $communication->email = $request->email;
-        $communication->message = $request->message;
-        $communication->save();
+        $emailData = [
+            'name' => $validateData['name'],
+            'email' => $validateData['email'],
+            'messageContent' => $validateData['message'],
+        ];
 
-        return response()->json(['Success' => 'success']);
+        try {
+            Mail::raw(
+                "Gönderen: {$emailData['name']} ({$emailData['email']})\n\nMesaj:\n{$emailData['messageContent']}",
+                function ($message) use ($emailData) {
+                    $toAddress = env('MAIL_TO_ADDRESS');
+                    if (!$toAddress) {
+                        throw new \Exception("MAIL_TO_ADDRESS .env dosyasında tanımlı değil!");
+                    }
+                    $message->to($toAddress)
+                        ->subject('Yeni İletişim Mesajı')
+                        ->from($emailData['email'], $emailData['name']);
+                }
+            );
+
+
+
+            return response()->json(['Success' => 'Mesaj başarıyla gönderildi.']);
+        } catch (\Exception $e) {
+            return response()->json(['Error' => 'Mesaj gönderilemedi: ' . $e->getMessage()], 500);
+        }
     }
 }
