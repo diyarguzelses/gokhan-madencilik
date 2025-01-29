@@ -62,7 +62,7 @@
 
 <body class="index-page">
 
-<header id="header" class="header d-flex align-items-center sticky-top">
+<header id="header" class="header d-flex align-items-center sticky-top" style="background-color: {{ config('app.settings.navbar_color', '#1e293b') }} !important;">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
 
@@ -144,10 +144,8 @@
     </div>
 </header>
 
-<main class="main">
-
+<main class="main" style="background-color: {{ config('app.settings.background_color', '#1e293b') }} !important;">
     @yield('content')
-
 </main>
 
 <footer id="footer" class="footer position-relative light-background">
