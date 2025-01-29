@@ -2,6 +2,24 @@
 <html lang="en">
 
 <head>
+    <style>
+        :root {
+            --background-color: {{ config('app.settings.background_color', '#ffffff') }} !important;
+            --default-color: {{ config('app.settings.default_color', '#444444') }} !important;
+            --heading-color: {{ config('app.settings.heading_color', '#37423b') }} !important;
+            --accent-color: {{ config('app.settings.accent_color', '#004CA6') }} !important;
+            --surface-color: {{ config('app.settings.surface_color', '#ffffff') }} !important;
+            --contrast-color: {{ config('app.settings.contrast_color', '#ffffff') }} !important;
+
+            --nav-color: {{ config('app.settings.nav_color', '#272828') }} !important;
+            --nav-hover-color: {{ config('app.settings.nav_hover_color', '#004CA6') }} !important;
+            --nav-mobile-background-color: {{ config('app.settings.nav_mobile_background_color', '#ffffff') }} !important;
+            --nav-dropdown-background-color: {{ config('app.settings.nav_dropdown_background_color', '#ffffff') }} !important;
+            --nav-dropdown-color: {{ config('app.settings.nav_dropdown_color', '#272828') }} !important;
+            --nav-dropdown-hover-color: {{ config('app.settings.nav_dropdown_hover_color', '#004CA6') }} !important;
+        }
+    </style>
+
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Index - Mentor Bootstrap Template</title>
@@ -62,7 +80,7 @@
 
 <body class="index-page">
 
-<header id="header" class="header d-flex align-items-center sticky-top" style="background-color: {{ config('app.settings.navbar_color', '#1e293b') }} !important;">
+<header id="header" class="header d-flex align-items-center sticky-top" >
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
 
@@ -144,7 +162,7 @@
     </div>
 </header>
 
-<main class="main" style="background-color: {{ config('app.settings.background_color', '#1e293b') }} !important;">
+<main class="main">
     @yield('content')
 </main>
 
