@@ -7,16 +7,16 @@
             --background-color: {{ config('app.settings.background_color', '#ffffff') }} !important;
             --default-color: {{ config('app.settings.default_color', '#444444') }} !important;
             --heading-color: {{ config('app.settings.heading_color', '#37423b') }} !important;
-            --accent-color: {{ config('app.settings.accent_color', '#004CA6') }} !important;
+            --accent-color: {{ config('app.settings.button_color', '#004CA6') }} !important;
             --surface-color: {{ config('app.settings.surface_color', '#ffffff') }} !important;
             --contrast-color: {{ config('app.settings.contrast_color', '#ffffff') }} !important;
 
-            --nav-color: {{ config('app.settings.nav_color', '#272828') }} !important;
-            --nav-hover-color: {{ config('app.settings.nav_hover_color', '#004CA6') }} !important;
-            --nav-mobile-background-color: {{ config('app.settings.nav_mobile_background_color', '#ffffff') }} !important;
-            --nav-dropdown-background-color: {{ config('app.settings.nav_dropdown_background_color', '#ffffff') }} !important;
-            --nav-dropdown-color: {{ config('app.settings.nav_dropdown_color', '#272828') }} !important;
-            --nav-dropdown-hover-color: {{ config('app.settings.nav_dropdown_hover_color', '#004CA6') }} !important;
+            --nav-color: {{ config('app.settings.navbar_color', '#272828') }} !important;
+            --nav-hover-color: {{ config('app.settings.button_color', '#004CA6') }} !important;
+            --nav-mobile-background-color: {{ config('app.settings.background_color', '#ffffff') }} !important;
+            --nav-dropdown-background-color: {{ config('app.settings.background_color', '#ffffff') }} !important;
+            --nav-dropdown-color: {{ config('app.settings.navbar_color', '#272828') }} !important;
+            --nav-dropdown-hover-color: {{ config('app.settings.button_color', '#004CA6') }} !important;
         }
     </style>
 
@@ -45,7 +45,6 @@
     <!-- Main CSS File -->
     <link href="{{asset('front/assets/css/main.css')}}" rel="stylesheet">
     <link href="{{asset('front/assets/css/responsive.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('front/assets/css/colors.php') }}?v=1">
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
