@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Categories\CategoryController;
 use App\Http\Controllers\Frontend\CommunicationController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Settings\SettingsController;
@@ -61,15 +62,11 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
 
 
 
-//Test Route'ları
-
-Route::get('/layout', function () {
-    return view('front.layout.app');
-});
-Route::get('/index', function () {
-    return view('front.index');
-});
 
 
+//HomePage Route
+Route::get('/index',[HomePageController::class,'index'])->name('homePage.index');
+
+//Communication Route
 Route::get('/communication',[CommunicationController::class,'index'])->name('communication.index');
 Route::post('/communication',[CommunicationController::class,'sendMessage'])->name('communication.sendMessage');

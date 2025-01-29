@@ -10,9 +10,14 @@ class Setting extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'name',
-        'url',
-        'is_active',
-        'order',
-    ];}
+
+
+    // Veritabanı tablosunu belirleyin (varsayılan olarak 'settings' olacaktır, ancak farklı olabilir)
+    protected $table = 'settings';
+
+    // Veritabanındaki hangi sütunların alınacağına dair izinler (optional)
+    protected $fillable = ['key', 'value'];
+
+}
+
+
