@@ -2,12 +2,26 @@
     .header .logo img {
         left: 400px;
     }
+    .default_img{
+        margin-left: 0;
+        margin-right: 0
+    }
+    .default_img2{
+        margin-left: 0;
+    }
 }
 
 /* Tablet ve küçük ekranlar için */
 @media (max-width: 991px) and (min-width: 768px) {
     .header .logo img {
         left: 285px;
+    }
+    .default_img{
+        margin-left: 0;
+        margin-right: 0
+    }
+    .default_img2{
+        margin-left: 0;
     }
 
 
@@ -17,6 +31,13 @@
 @media (max-width: 767px) {
     .header .logo img {
         left: 175px;
+    }
+    .default_img{
+        margin-left: 0;
+        margin-right: 0
+    }
+    .default_img2{
+        margin-left: 0;
     }
 }
 
@@ -35,6 +56,13 @@
         height: 150px;
         background:var(--accent-color);
         margin-top: 20px;
+    }
+    .default_img{
+        margin-left: 0;
+        margin-right: 0
+    }
+    .default_img2{
+        margin-left: 0;
     }
 }
 

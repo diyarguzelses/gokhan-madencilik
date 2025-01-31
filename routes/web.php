@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Categories\CategoryController;
 use App\Http\Controllers\Frontend\CommunicationController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Frontend\DefaultPageController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\Projects\ProjectController;
@@ -70,3 +71,6 @@ Route::get('/index',[HomePageController::class,'index'])->name('homePage.index')
 //Communication Route
 Route::get('/communication',[CommunicationController::class,'index'])->name('communication.index');
 Route::post('/communication',[CommunicationController::class,'sendMessage'])->name('communication.sendMessage');
+
+//DefaultPage Route
+Route::get('defaultPage',[DefaultPageController::class,'index'])->name('defaultPage.index');

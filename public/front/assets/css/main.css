@@ -775,6 +775,13 @@ h6 {
   background-color: var(--background-color);
   position: relative;
 }
+.page-title_2{
+    background-image: url("../img/image.png") !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
 
 .page-title .heading {
   padding: 80px 0;
@@ -1959,7 +1966,13 @@ section,
     background:var(--accent-color);
     margin-top: 125px
 }
-
+.default_img{
+    margin-left: 50px;
+    margin-right: 50px
+}
+.default_img2{
+    margin-left: 100px;
+}
 
 
 
