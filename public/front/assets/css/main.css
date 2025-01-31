@@ -1218,6 +1218,12 @@ section,
   font-size: 18px;
   color: color-mix(in srgb, var(--default-color), transparent 20%);
 }
+.courses .course-content .price2 {
+    margin: 0;
+    font-weight: 400;
+    font-size: 12px;
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
+}
 
 .courses .course-content .description {
   font-size: 14px;
