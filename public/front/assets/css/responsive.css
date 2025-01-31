@@ -9,6 +9,15 @@
     .default_img2{
         margin-left: 0;
     }
+    .default_img2{
+        margin-left: 0;
+    }
+    .skw-pages {
+        height: 45vh;
+    }
+    .skw-page__half{
+        height: 45vh;
+    }
 }
 
 /* Tablet ve küçük ekranlar için */
@@ -22,6 +31,12 @@
     }
     .default_img2{
         margin-left: 0;
+    }
+    .skw-pages {
+        height: 45vh;
+    }
+    .skw-page__half{
+        height: 45vh;
     }
 
 
@@ -38,6 +53,12 @@
     }
     .default_img2{
         margin-left: 0;
+    }
+    .skw-pages {
+        height: 45vh;
+    }
+    .skw-page__half{
+        height: 45vh;
     }
 }
 
@@ -64,6 +85,20 @@
     .default_img2{
         margin-left: 0;
     }
+    .skw-pages {
+        height: 25vh;
+    }
+    .skw-page__half{
+        height: 35vh;
+    }
+    .skw-page__heading{
+        font-size: 10px;
+
+    }
+    .skw-page__description {
+        font-size: 8px;
+    }
+
 }
 
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\CommunicationController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Frontend\DefaultPageController;
 use App\Http\Controllers\Frontend\HomePageController;
+use App\Http\Controllers\Frontend\ProjectPageController;
 use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Settings\SettingsController;
@@ -74,3 +75,6 @@ Route::post('/communication',[CommunicationController::class,'sendMessage'])->na
 
 //DefaultPage Route
 Route::get('defaultPage',[DefaultPageController::class,'index'])->name('defaultPage.index');
+
+//Projects Route
+Route::get('/projects',[ProjectPageController::class,'index'])->name('projects.index');
