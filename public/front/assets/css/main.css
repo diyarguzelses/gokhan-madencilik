@@ -2058,7 +2058,6 @@ section,
     position: relative;
     height: 80vh;
 }
-
 .skw-page {
     position: absolute;
     left: 0;
@@ -2188,4 +2187,69 @@ section,
 .navigation-buttons button:hover {
     background-color: gray;
 }
+
+
+
+
+.machine_park .cards-list{
+    z-index: 0;
+    width: 100%;
+
+
+}
+
+.machine_park .card{
+    margin: 30px auto;
+    width: 200px;
+    height: 200px;
+    box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.1), -5px -5px 30px 7px rgba(0,0,0,0.1);
+    transition: 0.4s;
+}
+
+.machine_park .card .card_image {
+    width: inherit;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    margin-top: 20px;
+}
+
+.machine_park .card .card_image img {
+    width: 130px;
+    height: 100px;
+    object-fit: cover;
+
+}
+
+.machine_park .card .card_title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: -80px;
+
+    color: black;
+}
+.machine_park .card .card_title2 {
+    text-align: center;
+    font-size: 8px;
+    margin-top: -10px;
+    height: 40px;
+    color: black;
+}
+
+
+
+
+@media all and (max-width: 500px) {
+    .machine_park .card-list {
+        /* On small screens, we are no longer using row direction but column */
+        flex-direction: column;
+    }
+}
+
+
+
+
+
 
