@@ -12,20 +12,22 @@ class Menu extends Model
 
     protected $fillable = [
         'parent_id',
+        'page_id',
         'name',
         'url',
         'is_active',
         'order',
     ];
 
-    public function children()
-    {
+    public function parent() {
+        return $this->belongsTo(Menu::class, 'parent_id');
+    }
+
+    public function children() {
         return $this->hasMany(Menu::class, 'parent_id');
     }
 
-
-    public function parent()
-    {
-        return $this->belongsTo(Menu::class, 'parent_id');
+    public function page() {
+        return $this->belongsTo(Page::class);
     }
 }

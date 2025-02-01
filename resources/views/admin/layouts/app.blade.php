@@ -147,39 +147,85 @@
 
             <ul class="menu-inner py-1">
                 <!-- Dashboard -->
-                <li class="menu-item active">
-                    <a href="{{route('admin.dashboard')}}" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('admin.dashboard') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Ana Sayfa</div>
                     </a>
                 </li>
+                <!-- Sayfa Yönetimi -->
+                <li class="menu-item {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pages.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bxs-file-blank"></i>
+                        <div data-i18n="Basic">Sayfa Yönetimi</div>
+                    </a>
+                </li>
 
-                <li class="menu-item">
-                    <a href="{{route('admin.menus.index')}}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-collection"></i>
+
+                <!-- Menü Yönetimi -->
+                <li class="menu-item {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.menus.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-menu"></i>
                         <div data-i18n="Basic">Menü Yönetimi</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="{{route('admin.settings.index')}}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-collection"></i>
+
+
+                <!-- Renk Yönetimi -->
+                <li class="menu-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.settings.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-palette"></i>
                         <div data-i18n="Basic">Renk Yönetimi</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="{{route('admin.categories.index')}}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-collection"></i>
+
+                <!-- Kategori Yönetimi -->
+                <li class="menu-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.categories.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-category"></i>
                         <div data-i18n="Basic">Kategori Yönetimi</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="{{route('admin.projects.index')}}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-collection"></i>
+
+                <!-- Proje Yönetimi -->
+                <li class="menu-item {{ request()->routeIs('admin.projects.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.projects.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-building-house"></i>
                         <div data-i18n="Basic">Proje Yönetimi</div>
                     </a>
                 </li>
 
+                <!-- Sektör Yönetimi -->
+                <li class="menu-item {{ request()->routeIs('admin.sectors.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.sectors.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-buildings"></i>
+                        <div data-i18n="Basic">Sektör Yönetimi</div>
+                    </a>
+                </li>
 
+                <!-- Makine Parkı Yönetimi -->
+                <li class="menu-item {{ request()->routeIs('admin.machines.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.machines.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-cog"></i>
+                        <div data-i18n="Basic">Makine Parkı</div>
+                    </a>
+                </li>
+
+                <!-- Haber Yönetimi -->
+                <li class="menu-item {{ request()->routeIs('admin.news.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.news.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-news"></i>
+                        <div data-i18n="Basic">Haberler</div>
+                    </a>
+                </li>
+
+                <!-- Kariyer Yönetimi -->
+                <li class="menu-item {{ request()->routeIs('admin.career.edit') ? 'active' : '' }}">
+                    <a href="{{ route('admin.career.edit') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-briefcase"></i>
+                        <div data-i18n="Basic">Kariyer</div>
+                    </a>
+                </li>
             </ul>
         </aside>
         <!-- / Menu -->

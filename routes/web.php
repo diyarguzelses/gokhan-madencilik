@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\CareerController;
+use App\Http\Controllers\Admin\MachineController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Categories\CategoryController;
 use App\Http\Controllers\Frontend\CommunicationController;
@@ -7,7 +13,6 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Frontend\DefaultPageController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\ProjectPageController;
-use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Settings\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -29,52 +34,109 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->m
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth.admin');
 
+
+
 Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function () {
-    // Dashboard
+
+    // 📌 DASHBOARD
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 
-    // Menü Yönetimi
-    Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
-    Route::post('/menus', [MenuController::class, 'store'])->name('menus.store');
-    Route::put('/menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
-    Route::delete('/menus/{menu}', [MenuController::class, 'destroy'])->name('menus.destroy');
-    Route::get('/menus/data', [MenuController::class, 'getData'])->name('menus.data');
-
-    // Ayarlar
+    // 📌 AYARLAR
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
 
-    // Kategoriler
-    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('/categories/data', [CategoryController::class, 'data'])->name('categories.data');
-    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-    Route::post('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    // 📌 SAYFA YÖNETİMİ
+    Route::prefix('pages')->name('pages.')->group(function () {
+        Route::get('/', [PageController::class, 'index'])->name('index');
+        Route::get('/data', [PageController::class, 'getData'])->name('data');
+        Route::post('/', [PageController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [PageController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [PageController::class, 'update'])->name('update');
+        Route::delete('/{id}', [PageController::class, 'destroy'])->name('destroy');
+    });
 
-    // Projeler
-    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-    Route::get('/projects/data', [ProjectController::class, 'data'])->name('projects.data');
-    Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-    Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
-    Route::get('/projects/edit/{id}', [ProjectController::class, 'edit'])->name('projects.edit');
-    Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
-    Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+    // 📌 MENÜ YÖNETİMİ
+    Route::prefix('menus')->name('menus.')->group(function () {
+        Route::get('/', [MenuController::class, 'index'])->name('index');
+        Route::get('/data', [MenuController::class, 'getData'])->name('data');
+        Route::post('/', [MenuController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [MenuController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [MenuController::class, 'update'])->name('update');
+        Route::delete('/{id}', [MenuController::class, 'destroy'])->name('destroy');
+    });
+
+    // 📌 KATEGORİLER
+    Route::prefix('categories')->name('categories.')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::get('/data', [CategoryController::class, 'data'])->name('data');
+        Route::post('/', [CategoryController::class, 'store'])->name('store');
+        Route::post('/{id}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+    });
+
+    // 📌 SEKTÖRLER
+    Route::prefix('sectors')->name('sectors.')->group(function () {
+        Route::get('/', [SectorController::class, 'index'])->name('index');
+        Route::get('/data', [SectorController::class, 'getData'])->name('data');
+        Route::post('/', [SectorController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [SectorController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [SectorController::class, 'update'])->name('update');
+        Route::delete('/{id}', [SectorController::class, 'destroy'])->name('destroy');
+    });
+
+    // 📌 MAKİNE PARKI
+    Route::prefix('machines')->name('machines.')->group(function () {
+        Route::get('/', [MachineController::class, 'index'])->name('index');
+        Route::get('/data', [MachineController::class, 'getData'])->name('data');
+        Route::post('/', [MachineController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [MachineController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [MachineController::class, 'update'])->name('update');
+        Route::delete('/{id}', [MachineController::class, 'destroy'])->name('destroy');
+    });
+
+    // 📌 HABERLER
+    Route::prefix('news')->name('news.')->group(function () {
+        Route::get('/', [NewsController::class, 'index'])->name('index');
+        Route::get('/data', [NewsController::class, 'getData'])->name('data');
+        Route::post('/', [NewsController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [NewsController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [NewsController::class, 'update'])->name('update');
+        Route::delete('/{id}', [NewsController::class, 'destroy'])->name('destroy');
+    });
+
+    // 📌 KARİYER
+    Route::prefix('career')->name('career.')->group(function () {
+        Route::get('/', [CareerController::class, 'edit'])->name('edit');
+        Route::post('/', [CareerController::class, 'update'])->name('update');
+    });
+
+    // 📌 PROJELER
+    Route::prefix('projects')->name('projects.')->group(function () {
+        Route::get('/', [ProjectController::class, 'index'])->name('index');
+        Route::get('/data', [ProjectController::class, 'data'])->name('data');
+        Route::get('/create', [ProjectController::class, 'create'])->name('create');
+        Route::post('/', [ProjectController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [ProjectController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [ProjectController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('destroy');
+    });
+
+    // 📌 MENÜYE BAĞLI SAYFALAR (Dinamik URL)
+    Route::get('/{menu_url}', [PageController::class, 'show'])->name('menu.show');
+
 });
 
 
-
-
-
 //HomePage Route
-Route::get('/index',[HomePageController::class,'index'])->name('homePage.index');
+Route::get('/index', [HomePageController::class, 'index'])->name('homePage.index');
 
 //Communication Route
-Route::get('/communication',[CommunicationController::class,'index'])->name('communication.index');
-Route::post('/communication',[CommunicationController::class,'sendMessage'])->name('communication.sendMessage');
+Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');
+Route::post('/communication', [CommunicationController::class, 'sendMessage'])->name('communication.sendMessage');
 
 //DefaultPage Route
-Route::get('defaultPage',[DefaultPageController::class,'index'])->name('defaultPage.index');
+Route::get('defaultPage', [DefaultPageController::class, 'index'])->name('defaultPage.index');
 
 //Projects Route
-Route::get('/projects',[ProjectPageController::class,'index'])->name('projects.index');
+Route::get('/projects', [ProjectPageController::class, 'index'])->name('projects.index');
