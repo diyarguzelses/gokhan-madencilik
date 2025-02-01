@@ -88,6 +88,8 @@
                     }
                 ],
                 language: {
+                    url: "{{ asset('assets/datatables/turkish.json') }}" // Türkçe çeviri dosyasını yükle
+
                 }
             });
 

@@ -42,6 +42,9 @@
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('admin.projects.data') }}',
+                language: {
+                    url: "{{ asset('assets/datatables/turkish.json') }}" // Türkçe çeviri dosyasını yükle
+                },
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'name', name: 'name'},

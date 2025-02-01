@@ -107,37 +107,72 @@
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Proje Durum Grafiği
-        var ctx1 = document.getElementById('projectStatusChart').getContext('2d');
-        new Chart(ctx1, {
-            type: 'pie',
-            data: {
-                labels: ['Devam Eden', 'Tamamlanan'],
-                datasets: [{
-                    data: [{{ $ongoingProjects }}, {{ $completedProjects }}],
-                    backgroundColor: ['#FF9800', '#4CAF50']
-                }]
-            }
-        });
+        document.addEventListener("DOMContentLoaded", function () {
 
-        // Proje Zaman Grafiği (Son 5 proje ekleme tarihi)
-        var ctx2 = document.getElementById('projectTimelineChart').getContext('2d');
-        new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: {!! json_encode($latestProjects->pluck('title')) !!},
-                datasets: [{
-                    label: 'Proje Ekleme Tarihi',
-                    data: {!! json_encode($latestProjects->pluck('created_at')->map(fn($date) => $date->timestamp)) !!},
-                    backgroundColor: '#3f51b5'
-                }]
-            },
-            options: {
-                scales: {
-                    x: { title: { display: true, text: 'Projeler' } },
-                    y: { title: { display: true, text: 'Tarih' }, ticks: { callback: function(value) { return new Date(value * 1000).toLocaleDateString(); } } }
-                }
+            // RASTGELE RENK OLUŞTURMA FONKSİYONU
+            function getRandomColor() {
+                return `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.8)`;
             }
+
+            // Pie grafikte her dilime farklı renk atamak için
+            let pieColors = ['Devam Eden', 'Tamamlanan'].map(() => getRandomColor());
+
+            // 📌 PROJE DURUM GRAFİĞİ (PIE)
+            var ctx1 = document.getElementById('projectStatusChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'pie',
+                data: {
+                    labels: ['Devam Eden', 'Tamamlanan'],
+                    datasets: [{
+                        data: [{{ $ongoingProjects }}, {{ $completedProjects }}],
+                        backgroundColor: pieColors // Her dilime rastgele renk atandı
+                    }]
+                }
+            });
+
+            // 📌 PROJE ZAMAN GRAFİĞİ (BAR)
+            var ctx2 = document.getElementById('projectTimelineChart').getContext('2d');
+
+            @if($latestProjects->count() > 0)
+            let projectTitles = {!! json_encode($latestProjects->pluck('name')->toArray()) !!};
+            let projectDates = {!! json_encode($latestProjects->pluck('created_at')->map(fn($date) => $date->format('Y-m'))->toArray()) !!};
+
+            // Bar grafikte her çubuğa farklı renk atamak için
+            let barColors = projectTitles.map(() => getRandomColor());
+
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: projectTitles,
+                    datasets: [{
+                        label: 'Proje Ekleme Tarihi',
+                        data: projectDates.map(date => new Date(date + "-01").getTime()),
+                        backgroundColor: barColors // Her çubuğa farklı renk atanıyor
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Projeler' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Ay / Yıl' },
+                            ticks: {
+                                callback: function(value) {
+                                    let date = new Date(value);
+                                    return date.toLocaleDateString('tr-TR', { year: 'numeric', month: 'long' });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            @else
+            console.warn("Proje Zaman Grafiği için yeterli veri yok.");
+            @endif
+
         });
     </script>
+
+
 @endsection
