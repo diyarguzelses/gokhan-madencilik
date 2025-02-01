@@ -32,7 +32,6 @@ class MenuController extends Controller {
     }
 
     public function store(Request $request) {
-        dd($request->all());
         Menu::create($request->all());
         return response()->json(['message' => 'Menü başarıyla eklendi.']);
     }
