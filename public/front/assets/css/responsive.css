@@ -98,6 +98,9 @@
     .skw-page__description {
         font-size: 8px;
     }
+    .machine_park .card-list {
+        flex-direction: column;
+    }
 
 }
 

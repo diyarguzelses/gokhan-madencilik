@@ -13,6 +13,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Frontend\DefaultPageController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\MachineParkController;
+use App\Http\Controllers\Frontend\NewsPageController;
 use App\Http\Controllers\Frontend\ProjectPageController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Settings\SettingsController;
@@ -144,3 +145,6 @@ Route::get('/projects', [ProjectPageController::class, 'index'])->name('projects
 
 //MachinePark Route
 Route::get('machinePark', [MachineParkController::class, 'index'])->name('machineParks.index');
+
+//NewsPage Route
+Route::get('/news', [NewsPageController::class, 'index'])->name('projects.show');
