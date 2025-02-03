@@ -18,7 +18,7 @@ class SettingsSeeder extends Seeder
             ['key' => 'sidebar_color', 'value' => '#2a5298'],    // Sidebar varsayılan rengi
             ['key' => 'button_color', 'value' => '#ff7e5f'],     // Buton varsayılan rengi
             ['key' => 'background_color', 'value' => '#ffffff'], // Arka plan varsayılan rengi
-            ['key' => 'nav_text_color', 'value' => '#ffffff'], //  nav text varsayılan rengi
+            ['key' => 'navbar_text_color', 'value' => '#ffffff'], //  nav text varsayılan rengi
             ['key' => 'text_color', 'value' => '#ffffff'], // text plan varsayılan rengi
         ];
 
