@@ -38,35 +38,47 @@
         <div class="card-header" style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white;">
             <span class="mb-0">Renk Ayar Yönetimi</span>
         </div>
-        <div></div>
         <div class="card-body">
             <form action="{{ route('admin.settings.update') }}" method="POST" id="settingsForm">
                 @csrf
                 @method('PUT')
 
                 <div class="row gy-4">
+                    <!-- Mevcut renk alanları -->
                     <div class="col-md-6">
                         <label for="navbar_color" class="form-label fw-bold">Navbar Rengi</label>
                         <input type="color" class="form-control color-input" id="navbar_color" name="navbar_color"
-                               value="{{ $settings->where('key', 'navbar_color')->first()->value ?? '#1e3c72' }}" required>
+                               value="{{ $settings->where('key', 'navbar_color')->first()->value ?? '#34495e' }}" required>
                     </div>
 
                     <div class="col-md-6">
                         <label for="sidebar_color" class="form-label fw-bold">Sidebar Rengi</label>
                         <input type="color" class="form-control color-input" id="sidebar_color" name="sidebar_color"
-                               value="{{ $settings->where('key', 'sidebar_color')->first()->value ?? '#2a5298' }}" required>
+                               value="{{ $settings->where('key', 'sidebar_color')->first()->value ?? '#2c3e50' }}" required>
                     </div>
 
                     <div class="col-md-6">
                         <label for="button_color" class="form-label fw-bold">Buton Rengi</label>
                         <input type="color" class="form-control color-input" id="button_color" name="button_color"
-                               value="{{ $settings->where('key', 'button_color')->first()->value ?? '#ff7e5f' }}" required>
+                               value="{{ $settings->where('key', 'button_color')->first()->value ?? '#e74c3c' }}" required>
                     </div>
 
                     <div class="col-md-6">
                         <label for="background_color" class="form-label fw-bold">Arka Plan Rengi</label>
                         <input type="color" class="form-control color-input" id="background_color" name="background_color"
-                               value="{{ $settings->where('key', 'background_color')->first()->value ?? '#ffffff' }}" required>
+                               value="{{ $settings->where('key', 'background_color')->first()->value ?? '#ecf0f1' }}" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="navbar_text_color" class="form-label fw-bold">Navbar Yazı Rengi</label>
+                        <input type="color" class="form-control color-input" id="navbar_text_color" name="navbar_text_color"
+                               value="{{ $settings->where('key', 'navbar_text_color')->first()->value ?? '#ffffff' }}" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="text_color" class="form-label fw-bold">Genel Yazı Rengi</label>
+                        <input type="color" class="form-control color-input" id="text_color" name="text_color"
+                               value="{{ $settings->where('key', 'text_color')->first()->value ?? '#2c3e50' }}" required>
                     </div>
                 </div>
 
@@ -80,12 +92,13 @@
             <!-- Modern Renk Paletleri -->
             <h5 class="mb-3">Hazır Renk Paletleri</h5>
             <div class="row g-3" id="colorPalettes">
-                <!-- Modern Paletler -->
+                <!-- Her palet, modern sitelerde tercih edilen renk kombinasyonlarını içerir:
+                     [ navbar_color, sidebar_color, button_color, background_color, navbar_text_color, text_color ] -->
                 @foreach([
-                    ['#1e293b', '#0f172a', '#2563eb', '#f8fafc'],
-                    ['#d97706', '#7c2d12', '#facc15', '#fef3c7'],
-                    ['#047857', '#065f46', '#34d399', '#f0fdf4'],
-                    ['#1e40af', '#1e3a8a', '#60a5fa', '#f3f4f6']
+                    ['#34495e', '#2c3e50', '#e74c3c', '#ecf0f1', '#ffffff', '#2c3e50'],
+                    ['#2ecc71', '#27ae60', '#f1c40f', '#ffffff', '#ffffff', '#34495e'],
+                    ['#8e44ad', '#71368a', '#e67e22', '#fdfefe', '#ffffff', '#2c3e50'],
+                    ['#3498db', '#2980b9', '#e74c3c', '#f5f6fa', '#ffffff', '#2d3436']
                 ] as $palette)
                     <div class="col-md-3">
                         <div class="card shadow-sm border-0 palette-card" data-palette="{{ json_encode($palette) }}">
@@ -93,6 +106,8 @@
                             <div class="palette-sidebar" style="height: 50px; background: {{ $palette[1] }};"></div>
                             <div class="palette-button" style="height: 50px; background: {{ $palette[2] }};"></div>
                             <div class="palette-bg" style="height: 50px; background: {{ $palette[3] }};"></div>
+                            <div class="palette-navbar-text" style="height: 50px; background: {{ $palette[4] }};"></div>
+                            <div class="palette-text" style="height: 50px; background: {{ $palette[5] }};"></div>
                             <div class="text-center py-2 fw-bold">Paleti Kullan</div>
                         </div>
                     </div>
@@ -101,8 +116,6 @@
         </div>
     </div>
 @endsection
-
-
 
 @section('script')
     <script>
@@ -118,13 +131,14 @@
                     document.getElementById('sidebar_color').value = colors[1];
                     document.getElementById('button_color').value = colors[2];
                     document.getElementById('background_color').value = colors[3];
+                    document.getElementById('navbar_text_color').value = colors[4];
+                    document.getElementById('text_color').value = colors[5];
                     Swal.fire({
                         title: 'Palet Uygulandı!',
                         html: 'Palet başarıyla renk alanlarına uygulandı.<br><br>Kaydet butonuna bastığınızda renkler uygulanacaktır.',
                         icon: 'success',
                         confirmButtonText: 'Tamam'
                     });
-
                 });
             });
 
@@ -171,3 +185,4 @@
         });
     </script>
 @endsection
+

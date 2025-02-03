@@ -17,25 +17,37 @@ class SettingsController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
-            'navbar_color' => 'required|string|max:7',
-            'sidebar_color' => 'required|string|max:7',
-            'button_color' => 'required|string|max:7',
-            'background_color' => 'required|string|max:7',
-        ]);
 
-        $this->saveSetting('navbar_color', $request->navbar_color);
-        $this->saveSetting('sidebar_color', $request->sidebar_color);
-        $this->saveSetting('button_color', $request->button_color);
-        $this->saveSetting('background_color', $request->background_color);
+            $request->validate([
+                'navbar_color' => 'required|string|max:7',
+                'sidebar_color' => 'required|string|max:7',
+                'button_color' => 'required|string|max:7',
+                'background_color' => 'required|string|max:7',
+                'navbar_text_color' => 'required|string|max:7',
+                'text_color' => 'required|string|max:7',
+            ]);
 
-        return response()->json(['success' => true], 200);
+            $this->saveSetting('navbar_color', $request->navbar_color);
+            $this->saveSetting('sidebar_color', $request->sidebar_color);
+            $this->saveSetting('button_color', $request->button_color);
+            $this->saveSetting('background_color', $request->background_color);
+            $this->saveSetting('text_color', $request->text_color);
+            $this->saveSetting('navbar_text_color', $request->navbar_text_color);
+
+            return response()->json(['success' => true], 200);
+
     }
+
     private function saveSetting($key, $value)
     {
+        $setting = Setting::firstOrCreate(
+            ['key' => $key],
+            ['value' => $value]
+        );
 
-        $setting = Setting::firstOrCreate(['key' => $key]);
-        $setting->value = $value;
-        $setting->save();
+        if (!$setting->wasRecentlyCreated && $setting->value !== $value) {
+            $setting->value = $value;
+            $setting->save();
+        }
     }
 }
