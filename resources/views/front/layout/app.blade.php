@@ -82,81 +82,93 @@
 <header id="header" class="header d-flex align-items-center sticky-top" >
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-
-
-        <nav id="navmenu" class="navmenu    ">
+        <nav id="navmenu1" class="navmenu    ">
             <ul>
-                <li><a href="index.html" class="active">Ana Sayfa<br></a></li>
-                <li class="dropdown"><a href="#"><span>Kurumsal</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                    <ul>
-                        <li><a href="#">Dropdown 1</a></li>
-                        <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                @foreach($menus->take(4) as $menu)
+                    <li class="{{ $menu->children->count() > 0 ? 'dropdown' : '' }}">
+                        <a href="{{ $menu->url ?? '#' }}" >
+                            <span>{{ $menu->name }}</span>
+                            @if($menu->children->count() > 0)
+                                <i class="bi bi-chevron-down toggle-dropdown"></i>
+                            @endif
+                        </a>
+                        @if($menu->children->count() > 0)
                             <ul>
-                                <li><a href="#">Deep Dropdown 1</a></li>
-                                <li><a href="#">Deep Dropdown 2</a></li>
-                                <li><a href="#">Deep Dropdown 3</a></li>
-                                <li><a href="#">Deep Dropdown 4</a></li>
-                                <li><a href="#">Deep Dropdown 5</a></li>
+                                @foreach($menu->children as $submenu)
+                                    <li class="{{ $submenu->children->count() > 0 ? 'dropdown' : '' }}">
+                                        <a href="{{ $submenu->url ?? '#' }}" >
+                                            <span>{{ $submenu->name }}</span>
+                                            @if($submenu->children->count() > 0)
+                                                <i class="bi bi-chevron-down toggle-dropdown"></i>
+                                            @endif
+                                        </a>
+                                        @if($submenu->children->count() > 0)
+                                            <ul>
+                                                @foreach($submenu->children as $submenu_2)
+                                                    <li >
+                                                        <a href="{{ $submenu_2->url ?? '#' }}">{{ $submenu_2->name }}</a>
+                                                    </li>
+
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </li>
+
+                                @endforeach
                             </ul>
-                        </li>
-                        <li><a href="#">Dropdown 2</a></li>
-                        <li><a href="#">Dropdown 3</a></li>
-                        <li><a href="#">Dropdown 4</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown"><a href="#"><span>Projeler</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                    <ul>
-                        <li><a href="#">Dropdown 1</a></li>
-                        <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                            <ul>
-                                <li><a href="#">Deep Dropdown 1</a></li>
-                                <li><a href="#">Deep Dropdown 2</a></li>
-                                <li><a href="#">Deep Dropdown 3</a></li>
-                                <li><a href="#">Deep Dropdown 4</a></li>
-                                <li><a href="#">Deep Dropdown 5</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Dropdown 2</a></li>
-                        <li><a href="#">Dropdown 3</a></li>
-                        <li><a href="#">Dropdown 4</a></li>
-                    </ul>
-                </li>
+                        @endif
+                    </li>
+                @endforeach
 
             </ul>
 
         </nav>
-        <a href="index.html" class="logo d-flex align-items-center justify-content-center ">
+        <a href="{{route('homePage.index')}}" class="logo d-flex align-items-center justify-content-center ">
             <!-- Uncomment the line below if you also wish to use an image logo -->
              <img src="{{asset('front/assets/img/logo.png')}}" class="" style="" alt="">
 {{--            <h1 class="sitename pt-5">Mentor</h1>--}}
         </a>
-        <nav id="navmenu" class="navmenu ">
+        <nav id="navmenu2" class="navmenu ">
             <ul>
-                <li class="dropdown"><a href="#"><span>Faaliyet Alanları</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                    <ul>
-                        <li><a href="#">Dropdown 1</a></li>
-                        <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                @foreach($menus->sortByDesc('created_at')->take(4) as $menu)
+                    <li class="{{ $menu->children->count() > 0 ? 'dropdown' : '' }}">
+                        <a href="{{ $menu->url ?? '#' }}" >
+                            <span>{{ $menu->name }}</span>
+                            @if($menu->children->count() > 0)
+                                <i class="bi bi-chevron-down toggle-dropdown"></i>
+                            @endif
+                        </a>
+                        @if($menu->children->count() > 0)
                             <ul>
-                                <li><a href="#">Deep Dropdown 1</a></li>
-                                <li><a href="#">Deep Dropdown 2</a></li>
-                                <li><a href="#">Deep Dropdown 3</a></li>
-                                <li><a href="#">Deep Dropdown 4</a></li>
-                                <li><a href="#">Deep Dropdown 5</a></li>
+                                @foreach($menu->children as $submenu)
+                                    <li class="{{ $submenu->children->count() > 0 ? 'dropdown' : '' }}">
+                                        <a href="{{ $submenu->url ?? '#' }}" >
+                                            <span>{{ $submenu->name }}</span>
+                                            @if($submenu->children->count() > 0)
+                                                <i class="bi bi-chevron-down toggle-dropdown"></i>
+                                            @endif
+                                        </a>
+                                        @if($submenu->children->count() > 0)
+                                            <ul>
+                                                @foreach($submenu->children as $submenu_2)
+                                                    <li >
+                                                        <a href="{{ $submenu_2->url ?? '#' }}">{{ $submenu_2->name }}</a>
+                                                    </li>
+
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </li>
+
+                                @endforeach
                             </ul>
-                        </li>
-                        <li><a href="#">Dropdown 2</a></li>
-                        <li><a href="#">Dropdown 3</a></li>
-                        <li><a href="#">Dropdown 4</a></li>
-                    </ul>
-                </li>
-                <li><a href="about.html">Haberler</a></li>
-                <li><a href="courses.html">İletişim</a></li>
-
+                        @endif
+                    </li>
+                @endforeach
             </ul>
-            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
         </nav>
-
-
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 
     </div>
 </header>
@@ -172,7 +184,7 @@
     <div class="container footer-top">
         <div class="row gy-4">
             <div class="col-lg-4 col-md-6 footer-about">
-                <a href="index.html" class=" " >
+                <a href="{{route('homePage.index')}}" class=" " >
                     <!-- Uncomment the line below if you also wish to use an image logo -->
                     <img src="{{asset('front/assets/img/logo.png')}}" class="" style="" alt="">
                     {{--            <h1 class="sitename pt-5">Mentor</h1>--}}
@@ -185,41 +197,23 @@
 
             </div>
 
-            <div class="col-lg-2 col-md-3 footer-links">
-                <h4>Kurumsal</h4>
-                <ul>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>Hakkımızda</a></li>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>Makina Parkı</a></li>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>Şirket Kurucumuz</a></li>
+            @foreach($footer_menu as $menu)
+                <div class="col-lg-2 col-md-3 footer-links">
+                    <h4>{{ $menu->name }}</h4>
+                    <ul>
+                        @foreach($menu->children as $submenu)
+                            <li><a href="{{ $submenu->url }}"><i class="fa-solid fa-angle-right"></i>{{ $submenu->name }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endforeach
 
-                </ul>
-            </div>
-
-            <div class="col-lg-2 col-md-3 footer-links">
-                <h4>Projeler</h4>
-                <ul>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>Devam Eden Projeler</a></li>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>Tamamlanan Projeler</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-3 footer-links">
-                <h4>Faaliyet Alanları</h4>
-                <ul>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>İnşaat Taahhüt</a></li>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>Petrol Sektörü </a></li>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>Toplu Konut Projeleri </a></li>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>Beton Ve Asfalt İmalatı</a></li>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i> Yol Köprü ve Viyadük Yapımı</a></li>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>Maden Enerji</a></li>
-                    <li><a href="#"><i class="fa-solid fa-angle-right"></i>Harfiyat Hizmetleri</a></li>
-                </ul>
-            </div>
             <div class="col-lg-2 col-md-3 footer-links">
                 <h4>İletişim</h4>
                 <ul>
                     <li><a href="#"><i class="fa-solid fa-location-dot"></i>Kızılırmak Mah. <br>Dumlupınar Bulvarı Next Level A Blok -3/39 ANKARA</a></li>
-                    <li><a href="#"><i class="fa-solid fa-phone"></i>+(90) 312 478 39 13 </a></li>
-                    <li><a href="#"><i class="fa-solid fa-envelope"></i>info@cetin-insaat.com.tr </a></li>
+                    <li><i class="fa-solid fa-phone"></i>+(90) 312 478 39 13</li>
+                    <li><i class="fa-solid fa-envelope"></i>info@cetin-insaat.com.tr</li>
                 </ul>
             </div>
 
