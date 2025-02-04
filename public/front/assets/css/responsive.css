@@ -1,7 +1,5 @@
 @media (max-width: 1300px) and (min-width: 992px) {
-    .header .logo img {
-        left: 400px;
-    }
+
     .default_img{
         margin-left: 0;
         margin-right: 0
@@ -22,9 +20,6 @@
 
 /* Tablet ve küçük ekranlar için */
 @media (max-width: 991px) and (min-width: 768px) {
-    .header .logo img {
-        left: 285px;
-    }
     .default_img{
         margin-left: 0;
         margin-right: 0
@@ -44,9 +39,6 @@
 
 /* Küçük ekranlar ve mobil cihazlar için */
 @media (max-width: 767px) {
-    .header .logo img {
-        left: 175px;
-    }
     .default_img{
         margin-left: 0;
         margin-right: 0
@@ -63,9 +55,7 @@
 }
 
 @media (max-width: 500px) {
-    .header .logo img {
-      left: 85px;
-    }
+
     .trainers-index .member_container .member_row{
         gap: 30px;
     }

@@ -22,13 +22,13 @@
 
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Index - Mentor Bootstrap Template</title>
+    <title>Çetiner İnşaat</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="{{asset('front/assets/img/favicon.png')}}" rel="icon">
-    <link href="{{asset('front/assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+    <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="icon">
+    <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -82,55 +82,14 @@
 <header id="header" class="header d-flex align-items-center sticky-top" >
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-        <nav id="navmenu1" class="navmenu    ">
-            <ul>
-                @foreach($menus->take(4) as $menu)
-                    <li class="{{ $menu->children->count() > 0 ? 'dropdown' : '' }}">
-                        <a href="{{ $menu->url ?? '#' }}" >
-                            <span>{{ $menu->name }}</span>
-                            @if($menu->children->count() > 0)
-                                <i class="bi bi-chevron-down toggle-dropdown"></i>
-                            @endif
-                        </a>
-                        @if($menu->children->count() > 0)
-                            <ul>
-                                @foreach($menu->children as $submenu)
-                                    <li class="{{ $submenu->children->count() > 0 ? 'dropdown' : '' }}">
-                                        <a href="{{ $submenu->url ?? '#' }}" >
-                                            <span>{{ $submenu->name }}</span>
-                                            @if($submenu->children->count() > 0)
-                                                <i class="bi bi-chevron-down toggle-dropdown"></i>
-                                            @endif
-                                        </a>
-                                        @if($submenu->children->count() > 0)
-                                            <ul>
-                                                @foreach($submenu->children as $submenu_2)
-                                                    <li >
-                                                        <a href="{{ $submenu_2->url ?? '#' }}">{{ $submenu_2->name }}</a>
-                                                    </li>
-
-                                                @endforeach
-                                            </ul>
-                                        @endif
-                                    </li>
-
-                                @endforeach
-                            </ul>
-                        @endif
-                    </li>
-                @endforeach
-
-            </ul>
-
-        </nav>
         <a href="{{route('homePage.index')}}" class="logo d-flex align-items-center justify-content-center ">
             <!-- Uncomment the line below if you also wish to use an image logo -->
-             <img src="{{asset('front/assets/img/logo.png')}}" class="" style="" alt="">
-{{--            <h1 class="sitename pt-5">Mentor</h1>--}}
+            <img src="{{asset('front/assets/img/logo.png')}}" class="" style="" alt="">
+            {{--            <h1 class="sitename pt-5">Mentor</h1>--}}
         </a>
-        <nav id="navmenu2" class="navmenu ">
+        <nav id="navmenu" class="navmenu    ">
             <ul>
-                @foreach($menus->sortByDesc('created_at')->take(4) as $menu)
+                @foreach($menus as $menu)
                     <li class="{{ $menu->children->count() > 0 ? 'dropdown' : '' }}">
                         <a href="{{ $menu->url ?? '#' }}" >
                             <span>{{ $menu->name }}</span>
@@ -165,10 +124,13 @@
                         @endif
                     </li>
                 @endforeach
-            </ul>
 
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+
+
 
     </div>
 </header>
