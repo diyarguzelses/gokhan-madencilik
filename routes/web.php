@@ -141,10 +141,11 @@ Route::post('/communication', [CommunicationController::class, 'sendMessage'])->
 Route::get('/defaultPage', [DefaultPageController::class, 'index'])->name('defaultPage.index');
 
 //Projects Route
-Route::get('/projects', [ProjectPageController::class, 'index'])->name('projects.index');
+Route::get('/completedProjects', [ProjectPageController::class, 'completedProjects'])->name('completedProjects.index');
+Route::get('/continuingProjects', [ProjectPageController::class, 'continuingProjects'])->name('continuingProjects.index');
 
 //MachinePark Route
 Route::get('/machinePark', [MachineParkController::class, 'index'])->name('machineParks.index');
 
 //NewsPage Route
-Route::get('/news', [NewsPageController::class, 'index'])->name('projects.show');
+Route::get('/news', [NewsPageController::class, 'index'])->name('news.index');

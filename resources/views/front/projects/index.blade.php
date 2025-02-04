@@ -17,8 +17,8 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ol>
-                        <li><a href="index.html">Ana Sayfa</a></li>
-                        <li class="current">Tamamlanan Projeler</li>
+                        <li><a href="{{route('homePage.index')}}">Ana Sayfa</a></li>
+                        <li><a href="{{route('completedProjects.index')}}" class="current">Tamamlanan Projeler</a></li>
                     </ol>
                 </div>
             </nav>
@@ -53,69 +53,32 @@
                               </div>
                           </a>
                       </div>
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch aos-init aos-animate mt-4" data-aos="zoom-in" data-aos-delay="100">
-                        <a href="">
-                            <div class="course-item">
-                                <img src="{{asset('front/assets/img/image_19.png')}}" class="img-fluid" alt="...">
-                                <div class="course-content">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <p class="price">Toki Projemiz</p>
-                                        <p class="price2">Elazığ / Merkez</p>
-                                    </div>
-                                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aspernatur autem delectus dignissimos dolorum explicabo fugiat ipsum laborum nostrum omnis repellat, repudiandae unde! Architecto consequatur et ex ipsam natus voluptates.</p>
-                                    <div class="trainer d-flex justify-content-start align-items-center">
-                                        <div class="trainer-profile d-flex align-items-center">
-                                            <img src="assets/img/trainers/trainer-1-2.jpg" class="img-fluid" alt="">
-                                            <a href="" class="trainer-link"> <i class="fa-solid fa-city"></i> Altyapı - Üstyapı İnşaatları</a>
-                                        </div>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch aos-init aos-animate mt-4" data-aos="zoom-in" data-aos-delay="100">
-                        <a href="">
-                            <div class="course-item">
-                                <img src="{{asset('front/assets/img/image_19.png')}}" class="img-fluid" alt="...">
-                                <div class="course-content">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <p class="price">Toki Projemiz</p>
-                                        <p class="price2">Elazığ / Merkez</p>
-                                    </div>
-                                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aspernatur autem delectus dignissimos dolorum explicabo fugiat ipsum laborum nostrum omnis repellat, repudiandae unde! Architecto consequatur et ex ipsam natus voluptates.</p>
-                                    <div class="trainer d-flex justify-content-start align-items-center">
-                                        <div class="trainer-profile d-flex align-items-center">
-                                            <img src="assets/img/trainers/trainer-1-2.jpg" class="img-fluid" alt="">
-                                            <a href="" class="trainer-link"> <i class="fa-solid fa-city"></i> Altyapı - Üstyapı İnşaatları</a>
-                                        </div>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch aos-init aos-animate mt-4" data-aos="zoom-in" data-aos-delay="100">
-                        <a href="">
-                            <div class="course-item">
-                                <img src="{{asset('front/assets/img/image_19.png')}}" class="img-fluid" alt="...">
-                                <div class="course-content">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <p class="price">Toki Projemiz</p>
-                                        <p class="price2">Elazığ / Merkez</p>
-                                    </div>
-                                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aspernatur autem delectus dignissimos dolorum explicabo fugiat ipsum laborum nostrum omnis repellat, repudiandae unde! Architecto consequatur et ex ipsam natus voluptates.</p>
-                                    <div class="trainer d-flex justify-content-start align-items-center">
-                                        <div class="trainer-profile d-flex align-items-center">
-                                            <img src="assets/img/trainers/trainer-1-2.jpg" class="img-fluid" alt="">
-                                            <a href="" class="trainer-link"> <i class="fa-solid fa-city"></i> Altyapı - Üstyapı İnşaatları</a>
+                        @foreach($projects as $project)
+                            <div class="col-lg-4 col-md-6 d-flex align-items-stretch aos-init aos-animate mt-4" data-aos="zoom-in" data-aos-delay="100">
+                                <a href="#">
+                                    <div class="course-item">
+                                        <img src="{{ asset($projects_img->first()) }}" class="img-fluid" alt="...">
+                                        <div class="course-content">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <p class="price">{{ $project->name }}</p>
+                                                <p class="price2">Elazığ / Merkez</p>
+                                            </div>
+                                            <p class="description">{{ \Illuminate\Support\Str::limit($project->description, 240) }}</p>
+                                            <div class="trainer d-flex justify-content-start align-items-center">
+                                                <div class="trainer-profile d-flex align-items-center">
+                                                    <img src="{{ asset('assets/img/trainers/trainer-1-2.jpg') }}" class="img-fluid" alt="">
+                                                    <a href="#" class="trainer-link"> <i class="fa-solid fa-city"></i> {{ $project->category->name }}</a>
+                                                </div>
+                                            </div>
                                         </div>
-
                                     </div>
-                                </div>
+                                </a>
                             </div>
-                        </a>
-                    </div>
+                        @endforeach
+
+
 
 
                 </div>
