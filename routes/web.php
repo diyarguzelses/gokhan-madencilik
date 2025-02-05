@@ -121,7 +121,7 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::post('/', [ProjectController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ProjectController::class, 'edit'])->name('edit');
         Route::post('/{id}', [ProjectController::class, 'update'])->name('update');
-        Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('destroy');
+        Route::delete('/delete/{id}', [ProjectController::class, 'destroy'])->name('destroy');
     });
 
 
