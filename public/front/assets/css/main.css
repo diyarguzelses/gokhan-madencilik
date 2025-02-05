@@ -2245,7 +2245,6 @@ section,
 
 
 .snip {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
     color: #ffffff;
     font-size: 16px;
     margin: 20px;
@@ -2263,6 +2262,7 @@ section,
     position: relative;
 }
 .snip .figcaption{
+    min-height: 125px;
     padding: 25px 20px 25px;
     position: absolute;
     bottom: 0;

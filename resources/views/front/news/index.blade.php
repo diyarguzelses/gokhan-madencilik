@@ -28,10 +28,12 @@
         <div class="row">
             @foreach($news as $new)
                 <div class="snip col-4">
-                    <div class="image" style="min-height: 300px" ><img src="{{asset('/uploads/news/'.$new->image)}}" alt="pr-sample23" /></div>
+
+
+                    <div class="image" style="min-height: 300px" ><img src="{{asset('/uploads/news/'.$new->image)}}" alt="pr-sample23" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';"/></div>
                     <div class="figcaption" style="width: 100%;">
                         <div class="date"><span class="day">{{ $new->created_at->format('d') }}</span><span class="month">{{ $new->created_at->format('M') }}</span></div>
-                        <h3>{{$new->title}}</h3>
+                        <h3>{{ Str::limit($new->title, 40, '...') }}</h3>
                         <p >
                             {{ Str::limit($new->content, 150, '...') }}
                         </p>
