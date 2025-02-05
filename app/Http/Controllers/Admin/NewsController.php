@@ -89,13 +89,20 @@ class NewsController extends Controller {
         return response()->json(['success' => true, 'message' => 'Haber güncellendi.']);
     }
 
-    public function destroy(News $news) {
+    public function destroy($id) {
+        $news = News::findOrFail($id);
+
         if ($news->image) {
-            unlink(public_path('uploads/news/'.$news->image));
+            $imagePath = public_path('uploads/news/'.$news->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
+
         $news->delete();
 
         return response()->json(['success' => true, 'message' => 'Haber silindi.']);
     }
+
 }
 
