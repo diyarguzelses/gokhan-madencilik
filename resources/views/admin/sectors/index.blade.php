@@ -15,6 +15,7 @@
                     <th>ID</th>
                     <th>Adı</th>
                     <th>Açıklama</th>
+                    <th>Resim</th>
                     <th>İşlemler</th>
                 </tr>
                 </thead>
@@ -32,7 +33,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="sectorForm">
+                    <form id="sectorForm" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" id="sector_id">
                         <div class="mb-3">
@@ -42,6 +43,12 @@
                         <div class="mb-3">
                             <label>Açıklama</label>
                             <textarea class="form-control" id="text" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label>Resim</label>
+                            <input type="file" class="form-control" id="image" accept="image/*">
+                            <img id="previewImage" src="/images/default-placeholder.png" class="img-fluid mt-2"
+                                 style="max-height: 200px; display: none;">
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Kaydet</button>
                     </form>
@@ -59,13 +66,41 @@
                 serverSide: true,
                 ajax: '{{ route('admin.sectors.data') }}',
                 language: {
-                    url: "{{ asset('assets/datatables/turkish.json') }}" // Türkçe çeviri dosyasını yükle
+                    url: "{{ asset('assets/datatables/turkish.json') }}"
                 },
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'name', name: 'name'},
                     {data: 'text', name: 'text'},
-                    {data: 'actions', name: 'actions', orderable: false, searchable: false}
+                    {
+                        data: 'image',
+                        name: 'image',
+                        orderable: false,
+                        searchable: false,
+                        render: function (data) {
+                            let imageUrl = data ? `/uploads/sectors/${data}` : '/images/default-placeholder.png';
+                            return `<img src="${imageUrl}" class="img-thumbnail" width="50">`;
+                        }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        render: function (data) {
+                            return `
+                                <button class="btn btn-warning btn-sm edit-sector"
+                                    data-id="${data.id}"
+                                    data-name="${data.name}"
+                                    data-text="${data.text}"
+                                    data-image="${data.image}">
+                                    <i class="bi bi-pencil"></i> Düzenle
+                                </button>
+                                <button class="btn btn-danger btn-sm delete-sector" data-id="${data.id}">
+                                    <i class="bi bi-trash"></i> Sil
+                                </button>
+                            `;
+                        }
+                    }
                 ]
             });
 
@@ -73,14 +108,32 @@
             $('#addSectorBtn').click(function () {
                 $('#sectorForm')[0].reset();
                 $('#sector_id').val('');
+                $('#previewImage').hide();
                 $('#sectorModal').modal('show');
+            });
+
+            // Resim Yüklerken Önizleme
+            $('#image').change(function () {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#previewImage').attr('src', e.target.result).show();
+                };
+                reader.readAsDataURL(this.files[0]);
             });
 
             // Düzenleme Butonuna Basınca Verileri Modal'a Aktar
             $(document).on('click', '.edit-sector', function () {
+                let image = $(this).data('image');
+
+                console.log("Data-image:", image); // Konsolda kontrol et
+
                 $('#sector_id').val($(this).data('id'));
                 $('#name').val($(this).data('name'));
                 $('#text').val($(this).data('text'));
+
+                let imageUrl = image ? `/uploads/sectors/${image}` : '/images/default-placeholder.png';
+                $('#previewImage').attr('src', imageUrl).show();
+
                 $('#sectorModal').modal('show');
             });
 
@@ -88,19 +141,30 @@
             $('#sectorForm').submit(function (e) {
                 e.preventDefault();
                 let sectorId = $('#sector_id').val();
-                let formData = {
-                    _token: '{{ csrf_token() }}',
-                    name: $('#name').val(),
-                    text: $('#text').val()
-                };
+                let formData = new FormData();
+
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('name', $('#name').val());
+                formData.append('text', $('#text').val());
+
+                let imageFile = $('#image')[0].files[0];
+                if (imageFile) {
+                    formData.append('image', imageFile);
+                }
 
                 let url = sectorId ? `/admin/sectors/${sectorId}` : '/admin/sectors';
-                let method = sectorId ? 'PUT' : 'POST';
+                let method = sectorId ? 'POST' : 'POST';
+
+                if (sectorId) {
+                    formData.append('_method', 'PUT');
+                }
 
                 $.ajax({
                     url: url,
                     method: method,
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (response) {
                         table.ajax.reload();
                         $('#sectorModal').modal('hide');
@@ -130,9 +194,7 @@
                         $.ajax({
                             url: `/admin/sectors/${sectorId}`,
                             method: 'DELETE',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            },
+                            data: {_token: '{{ csrf_token() }}'},
                             success: function (response) {
                                 table.ajax.reload();
                                 Swal.fire('Silindi!', response.message, 'success');

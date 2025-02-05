@@ -33,27 +33,67 @@ class SectorController extends Controller {
             'image' => 'nullable|image|max:2048',
         ]);
 
-        Sector::create($request->all());
+        $imageName = null;
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('uploads/sectors'), $imageName);
+        }
+
+        Sector::create([
+            'name' => $request->name,
+            'text' => $request->text,
+            'image' => $imageName
+        ]);
 
         return response()->json(['success' => true, 'message' => 'Sektör eklendi.']);
     }
 
-    public function update(Request $request, Sector $sector) {
+    public function update(Request $request, $id) {
+        $sector = Sector::findOrFail($id);
+
         $request->validate([
             'name' => 'required',
             'text' => 'required',
             'image' => 'nullable|image|max:2048',
         ]);
 
-        $sector->update($request->all());
+        if ($request->hasFile('image')) {
+            // Eski resmi sil
+            if ($sector->image) {
+                $oldImagePath = public_path('uploads/sectors/'.$sector->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('uploads/sectors'), $imageName);
+            $sector->image = $imageName;
+        }
+
+        $sector->update([
+            'name' => $request->name,
+            'text' => $request->text,
+            'image' => $sector->image
+        ]);
 
         return response()->json(['success' => true, 'message' => 'Sektör güncellendi.']);
     }
 
-    public function destroy(Sector $sector) {
+    public function destroy($id) {
+        $sector = Sector::findOrFail($id);
+
+        if ($sector->image) {
+            $imagePath = public_path('uploads/sectors/'.$sector->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
         $sector->delete();
 
         return response()->json(['success' => true, 'message' => 'Sektör silindi.']);
     }
+
 }
 
