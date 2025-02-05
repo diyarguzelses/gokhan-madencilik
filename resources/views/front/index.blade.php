@@ -22,52 +22,22 @@
 
             <div class="row member_row">
 
-                <div class="col-lg-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                    <div class="member">
-                        <img src="{{asset('front/assets/img/img_1.png')}}" class="img-fluid" alt="">
-                        <div class="member-content">
-                            <h4>İnşaat Taahhüt</h4>
-                            <hr>
-                            <p>
-                                Çetin İnşaat departmanının amacı, estetik, doğa dostu, teknolojik ve uzun ömürlü
-                                çözümlerle müşterilerimizin inşaat ihtiyaçlarını karşılamaktır. <a href=""><i
-                                        class="fa-solid fa-link"></i></a>
-                            </p>
+                @foreach($firstThreeSectors as $sector)
+                    <div class="col-lg-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member">
+                            <img src="{{asset('uploads/sectors/'.$sector->image)}}" class="img-fluid" alt="">
+                            <div class="member-content">
+                                <h4>{{$sector->image}}</h4>
+                                <hr>
+                                <p>
+                                    {{$sector->text}}
+                                </p>
 
+                            </div>
                         </div>
-                    </div>
-                </div><!-- End Team Member -->
-                <div class="col-lg-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                    <div class="member">
-                        <img src="{{asset('front/assets/img/img_2.png')}}" class="img-fluid" alt="">
-                        <div class="member-content">
-                            <h4>İnşaat Taahhüt</h4>
-                            <hr>
-                            <p>
-                                Çetin İnşaat departmanının amacı, estetik, doğa dostu, teknolojik ve uzun ömürlü
-                                çözümlerle müşterilerimizin inşaat ihtiyaçlarını karşılamaktır. <a href=""><i
-                                        class="fa-solid fa-link"></i></a>
-                            </p>
+                    </div><!-- End Team Member -->
 
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-                <div class="col-lg-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                    <div class="member">
-                        <img src="{{asset('front/assets/img/img_3.png')}}" class="img-fluid" alt="">
-                        <div class="member-content">
-                            <h4>İnşaat Taahhüt</h4>
-                            <hr>
-                            <p>
-                                Çetin İnşaat departmanının amacı, estetik, doğa dostu, teknolojik ve uzun ömürlü
-                                çözümlerle müşterilerimizin inşaat ihtiyaçlarını karşılamaktır. <a href=""><i
-                                        class="fa-solid fa-link"></i></a>
-                            </p>
-
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-
+                @endforeach
             </div>
 
         </div>
@@ -217,39 +187,17 @@
             <hr class="hr">
         </div>
 
-        <div class="owl-carousel custom-carousel owl-theme ">
-            <div class="item ">
-                <div class="item-desc">
-                    <h4>İnsaat Taahhüt</h4>
+        <div class="owl-carousel custom-carousel owl-theme">
+            @foreach($nextFourSectors as $sector)
+                <div class="item" style="background-image: url('/uploads/sectors/{{ $sector->image }}');">
+                    <div class="item-desc">
+                        <h4>{{ $sector->name }}</h4>
+                    </div>
                 </div>
-            </div>
-            <div class="item ">
-                <div class="item-desc">
-                    <h4>Petrol</h4>
-                </div>
-            </div>
-            <div class="item ">
-                <div class="item-desc">
-                    <h4>İnsaat Taahhüt</h4>
-                </div>
-            </div>
-            <div class="item ">
-                <div class="item-desc">
-                    <h4>İnsaat Taahhüt</h4>
-                </div>
-            </div>
-            <div class="item ">
-                <div class="item-desc">
-                    <h4>İnsaat Taahhüt</h4>
-                </div>
-            </div>
-            <div class="item ">
-                <div class="item-desc">
-                    <h4>İnsaat Taahhüt</h4>
-                </div>
-            </div>
-
+            @endforeach
         </div>
+
+
 
     </section>
 
@@ -259,12 +207,14 @@
 
     <script>
 
+
         $(".custom-carousel").owlCarousel({
             autoWidth: true,
             loop: true
         });
 
     </script>
+
 
 @endsection
 
