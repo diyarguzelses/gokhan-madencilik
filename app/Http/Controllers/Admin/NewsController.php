@@ -59,7 +59,9 @@ class NewsController extends Controller {
         return response()->json(['success' => true, 'message' => 'Haber eklendi.']);
     }
 
-    public function update(Request $request, News $news) {
+    public function update(Request $request, $id) {
+        $news = News::findOrFail($id);
+
         $request->validate([
             'title' => 'required',
             'content' => 'required',
@@ -70,7 +72,10 @@ class NewsController extends Controller {
             $imageName = time().'.'.$request->image->extension();
             $request->image->move(public_path('uploads/news'), $imageName);
             if ($news->image) {
-                unlink(public_path('uploads/news/'.$news->image));
+                $oldImagePath = public_path('uploads/news/'.$news->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
             $news->image = $imageName;
         }
