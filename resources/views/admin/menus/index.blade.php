@@ -89,6 +89,7 @@
                                 <option value="/communication">İletişim</option>
                                 <option value="/completedProjects">Tamamlanan Projeler</option>
                                 <option value="/continuingProjects">Devam Eden Projeler</option>
+                                <option value="/career">Kariyer</option>
                                 <option value="/machinePark">Makine Parkı</option>
                                 <option value="/news">Haberler</option>
                             </select>

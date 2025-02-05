@@ -146,5 +146,8 @@ Route::get('/machinePark', [MachineParkController::class, 'index'])->name('machi
 // NewsPage Route (Öncelikli)
 Route::get('/news', [NewsPageController::class, 'index'])->name('news.index');
 
+// Career Route (Career)
+Route::get('/career', [App\Http\Controllers\Frontend\CareerController::class, 'index'])->name('career.index');
+
 // DefaultPage Route (En Sona Alındı ve Çakışmalar Önendi)
 Route::get('/{slug}', [DefaultPageController::class, 'handleMenu'])->name('menu.handle');
