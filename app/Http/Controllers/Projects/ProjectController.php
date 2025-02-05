@@ -52,7 +52,7 @@ class ProjectController extends Controller
         ]);
 
         // Proje Oluştur
-        $project = Project::create($request->only(['name', 'description', 'category_id']));
+        $project = Project::create($request->only(['name', 'description', 'category_id','status']));
 
         // Görselleri Kaydet
         if ($request->hasFile('images')) {
@@ -88,7 +88,7 @@ class ProjectController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $project->update($request->only(['name', 'description', 'category_id']));
+        $project->update($request->only(['name', 'description', 'category_id','status']));
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {

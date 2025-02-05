@@ -15,6 +15,7 @@
                     <th>ID</th>
                     <th>Başlık</th>
                     <th>İçerik</th>
+                    <th>Görsel</th>
                     <th>İşlemler</th>
                 </tr>
                 </thead>
@@ -32,7 +33,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="pageForm">
+                    <form id="pageForm" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" id="page_id">
                         <div class="mb-3">
@@ -42,6 +43,11 @@
                         <div class="mb-3">
                             <label>İçerik</label>
                             <textarea class="form-control" name="content" id="content" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label>Görsel</label>
+                            <input type="file" class="form-control" name="image" id="image">
+                            <img id="previewImage" src="" class="mt-2 img-thumbnail" style="max-width: 100px; display: none;">
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Kaydet</button>
                     </form>
@@ -59,12 +65,27 @@
                 serverSide: true,
                 ajax: '{{ route('admin.pages.data') }}',
                 language: {
-                    url: "{{ asset('assets/datatables/turkish.json') }}" // Türkçe çeviri dosyasını yükle
+                    url: "{{ asset('assets/datatables/turkish.json') }}"
                 },
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'title', name: 'title'},
-                    {data: 'content', name: 'content'},
+                    {
+                        data: 'content',
+                        name: 'content',
+                        render: function(data, type, row) {
+                            return data.length > 200 ? data.substring(0, 200) + '...' : data;
+                        }
+                    },
+                    {
+                        data: 'image',
+                        name: 'image',
+                        orderable: false,
+                        searchable: false,
+                        render: function (data) {
+                            return data ? `<img src="/${data}" class="img-thumbnail" width="50">` : 'Yok';
+                        }
+                    },
                     {data: 'actions', name: 'actions', orderable: false, searchable: false}
                 ]
             });
@@ -72,6 +93,7 @@
             $('#addPageBtn').click(function () {
                 $('#pageForm')[0].reset();
                 $('#page_id').val('');
+                $('#previewImage').hide();
                 $('#pageModal').modal('show');
             });
 
@@ -82,20 +104,32 @@
                     $('#page_id').val(data.id);
                     $('#title').val(data.title);
                     $('#content').val(data.content);
+                    if (data.image) {
+                        $('#previewImage').attr('src', '/' + data.image).show();
+                    } else {
+                        $('#previewImage').hide();
+                    }
                     $('#pageModal').modal('show');
                 });
             });
 
             $('#pageForm').submit(function (e) {
                 e.preventDefault();
+                let formData = new FormData(this);
                 let pageId = $('#page_id').val();
                 let url = pageId ? `/admin/pages/${pageId}` : '/admin/pages';
-                let method = pageId ? 'PUT' : 'POST';
+                let method = pageId ? 'POST' : 'POST';
+
+                if (pageId) {
+                    formData.append('_method', 'PUT');
+                }
 
                 $.ajax({
                     url: url,
                     method: method,
-                    data: $(this).serialize(),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (response) {
                         $('#pageModal').modal('hide');
                         table.ajax.reload();
@@ -107,7 +141,6 @@
                 });
             });
 
-            // Sayfa Silme İşlemi
             $(document).on('click', '.delete-page', function () {
                 let pageId = $(this).data('id');
 
@@ -139,7 +172,6 @@
                     }
                 });
             });
-
         });
     </script>
 @endsection

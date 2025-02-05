@@ -34,6 +34,13 @@
                     <label for="description" class="form-label">Açıklama</label>
                     <textarea class="form-control" id="description" name="description" rows="5" required>{{ $project->description }}</textarea>
                 </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Proje Durumu</label>
+                    <select class="form-control" id="status" name="status" required>
+                        <option value="1" {{ old('status', $project->status ?? 1) == 1 ? 'selected' : '' }}>Devam Eden</option>
+                        <option value="0" {{ old('status', $project->status ?? 1) == 0 ? 'selected' : '' }}>Tamamlanan</option>
+                    </select>
+                </div>
 
                 <!-- Sürükle Bırak Alanı -->
                 <div class="mb-3">

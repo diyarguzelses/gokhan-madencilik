@@ -120,32 +120,31 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::get('/create', [ProjectController::class, 'create'])->name('create');
         Route::post('/', [ProjectController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ProjectController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [ProjectController::class, 'update'])->name('update');
+        Route::post('/{id}', [ProjectController::class, 'update'])->name('update');
         Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('destroy');
     });
 
-    // 📌 MENÜYE BAĞLI SAYFALAR (Dinamik URL)
-    Route::get('/{menu_url}', [PageController::class, 'show'])->name('menu.show');
 
 });
 
 
 //HomePage Route
+Route::get('/', [HomePageController::class, 'index'])->name('homePage.index');
 Route::get('/index', [HomePageController::class, 'index'])->name('homePage.index');
 
-//Communication Route
+// Communication Route (Öncelikli)
 Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');
 Route::post('/communication', [CommunicationController::class, 'sendMessage'])->name('communication.sendMessage');
 
-//DefaultPage Route
-Route::get('/defaultPage', [DefaultPageController::class, 'index'])->name('defaultPage.index');
-
-//Projects Route
+// Projects Route (Öncelikli)
 Route::get('/completedProjects', [ProjectPageController::class, 'completedProjects'])->name('completedProjects.index');
 Route::get('/continuingProjects', [ProjectPageController::class, 'continuingProjects'])->name('continuingProjects.index');
 
-//MachinePark Route
+// MachinePark Route (Öncelikli)
 Route::get('/machinePark', [MachineParkController::class, 'index'])->name('machineParks.index');
 
-//NewsPage Route
+// NewsPage Route (Öncelikli)
 Route::get('/news', [NewsPageController::class, 'index'])->name('news.index');
+
+// DefaultPage Route (En Sona Alındı ve Çakışmalar Önendi)
+Route::get('/{slug}', [DefaultPageController::class, 'handleMenu'])->name('menu.handle');

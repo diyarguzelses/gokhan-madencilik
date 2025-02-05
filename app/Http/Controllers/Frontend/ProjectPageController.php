@@ -9,17 +9,15 @@ use App\Models\ProjectImage;
 class ProjectPageController extends Controller
 {
     public function completedProjects(){
-        $projects = Project::where('status', 1)->get();
-        $projects_ids = $projects->pluck('id');
+        $projects = Project::where('status', 0)->get();
+        $status=0;
 
-        $projects_img = ProjectImage::whereIn('project_id', $projects_ids)->get();
-
-        return view('front.projects.index', compact('projects', 'projects_img'));
+        return view('front.projects.index', compact('projects', 'status'));
     }
     public function continuingProjects(){
-        $projects = Project::all();
-        $projects_img = ProjectImage::all();
+        $projects = Project::where('status', 1)->get();
+        $status=1;
 
-        return view('front.projects.index', compact('projects', 'projects_img'));
+        return view('front.projects.index', compact('projects', 'status'));
     }
 }

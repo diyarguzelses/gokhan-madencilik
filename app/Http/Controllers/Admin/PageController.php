@@ -25,18 +25,80 @@ class PageController extends Controller {
             ->make(true);
     }
 
-    public function store(Request $request) {
-        Page::create($request->all());
-        return response()->json(['message' => 'Sayfa başarıyla eklendi.']);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        try {
+            $data = $request->only('title', 'content');
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension(); // Benzersiz isim
+                $image->move(public_path('pages'), $imageName);
+                $data['image'] = 'pages/' . $imageName;
+            }
+
+            Page::create($data);
+
+            return response()->json([
+                'message' => 'Sayfa başarıyla eklendi!',
+                'data' => $data
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Sayfa eklenirken bir hata oluştu!',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function edit($id) {
         return response()->json(Page::findOrFail($id));
     }
 
-    public function update(Request $request, $id) {
-        Page::findOrFail($id)->update($request->all());
-        return response()->json(['message' => 'Sayfa başarıyla güncellendi.']);
+    public function update(Request $request, $id)
+    {
+        try {
+            $page = Page::findOrFail($id);
+
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'content' => 'required|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            $data = $request->only('title', 'content');
+
+            if ($request->hasFile('image')) {
+                if (!empty($page->image) && file_exists(public_path($page->image))) {
+                    unlink(public_path($page->image));
+                }
+
+                $image = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension(); // Benzersiz isim
+                $image->move(public_path('pages'), $imageName);
+                $data['image'] = 'pages/' . $imageName;
+            }
+
+            $page->update($data);
+
+            return response()->json([
+                'message' => 'Sayfa başarıyla güncellendi!',
+                'data' => $data
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Sayfa güncellenirken bir hata oluştu!',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function destroy($id) {

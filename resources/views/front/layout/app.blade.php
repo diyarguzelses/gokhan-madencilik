@@ -87,11 +87,16 @@
             <img src="{{asset('front/assets/img/logo.png')}}" class="" style="" alt="">
             {{--            <h1 class="sitename pt-5">Mentor</h1>--}}
         </a>
-        <nav id="navmenu" class="navmenu    ">
+        <nav id="navmenu" class="navmenu">
             <ul>
+                <li>
+                    <a href="{{ route('homePage.index') }}">
+                        <span>Anasayfa</span>
+                    </a>
+                </li>
                 @foreach($menus as $menu)
                     <li class="{{ $menu->children->count() > 0 ? 'dropdown' : '' }}">
-                        <a href="{{ $menu->url ?? '#' }}" >
+                        <a href="{{ $menu->url ?? ($menu->page_id ? route('menu.handle', $menu->name) : '#') }}">
                             <span>{{ $menu->name }}</span>
                             @if($menu->children->count() > 0)
                                 <i class="bi bi-chevron-down toggle-dropdown"></i>
@@ -101,7 +106,7 @@
                             <ul>
                                 @foreach($menu->children as $submenu)
                                     <li class="{{ $submenu->children->count() > 0 ? 'dropdown' : '' }}">
-                                        <a href="{{ $submenu->url ?? '#' }}" >
+                                        <a href="{{ $submenu->url ?? ($submenu->page_id ? route('menu.handle', $submenu->name) : '#') }}">
                                             <span>{{ $submenu->name }}</span>
                                             @if($submenu->children->count() > 0)
                                                 <i class="bi bi-chevron-down toggle-dropdown"></i>
@@ -110,21 +115,20 @@
                                         @if($submenu->children->count() > 0)
                                             <ul>
                                                 @foreach($submenu->children as $submenu_2)
-                                                    <li >
-                                                        <a href="{{ $submenu_2->url ?? '#' }}">{{ $submenu_2->name }}</a>
+                                                    <li>
+                                                        <a href="{{ $submenu_2->url ?? ($submenu_2->page_id ? route('menu.handle', $submenu_2->name) : '#') }}">
+                                                            {{ $submenu_2->name }}
+                                                        </a>
                                                     </li>
-
                                                 @endforeach
                                             </ul>
                                         @endif
                                     </li>
-
                                 @endforeach
                             </ul>
                         @endif
                     </li>
                 @endforeach
-
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>

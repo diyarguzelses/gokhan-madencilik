@@ -1,5 +1,6 @@
 @extends('admin.layouts.app')
 
+
 @section('content')
     <div class="card mb-5">
         <div class="card-header border-0 pt-4 pb-4 px-4 d-flex align-items-center justify-content-between"
@@ -29,6 +30,14 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="status" class="form-label">Proje Durumu</label>
+                    <select class="form-control" id="status" name="status" required>
+                        <option value="1">Devam Eden</option>
+                        <option value="0">Tamamlanan</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
                     <label for="description" class="form-label">Açıklama</label>
                     <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
                 </div>
@@ -40,7 +49,6 @@
                         <p class="fw-bold">Sürükle ve Bırak veya Tıklayın</p>
                         <p class="text-muted">Birden fazla dosya yükleyebilirsiniz (JPEG, PNG, JPG - Maksimum 2MB).</p>
                     </div>
-                    <!-- Dosya input'unu dropzone dışında taşıdık -->
                     <input type="file" id="images" name="images[]" class="d-none" multiple>
                     <div id="imagePreview" class="d-flex flex-wrap mt-3"></div>
                 </div>

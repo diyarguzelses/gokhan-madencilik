@@ -26,72 +26,20 @@
 
     <section class="container">
         <div class="row">
-            <div class="snip col-4">
-                <div class="image"><img src="{{asset('front/assets/img/news_1.png')}}" alt="pr-sample23" /></div>
-                <div class="figcaption">
-                    <div class="date"><span class="day">28</span><span class="month">Oct</span></div>
-                    <h3>TBMM Başkanı Binali Yıldırım</h3>
-                    <p>
-                        TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.
-                    </p>
+            @foreach($news as $new)
+                <div class="snip col-4">
+                    <div class="image" style="min-height: 300px" ><img src="{{asset('/uploads/news/'.$new->image)}}" alt="pr-sample23" /></div>
+                    <div class="figcaption" style="width: 100%;">
+                        <div class="date"><span class="day">{{ $new->created_at->format('d') }}</span><span class="month">{{ $new->created_at->format('M') }}</span></div>
+                        <h3>{{$new->title}}</h3>
+                        <p >
+                            {{ Str::limit($new->content, 150, '...') }}
+                        </p>
+                    </div>
+                    <a href="#"></a>
                 </div>
-                <a href="#"></a>
-            </div>
-            <div class="snip col-4">
-                <div class="image"><img src="{{asset('front/assets/img/news_1.png')}}" alt="pr-sample23" /></div>
-                <div class="figcaption">
-                    <div class="date"><span class="day">28</span><span class="month">Oct</span></div>
-                    <h3>TBMM Başkanı Binali Yıldırım</h3>
-                    <p>
-                        TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.
-                    </p>
-                </div>
-                <a href="#"></a>
-            </div>
-            <div class="snip col-4">
-                <div class="image"><img src="{{asset('front/assets/img/news_1.png')}}" alt="pr-sample23" /></div>
-                <div class="figcaption">
-                    <div class="date"><span class="day">28</span><span class="month">Oct</span></div>
-                    <h3>TBMM Başkanı Binali Yıldırım</h3>
-                    <p>
-                        TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.
-                    </p>
-                </div>
-                <a href="#"></a>
-            </div>
-            <div class="snip col-4">
-                <div class="image"><img src="{{asset('front/assets/img/news_1.png')}}" alt="pr-sample23" /></div>
-                <div class="figcaption">
-                    <div class="date"><span class="day">28</span><span class="month">Oct</span></div>
-                    <h3>TBMM Başkanı Binali Yıldırım</h3>
-                    <p>
-                        TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.
-                    </p>
-                </div>
-                <a href="#"></a>
-            </div>
-            <div class="snip col-4">
-                <div class="image"><img src="{{asset('front/assets/img/news_1.png')}}" alt="pr-sample23" /></div>
-                <div class="figcaption">
-                    <div class="date"><span class="day">28</span><span class="month">Oct</span></div>
-                    <h3>TBMM Başkanı Binali Yıldırım</h3>
-                    <p>
-                        TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.
-                    </p>
-                </div>
-                <a href="#"></a>
-            </div>
-            <div class="snip col-4">
-                <div class="image"><img src="{{asset('front/assets/img/news_1.png')}}" alt="pr-sample23" /></div>
-                <div class="figcaption">
-                    <div class="date"><span class="day">28</span><span class="month">Oct</span></div>
-                    <h3>TBMM Başkanı Binali Yıldırım</h3>
-                    <p>
-                        TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.
-                    </p>
-                </div>
-                <a href="#"></a>
-            </div>
+            @endforeach
+
         </div>
 
 

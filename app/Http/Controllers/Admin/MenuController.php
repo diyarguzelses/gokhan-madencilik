@@ -17,19 +17,39 @@ class MenuController extends Controller {
     }
 
     public function getData() {
-        $menus = Menu::with('parent', 'page')->orderBy('order');
+        $menus = Menu::with('parent', 'page')->orderBy('id', 'desc')->get();
 
         return DataTables::of($menus)
-            ->addColumn('parent_name', fn ($menu) => $menu->parent ? $menu->parent->name : '-')
-            ->addColumn('page_title', fn ($menu) => $menu->page ? $menu->page->title : '-')
-            ->addColumn('is_active', fn ($menu) => $menu->is_active ? '<span class="badge bg-success">Aktif</span>' : '<span class="badge bg-danger">Pasif</span>')
-            ->addColumn('actions', fn ($menu) => '
+            ->addColumn('menu_type', function ($menu) {
+                return $menu->parent_id ? '<span class="badge bg-info">Alt Menü</span>' : '<span class="badge bg-primary">Ana Menü</span>';
+            })
+            ->addColumn('parent_name', function ($menu) {
+                return $menu->parent ? $menu->parent->name : '-';
+            })
+            ->addColumn('linked_content', function ($menu) {
+                if ($menu->page) {
+                    return '<span class="badge bg-success">Sayfa: ' . $menu->page->title . '</span>';
+                } elseif ($menu->url) {
+                    return '<a href="' . $menu->url . '" target="_blank" class="text-info">' . $menu->url . '</a>';
+                } else {
+                    return '<span class="text-muted">Bağlantı yok</span>';
+                }
+            })
+            ->addColumn('is_active', function ($menu) {
+                return $menu->is_active
+                    ? '<span class="badge bg-success">Aktif</span>'
+                    : '<span class="badge bg-danger">Pasif</span>';
+            })
+            ->addColumn('actions', function ($menu) {
+                return '
                 <button class="btn btn-sm btn-warning edit-menu" data-id="' . $menu->id . '">Düzenle</button>
                 <button class="btn btn-sm btn-danger delete-menu" data-id="' . $menu->id . '">Sil</button>
-            ')
-            ->rawColumns(['is_active', 'actions'])
+            ';
+            })
+            ->rawColumns(['menu_type', 'linked_content', 'is_active', 'actions'])
             ->make(true);
     }
+
 
     public function store(Request $request) {
         Menu::create($request->all());

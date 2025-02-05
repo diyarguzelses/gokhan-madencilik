@@ -196,13 +196,13 @@
                     </a>
                 </li>
 
-                <!-- Sektör Yönetimi -->
+              {{--  <!-- Sektör Yönetimi -->
                 <li class="menu-item {{ request()->routeIs('admin.sectors.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.sectors.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-buildings"></i>
                         <div data-i18n="Basic">Sektör Yönetimi</div>
                     </a>
-                </li>
+                </li>--}}
 
                 <!-- Makine Parkı Yönetimi -->
                 <li class="menu-item {{ request()->routeIs('admin.machines.*') ? 'active' : '' }}">

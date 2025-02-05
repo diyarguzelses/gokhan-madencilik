@@ -15,6 +15,7 @@
                     <th>ID</th>
                     <th>Makine Adı</th>
                     <th>Adet</th>
+                    <th>Görsel</th>
                     <th>İşlemler</th>
                 </tr>
                 </thead>
@@ -28,20 +29,25 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">Makine Bilgileri</h5>
+                    <h5 class="modal-title" id="modalTitle">Yeni Makine Ekle</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="machineForm">
+                    <form id="machineForm" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" id="machine_id">
                         <div class="mb-3">
                             <label>Makine Adı</label>
-                            <input type="text" class="form-control" id="name" required>
+                            <input type="text" class="form-control" name="name" id="name" required>
                         </div>
                         <div class="mb-3">
                             <label>Adet</label>
-                            <input type="number" class="form-control" id="quantity" required min="1">
+                            <input type="number" class="form-control" name="quantity" id="quantity" required min="1">
+                        </div>
+                        <div class="mb-3">
+                            <label>Görsel</label>
+                            <input type="file" class="form-control" name="image" id="image">
+                            <img id="previewImage" src="" class="mt-2 img-thumbnail" style="max-width: 100px; display: none;">
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Kaydet</button>
                     </form>
@@ -59,12 +65,13 @@
                 serverSide: true,
                 ajax: '{{ route('admin.machines.data') }}',
                 language: {
-                    url: "{{ asset('assets/datatables/turkish.json') }}" // Türkçe çeviri dosyasını yükle
+                    url: "{{ asset('assets/datatables/turkish.json') }}"
                 },
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'name', name: 'name'},
                     {data: 'quantity', name: 'quantity'},
+                    {data: 'image', name: 'image', orderable: false, searchable: false},
                     {data: 'actions', name: 'actions', orderable: false, searchable: false}
                 ]
             });
@@ -73,37 +80,50 @@
             $('#addMachineBtn').click(function () {
                 $('#machineForm')[0].reset();
                 $('#machine_id').val('');
+                $('#modalTitle').text('Yeni Makine Ekle');
+                $('#previewImage').hide();
                 $('#machineModal').modal('show');
             });
 
-            // Düzenleme Butonuna Basınca Verileri Modal'a Aktar
+            // Düzenleme Butonu
             $(document).on('click', '.edit-machine', function () {
-                $('#machine_id').val($(this).data('id'));
-                $('#name').val($(this).data('name'));
-                $('#quantity').val($(this).data('quantity'));
-                $('#machineModal').modal('show');
+                let machineId = $(this).data('id');
+
+                $.get(`/admin/machines/${machineId}/edit`, function (data) {
+                    $('#machine_id').val(data.id);
+                    $('#name').val(data.name);
+                    $('#quantity').val(data.quantity);
+                    if (data.image) {
+                        $('#previewImage').attr('src', '/' + data.image).show();
+                    } else {
+                        $('#previewImage').hide();
+                    }
+                    $('#modalTitle').text('Makineyi Düzenle');
+                    $('#machineModal').modal('show');
+                });
             });
 
             // Form Gönderme (Yeni Kayıt veya Güncelleme)
             $('#machineForm').submit(function (e) {
                 e.preventDefault();
+                let formData = new FormData(this);
                 let machineId = $('#machine_id').val();
-                let formData = {
-                    _token: '{{ csrf_token() }}',
-                    name: $('#name').val(),
-                    quantity: $('#quantity').val()
-                };
-
                 let url = machineId ? `/admin/machines/${machineId}` : '/admin/machines';
-                let method = machineId ? 'PUT' : 'POST';
+                let method = machineId ? 'POST' : 'POST';
+
+                if (machineId) {
+                    formData.append('_method', 'PUT');
+                }
 
                 $.ajax({
                     url: url,
                     method: method,
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (response) {
-                        table.ajax.reload();
                         $('#machineModal').modal('hide');
+                        table.ajax.reload();
                         Swal.fire('Başarılı', response.message, 'success');
                     },
                     error: function () {
@@ -144,6 +164,16 @@
                     }
                 });
             });
+
+            // Görsel Önizleme
+            $('#image').change(function (event) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#previewImage').attr('src', e.target.result).show();
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            });
+
         });
     </script>
 @endsection

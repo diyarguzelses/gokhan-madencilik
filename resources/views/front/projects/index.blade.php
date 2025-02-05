@@ -8,8 +8,12 @@
                 <div class="container">
                     <div class="row d-flex justify-content-start ">
                         <div class="col-lg-6">
-                            <h1>TAMAMLANAN PROJELERİMİZ</h1>
-                            <p class="mb-0">Çetin İnşaat, modern teknolojiyle müşteri beklentilerini kalite-fiyat dengesiyle karşılar ve yenilikçi, kaliteli hizmeti hedefler.</p>
+                            @if($status ==0)
+                                <h1>TAMAMLANAN PROJELERİMİZ</h1>
+                            @else
+                                <h1>DEVAM EDEN PROJELERİMİZ</h1>
+                            @endif
+                                <p class="mb-0">Çetin İnşaat, modern teknolojiyle müşteri beklentilerini kalite-fiyat dengesiyle karşılar ve yenilikçi, kaliteli hizmeti hedefler.</p>
                         </div>
                     </div>
                 </div>
@@ -18,7 +22,11 @@
                 <div class="container">
                     <ol>
                         <li><a href="{{route('homePage.index')}}">Ana Sayfa</a></li>
-                        <li><a href="{{route('completedProjects.index')}}" class="current">Tamamlanan Projeler</a></li>
+                        @if($status ==0)
+                            <li><a href="{{route('completedProjects.index')}}" class="current">Tamamlanan Projeler</a></li>
+                        @else
+                            <li><a href="{{route('continuingProjects.index')}}" class="current">Devam Eden Projeler</a></li>
+                        @endif
                     </ol>
                 </div>
             </nav>
@@ -27,64 +35,40 @@
 
 
         <section id="courses" class="courses section">
-
             <div class="container">
-
                 <div class="row">
-
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch aos-init aos-animate mt-4" data-aos="zoom-in" data-aos-delay="100">
-                          <a href="">
-                              <div class="course-item">
-                                  <img src="{{asset('front/assets/img/image_19.png')}}" class="img-fluid" alt="...">
-                                  <div class="course-content">
-                                      <div class="d-flex justify-content-between align-items-center mb-3">
-                                          <p class="price">Toki Projemiz</p>
-                                          <p class="price2">Elazığ / Merkez</p>
-                                      </div>
-                                      <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aspernatur autem delectus dignissimos dolorum explicabo fugiat ipsum laborum nostrum omnis repellat, repudiandae unde! Architecto consequatur et ex ipsam natus voluptates.</p>
-                                      <div class="trainer d-flex justify-content-start align-items-center">
-                                          <div class="trainer-profile d-flex align-items-center">
-                                              <img src="assets/img/trainers/trainer-1-2.jpg" class="img-fluid" alt="">
-                                              <a href="" class="trainer-link"> <i class="fa-solid fa-city"></i> Altyapı - Üstyapı İnşaatları</a>
-                                          </div>
-
-                                      </div>
-                                  </div>
-                              </div>
-                          </a>
-                      </div>
-
-
-                        @foreach($projects as $project)
-                            <div class="col-lg-4 col-md-6 d-flex align-items-stretch aos-init aos-animate mt-4" data-aos="zoom-in" data-aos-delay="100">
-                                <a href="#">
-                                    <div class="course-item">
-                                        <img src="{{ asset($projects_img->first()) }}" class="img-fluid" alt="...">
-                                        <div class="course-content">
+                    @foreach($projects as $project)
+                        <div class="col-lg-4 col-md-6 d-flex align-items-stretch aos-init aos-animate mt-4" data-aos="zoom-in" data-aos-delay="100">
+                            <a href="#">
+                                <div class="course-item" style="min-height: 450px; display: flex; flex-direction: column;">
+                                    <div style="height: 300px; overflow: hidden;">
+                                        @if($project->images->isNotEmpty())
+                                            <img src="{{ asset($project->images->first()->image_path) }}" class="img-fluid" alt="{{ $project->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        @else
+                                            <img src="{{ asset('front/assets/img/default-image.png') }}" class="img-fluid" alt="Varsayılan Resim" style="width: 100%; height: 100%; object-fit: cover;">
+                                        @endif
+                                    </div>
+                                    <div class="course-content" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                        <div>
                                             <div class="d-flex justify-content-between align-items-center mb-3">
                                                 <p class="price">{{ $project->name }}</p>
-                                                <p class="price2">Elazığ / Merkez</p>
                                             </div>
-                                            <p class="description">{{ \Illuminate\Support\Str::limit($project->description, 240) }}</p>
-                                            <div class="trainer d-flex justify-content-start align-items-center">
-                                                <div class="trainer-profile d-flex align-items-center">
-                                                    <img src="{{ asset('assets/img/trainers/trainer-1-2.jpg') }}" class="img-fluid" alt="">
-                                                    <a href="#" class="trainer-link"> <i class="fa-solid fa-city"></i> {{ $project->category->name }}</a>
-                                                </div>
+                                            <p class="description">{{ \Illuminate\Support\Str::limit($project->description, 150) }}</p>
+                                        </div>
+                                        <div class="trainer d-flex justify-content-start align-items-center">
+                                            <div class="trainer-profile d-flex align-items-center">
+                                                <a href="#" class="trainer-link">
+                                                    <i class="fa-solid fa-city"></i> {{ $project->category->name ?? 'Genel Proje' }}
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
-                                </a>
-                            </div>
-                        @endforeach
-
-
-
-
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
-
             </div>
-
         </section>
 
 

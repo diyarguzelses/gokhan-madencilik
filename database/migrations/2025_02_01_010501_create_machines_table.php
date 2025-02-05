@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('machines', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('image')->nullable();
             $table->integer('quantity');
             $table->softDeletes();
             $table->timestamps();
