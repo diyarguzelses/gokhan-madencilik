@@ -1,6 +1,20 @@
 @extends('admin.layouts.app')
 
 @section('content')
+    <div class="alert alert-primary mt-2">
+        <h5>Projeler Yönetimi Hakkında</h5>
+        <p>Bu panel, web sitesinde listelenecek projelerin eklenmesi, düzenlenmesi ve silinmesi için kullanılır. Projeler, belirli kategorilere atanarak düzenlenebilir.</p>
+
+        <h6>Girdi Alanları:</h6>
+        <ul>
+            <li><strong>Proje Adı:</strong> Projeye verilen ismi içerir, zorunludur.</li>
+            <li><strong>Kategori:</strong> Projenin ait olduğu kategori seçilmelidir.</li>
+            <li><strong>Açıklama:</strong> Projeye dair kısa bir bilgi girilmelidir.</li>
+            <li><strong>Durumu:</strong> Projeye dair durum bilgisi girilmelidir.</li>
+            <li><strong>Resimler:</strong> Projeye dair resimler girilmelidir.</li>
+        </ul>
+    </div>
+
     <div class="card mb-5">
         <!-- Kart Başlık -->
         <div class="card-header border-0 pt-4 pb-4 px-4 d-flex align-items-center justify-content-between"

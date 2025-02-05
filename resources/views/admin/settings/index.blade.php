@@ -34,6 +34,21 @@
 </style>
 
 @section('content')
+    <div class="alert alert-primary mt-2">
+        <h5>Renk Ayar Yönetimi Hakkında</h5>
+        <p>Bu panel, web sitesinin renk şemasını özelleştirmek için kullanılır. Adminler, navbar, sidebar, butonlar ve arka plan için özel renkler seçebilir.</p>
+
+        <h6>Girdi Alanları:</h6>
+        <ul>
+            <li><strong>Navbar Rengi:</strong> Sayfanın üst menüsünün arka plan rengini belirler.</li>
+            <li><strong>Sidebar Rengi:</strong> Yan menünün arka plan rengini belirler.</li>
+            <li><strong>Buton Rengi:</strong> Sayfa içindeki butonların rengini belirler.</li>
+            <li><strong>Arka Plan Rengi:</strong> Genel sayfa arka plan rengini belirler.</li>
+            <li><strong>Navbar Yazı Rengi:</strong> Üst menüdeki yazı rengini belirler.</li>
+            <li><strong>Genel Yazı Rengi:</strong> Sayfa içerisindeki metinlerin rengini belirler.</li>
+        </ul>
+    </div>
+
     <div class="card mb-5">
         <div class="card-header" style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white;">
             <span class="mb-0">Renk Ayar Yönetimi</span>

@@ -1,8 +1,20 @@
 @extends('admin.layouts.app')
 
 @section('content')
+    <div class="alert alert-primary mt-2">
+        <h5>Haberler Yönetimi Hakkında</h5>
+        <p>Bu panel, web sitesinde yayınlanacak haberlerin eklenmesi, düzenlenmesi ve silinmesi için kullanılır. Haberler başlık, içerik ve görsel ile birlikte kaydedilir.</p>
+
+        <h6>Girdi Alanları:</h6>
+        <ul>
+            <li><strong>Başlık:</strong> Haberin başlığını belirten zorunlu bir alan.</li>
+            <li><strong>İçerik:</strong> Haberin detaylı içeriğini içeren zorunlu bir alan.</li>
+            <li><strong>Resim:</strong> Opsiyonel bir alan olup, habere bir görsel eklemeyi sağlar.</li>
+        </ul>
+    </div>
+
     <div class="card">
-        <div class="card-header bg-primary text-white d-flex justify-content-between">
+        <div class="card-header bg-primary text-white d-flex justify-content-between" style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px 10px 0 0;">
             <span class="fw-bold fs-5">Haberler</span>
             <button class="btn btn-light text-primary fw-bold" id="addNewsBtn">
                 <i class="bi bi-plus-circle"></i> Yeni Haber Ekle

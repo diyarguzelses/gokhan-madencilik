@@ -30,7 +30,7 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Çetiner Panel</title>
+    <title>Çetin Panel</title>
 
     <meta name="description" content=""/>
 
@@ -136,7 +136,7 @@
                   </g>
                 </svg>
               </span>
-                    <span class="app-brand-text demo menu-header-text fw-bolder ms-3 ">Çetiner</span>
+                    <span class="app-brand-text demo menu-header-text fw-bolder ms-3 ">Çetin</span>
                 </a>
 
                 <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">

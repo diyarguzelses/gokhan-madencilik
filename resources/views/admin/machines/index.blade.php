@@ -1,8 +1,20 @@
 @extends('admin.layouts.app')
 
 @section('content')
+    <div class="alert alert-primary mt-2">
+        <h5>Makine Parkı Yönetimi Hakkında</h5>
+        <p>Bu panel, makine parkında bulunan makinelerin eklenmesi, düzenlenmesi ve silinmesi için kullanılır. Makineler, isimleri, adetleri ve görselleri ile sisteme kaydedilir.</p>
+
+        <h6>Girdi Alanları:</h6>
+        <ul>
+            <li><strong>Makine Adı:</strong> Makinenin ismini belirten zorunlu bir alan.</li>
+            <li><strong>Adet:</strong> Makinenin parkta kaç adet bulunduğunu gösteren sayısal bir alan (minimum 1).</li>
+            <li><strong>Görsel:</strong> Opsiyonel bir alan olup, makinenin bir görselini yüklemeyi sağlar.</li>
+        </ul>
+    </div>
+
     <div class="card">
-        <div class="card-header bg-primary text-white d-flex justify-content-between">
+        <div class="card-header bg-primary text-white d-flex justify-content-between" style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px 10px 0 0;">
             <span class="fw-bold fs-5">Makine Parkı</span>
             <button class="btn btn-light text-primary fw-bold" id="addMachineBtn">
                 <i class="bi bi-plus-circle"></i> Yeni Makine Ekle

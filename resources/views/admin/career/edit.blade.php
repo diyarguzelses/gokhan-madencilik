@@ -1,8 +1,19 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="card">
-        <div class="card-header bg-primary text-white d-flex justify-content-between">
+    <div class="alert alert-primary mt-2">
+        <h5>Kariyer Sayfası Yönetimi Hakkında</h5>
+        <p>Bu panel, web sitesinin kariyer sayfasındaki içeriğin güncellenmesi için kullanılır. Adminler, kariyer fırsatları hakkında bilgilendirme metni ekleyebilir ve sayfa için bir görsel yükleyebilir.</p>
+
+        <h6>Girdi Alanları:</h6>
+        <ul>
+            <li><strong>İçerik:</strong> Kariyer sayfasında görüntülenecek açıklama metni.</li>
+            <li><strong>Görsel:</strong> Opsiyonel bir alan olup, sayfaya bir görsel eklemeyi sağlar.</li>
+        </ul>
+    </div>
+
+    <div class="card" >
+        <div class="card-header bg-primary text-white d-flex justify-content-between"  style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px 10px 0 0;">
             <span class="fw-bold fs-5">Kariyer Sayfası</span>
         </div>
         <div class="card-body">

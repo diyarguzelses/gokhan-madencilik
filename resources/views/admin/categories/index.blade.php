@@ -1,6 +1,16 @@
 @extends('admin.layouts.app')
 
 @section('content')
+    <div class="alert alert-primary mt-2">
+        <h5>Projelerin Kategorileri Hakkında</h5>
+        <p>Bu panel, projeler için kategori ekleme, düzenleme ve silme işlemlerini yönetmek amacıyla kullanılır. Kategoriler, projeleri gruplamak ve düzenlemek için önemlidir.</p>
+
+        <h6>Girdi Alanları:</h6>
+        <ul>
+            <li><strong>Kategori Adı:</strong> Projeye ait kategori adını belirten zorunlu bir alan.</li>
+        </ul>
+    </div>
+
     <div class="card mb-5">
         <!-- Kart Başlık -->
         <div class="card-header border-0 pt-4 pb-4 px-4 d-flex align-items-center justify-content-between"
