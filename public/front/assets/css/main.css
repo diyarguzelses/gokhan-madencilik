@@ -1380,7 +1380,7 @@ section,
 }
 
 .testimonials .testimonial-item .testimonial-img {
-  /*width: 50%;*/
+  width: 70%;
   border-radius: 10px;
   border: 3px solid var(--background-color);
   /*position: absolute;*/
@@ -1433,8 +1433,9 @@ section,
 .testimonials .testimonial-item p {
     color: var(--background-color);
   font-style: italic;
-  margin: 15px auto 15px auto;
+  margin: 5px;
 }
+
 
 .testimonials .swiper-wrapper {
   height: auto;

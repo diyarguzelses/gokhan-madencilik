@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Str; @endphp
 @extends('front.layout.app')
 
 @section('content')
@@ -7,7 +8,8 @@
         <img src="{{asset('front/assets/img/bg_1.png')}}" alt="" data-aos="fade-in" class="aos-init aos-animate">
 
         <div class="container">
-            <h2 data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate">Geçmişten Günümüze<br>Yükselen Başarılar</h2>
+            <h2 data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate">Geçmişten Günümüze<br>Yükselen
+                Başarılar</h2>
             <div class="d-flex mt-4 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
                 <a href="courses.html" class="btn-get-started">Devamını Gör</a>
             </div>
@@ -27,7 +29,9 @@
                             <h4>İnşaat Taahhüt</h4>
                             <hr>
                             <p>
-                                Çetin İnşaat departmanının amacı, estetik, doğa dostu, teknolojik ve uzun ömürlü çözümlerle müşterilerimizin inşaat ihtiyaçlarını karşılamaktır. <a href=""><i class="fa-solid fa-link"></i></a>
+                                Çetin İnşaat departmanının amacı, estetik, doğa dostu, teknolojik ve uzun ömürlü
+                                çözümlerle müşterilerimizin inşaat ihtiyaçlarını karşılamaktır. <a href=""><i
+                                        class="fa-solid fa-link"></i></a>
                             </p>
 
                         </div>
@@ -40,7 +44,9 @@
                             <h4>İnşaat Taahhüt</h4>
                             <hr>
                             <p>
-                                Çetin İnşaat departmanının amacı, estetik, doğa dostu, teknolojik ve uzun ömürlü çözümlerle müşterilerimizin inşaat ihtiyaçlarını karşılamaktır. <a href=""><i class="fa-solid fa-link"></i></a>
+                                Çetin İnşaat departmanının amacı, estetik, doğa dostu, teknolojik ve uzun ömürlü
+                                çözümlerle müşterilerimizin inşaat ihtiyaçlarını karşılamaktır. <a href=""><i
+                                        class="fa-solid fa-link"></i></a>
                             </p>
 
                         </div>
@@ -53,7 +59,9 @@
                             <h4>İnşaat Taahhüt</h4>
                             <hr>
                             <p>
-                                Çetin İnşaat departmanının amacı, estetik, doğa dostu, teknolojik ve uzun ömürlü çözümlerle müşterilerimizin inşaat ihtiyaçlarını karşılamaktır. <a href=""><i class="fa-solid fa-link"></i></a>
+                                Çetin İnşaat departmanının amacı, estetik, doğa dostu, teknolojik ve uzun ömürlü
+                                çözümlerle müşterilerimizin inşaat ihtiyaçlarını karşılamaktır. <a href=""><i
+                                        class="fa-solid fa-link"></i></a>
                             </p>
 
                         </div>
@@ -82,7 +90,8 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-6 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up"
+                     data-aos-delay="200">
                     <h3 style="color: var(--accent-color)">1990 <br> yılından bu yanabüyüyen güç</h3>
                     <ul class="istatistic">
                         <li><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
@@ -108,27 +117,27 @@
             </div>
             <div class="row gy-4">
                 <div class="col-lg-4 order-1 order-lg-1 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                    <img src="{{asset('front/assets/img/news_1.png')}}" class="img-fluid" alt="">
+                    <img src="{{ asset('front/assets/img/news_1.png') }}" class="img-fluid" alt="">
                 </div>
 
-                <div class="col-lg-8 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-8 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up"
+                     data-aos-delay="200">
                     <h3 style="color: var(--accent-color)">Profesyonel Proje Yönetimi</h3>
-                    <p class="fst-italic w-75" >
-                        Çetin İnşaat A.Ş., inşaat ve taahhüt alanında 40 yılı aşkın tecrübesiyle, müşteri memnuniyetini ön planda tutarak modern, estetik ve sürdürülebilir yapılar inşa etmektedir. Yenilikçi yaklaşımımız ve güçlü mühendislik kadromuz ile sektördeki en iyi uygulamaları hayata geçiriyoruz.
+                    <p class="fst-italic w-75">
+                        Çetin İnşaat A.Ş., inşaat ve taahhüt alanında 40 yılı aşkın tecrübesiyle, müşteri memnuniyetini
+                        ön planda tutarak modern, estetik ve sürdürülebilir yapılar inşa etmektedir. Yenilikçi
+                        yaklaşımımız ve güçlü mühendislik kadromuz ile sektördeki en iyi uygulamaları hayata
+                        geçiriyoruz.
                     </p>
-
                 </div>
 
             </div>
 
         </div>
         <div style="background: #495160; margin-top: -100px">
-            <div  class="container">
+            <div class="container">
                 <div id="testimonials" class="testimonials" style="padding-top: 100px">
-
-
                     <div class="container aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-
                         <div class="swiper init-swiper swiper-initialized swiper-horizontal swiper-backface-hidden">
                             <script type="application/json" class="swiper-config">
                                 {
@@ -155,116 +164,86 @@
                                   }
                                 }
                             </script>
-                            <div class="swiper-wrapper" id="swiper-wrapper-c278e8a742a39911" aria-live="off" style="transition-duration: 0ms; transform: translate3d(-1974px, 0px, 0px); transition-delay: 0ms;">
+                            <div class="swiper-wrapper" id="swiper-wrapper-c278e8a742a39911" aria-live="off"
+                                 style="transition-duration: 0ms; transform: translate3d(-1974px, 0px, 0px); transition-delay: 0ms;">
 
-                                <div class="swiper-slide" role="group" aria-label="4 / 5" data-swiper-slide-index="3" style="width: 638px; margin-right: 20px;">
-                                    <div class="testimonial-wrap">
-                                        <div class="testimonial-item">
-                                            <img src="{{asset('front/assets/img/news_1.png')}}" class="testimonial-img" alt="">
-                                            <h3>TBMM Başkanı Binali Yıldırım</h3>
-                                            <p>
-                                                <i class="bi bi-quote quote-icon-left"></i>
-                                                <span> TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.</span>
-                                                <i class="bi bi-quote quote-icon-right"></i>
-                                            </p>
+                                @foreach ($news as $new)
+                                    <div class="swiper-slide" role="group" aria-label="4 / 5"
+                                         style="width: 638px; margin-right: 20px;">
+                                        <div class="testimonial-wrap">
+                                            <div class="testimonial-item">
+                                                <img src="{{ asset('/uploads/news/'.$new->image) }}"
+                                                     onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';"
+                                                     class="testimonial-img" alt="Haber Resmi">
+                                                <h3>{{ $new->title }}</h3>
+                                                <p>
+                                                    <i class="bi bi-quote quote-icon-left"></i>
+                                                    <span>{{ Str::limit($new->content, 200) }}</span>
+                                                    <i class="bi bi-quote quote-icon-right"></i>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide" role="group" aria-label="5 / 5" data-swiper-slide-index="4" style="width: 638px; margin-right: 20px;">
-                                    <div class="testimonial-wrap">
-                                        <div class="testimonial-item">
-                                            <img src="{{asset('front/assets/img/news_1.png')}}" class="testimonial-img" alt="">
-                                            <h3>TBMM Başkanı Binali Yıldırım</h3>
-                                            <p>
-                                                <i class="bi bi-quote quote-icon-left"></i>
-                                                <span> TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.</span>
-                                                <i class="bi bi-quote quote-icon-right"></i>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-prev" role="group" aria-label="1 / 5" data-swiper-slide-index="0" style="width: 638px; margin-right: 20px;">
-                                    <div class="testimonial-wrap">
-                                        <div class="testimonial-item">
-                                            <img src="{{asset('front/assets/img/news_1.png')}}" class="testimonial-img" alt="">
-                                            <h3>TBMM Başkanı Binali Yıldırım</h3>
-                                            <p>
-                                                <i class="bi bi-quote quote-icon-left"></i>
-                                                <span> TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.</span>
-                                                <i class="bi bi-quote quote-icon-right"></i>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div><div class="swiper-slide swiper-slide-active" role="group" aria-label="2 / 5" data-swiper-slide-index="1" style="width: 638px; margin-right: 20px;">
-                                    <div class="testimonial-wrap">
-                                        <div class="testimonial-item">
-                                            <img src="{{asset('front/assets/img/news_1.png')}}" class="testimonial-img" alt="">
-                                            <h3>TBMM Başkanı Binali Yıldırım</h3>
-                                            <p>
-                                                <span> TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-next" role="group" aria-label="3 / 5" data-swiper-slide-index="2" style="width: 638px; margin-right: 20px;">
-                                    <div class="testimonial-wrap">
-                                        <div class="testimonial-item">
-                                            <img src="{{asset('front/assets/img/news_1.png')}}" class="testimonial-img" alt="">
-                                            <h3>TBMM Başkanı Binali Yıldırım</h3>
-                                            <p>
-                                                <i class="bi bi-quote quote-icon-left"></i>
-                                                <span> TBMM Başkanı Binali Yıldırım, Erzincan Refahiye’de Çetin İnşaat AŞ tarafından inşası süren Jandarma Komando Taburu, hizmet binaları, trafik idari binaları ve lojman projelerini inceledi.</span>
-                                                <i class="bi bi-quote quote-icon-right"></i>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div></div>
-                            <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 2" aria-current="true"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 5"></span></div>
-                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                                @endforeach
 
+                            </div>
+                            <div
+                                class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                                <span class="swiper-pagination-bullet" tabindex="0" role="button"
+                                      aria-label="Go to slide 1"></span>
+                                <span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0"
+                                      role="button" aria-label="Go to slide 2" aria-current="true"></span>
+                                <span class="swiper-pagination-bullet" tabindex="0" role="button"
+                                      aria-label="Go to slide 3"></span>
+                                <span class="swiper-pagination-bullet" tabindex="0" role="button"
+                                      aria-label="Go to slide 4"></span>
+                                <span class="swiper-pagination-bullet" tabindex="0" role="button"
+                                      aria-label="Go to slide 5"></span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
             </div>
         </div>
 
-
     </section>
 
 
+
     <section class="game-section">
-        <div class="container hr_baslik" >
+        <div class="container hr_baslik">
             <h2 style="color: var(--accent-color)">Faaliyet Alanları</h2>
             <hr class="hr">
         </div>
 
         <div class="owl-carousel custom-carousel owl-theme ">
-            <div class="item " >
+            <div class="item ">
                 <div class="item-desc">
                     <h4>İnsaat Taahhüt</h4>
                 </div>
             </div>
-            <div class="item " >
+            <div class="item ">
                 <div class="item-desc">
                     <h4>Petrol</h4>
                 </div>
             </div>
-            <div class="item " >
+            <div class="item ">
                 <div class="item-desc">
                     <h4>İnsaat Taahhüt</h4>
                 </div>
             </div>
-            <div class="item " >
+            <div class="item ">
                 <div class="item-desc">
                     <h4>İnsaat Taahhüt</h4>
                 </div>
             </div>
-            <div class="item " >
+            <div class="item ">
                 <div class="item-desc">
                     <h4>İnsaat Taahhüt</h4>
                 </div>
             </div>
-            <div class="item " >
+            <div class="item ">
                 <div class="item-desc">
                     <h4>İnsaat Taahhüt</h4>
                 </div>
@@ -280,14 +259,12 @@
 
     <script>
 
-       $(".custom-carousel").owlCarousel({
-           autoWidth: true,
-           loop: true
-       });
+        $(".custom-carousel").owlCarousel({
+            autoWidth: true,
+            loop: true
+        });
 
-   </script>
-
-
+    </script>
 
 @endsection
 
