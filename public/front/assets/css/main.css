@@ -1280,6 +1280,8 @@ section,
 
 .trainers-index .member img {
     width: 100%;
+    max-height: 160px;
+    object-fit: cover;
   margin: -1px -1px 15px -1px;
 }
 
@@ -1937,7 +1939,10 @@ section,
 }
 
 
-
+.news_title{
+    background: #495160;
+    margin-top: -100px
+}
 
 
 .istatistic{
@@ -1949,7 +1954,7 @@ section,
 .istatistic li{
     display: flex;
     align-items: center;
-    justify-content: center;
+
     padding: 20px;
 }
 .istatistic li h4{
@@ -1959,7 +1964,7 @@ section,
 }
 
 .hr_baslik{
-    padding-bottom: 100px;
+    padding-bottom: 50px;
 }
 
 .hr{
@@ -2002,13 +2007,14 @@ section,
 
 }
 .game-section .item {
-    background-image: url("../img/insaat.png");
-    background-size: cover;
-    background-position: center;
+
+
+
     background-repeat: no-repeat;
-    margin: 0 50px 60px;
-    width: 250px;
-    height: 475px;
+    object-fit: cover;
+    margin: 0 70px 60px;
+    width: 190px;
+    height: 415px;
     display: flex;
     align-items: flex-end;
     -webkit-align-items: flex-end;
@@ -2038,6 +2044,7 @@ section,
 }
 .game-section .item-desc h4 {
     color: var(--background-color);
+    font-size: 16px;
 }
 .game-section .owl-theme.custom-carousel .owl-dots {
     margin-top: -20px;

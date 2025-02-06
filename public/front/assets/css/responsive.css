@@ -55,7 +55,9 @@
 }
 
 @media (max-width: 500px) {
-
+    .news_title{
+        margin-top: 0
+    }
     .trainers-index .member_container .member_row{
         gap: 30px;
     }

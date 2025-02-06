@@ -10,9 +10,9 @@
         <div class="container">
             <h2 data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate">Geçmişten Günümüze<br>Yükselen
                 Başarılar</h2>
-            <div class="d-flex mt-4 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
-                <a href="courses.html" class="btn-get-started">Devamını Gör</a>
-            </div>
+{{--            <div class="d-flex mt-4 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">--}}
+{{--                <a href="courses.html" class="btn-get-started">Devamını Gör</a>--}}
+{{--            </div>--}}
         </div>
 
     </section>
@@ -27,10 +27,11 @@
                         <div class="member">
                             <img src="{{asset('uploads/sectors/'.$sector->image)}}" class="img-fluid" alt="">
                             <div class="member-content">
-                                <h4>{{$sector->image}}</h4>
+                                <h4>{{$sector->name}}</h4>
                                 <hr>
                                 <p>
-                                    {{$sector->text}}
+                                    {{ Str::limit($sector->text, 100) }}
+
                                 </p>
 
                             </div>
@@ -63,13 +64,13 @@
                 <div class="col-lg-6 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up"
                      data-aos-delay="200">
                     <h3 style="color: var(--accent-color)">1990 <br> yılından bu yanabüyüyen güç</h3>
-                    <ul class="istatistic">
-                        <li><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
-                        <li><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
-                        <li><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
-                        <li><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
+                    <ul class="istatistic ">
+                        <li class="col-lg-6"><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
+                        <li  class="col-lg-6"><i class="fa-solid fa-circle fa-sm"></i><h4>4 <br> Faaliyet Alanı</h4></li>
+                        <li  class="col-lg-6"><i class="fa-solid fa-circle fa-sm"></i><h4>3000+ <br> İstihdam</h4></li>
+                        <li  class="col-lg-6"><i class="fa-solid fa-circle fa-sm"></i><h4>150+ <br> Makine Alanı</h4></li>
                     </ul>
-                    <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+
                 </div>
 
             </div>
@@ -93,7 +94,7 @@
                 <div class="col-lg-8 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up"
                      data-aos-delay="200">
                     <h3 style="color: var(--accent-color)">Profesyonel Proje Yönetimi</h3>
-                    <p class="fst-italic w-75">
+                    <p class="fsitalict- w-75 bg-white2">
                         Çetin İnşaat A.Ş., inşaat ve taahhüt alanında 40 yılı aşkın tecrübesiyle, müşteri memnuniyetini
                         ön planda tutarak modern, estetik ve sürdürülebilir yapılar inşa etmektedir. Yenilikçi
                         yaklaşımımız ve güçlü mühendislik kadromuz ile sektördeki en iyi uygulamaları hayata
@@ -104,7 +105,7 @@
             </div>
 
         </div>
-        <div style="background: #495160; margin-top: -100px">
+        <div class="news_title">
             <div class="container">
                 <div id="testimonials" class="testimonials" style="padding-top: 100px">
                     <div class="container aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
