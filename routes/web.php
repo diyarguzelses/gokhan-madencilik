@@ -139,6 +139,7 @@ Route::post('/communication', [CommunicationController::class, 'sendMessage'])->
 // Projects Route (Öncelikli)
 Route::get('/completedProjects', [ProjectPageController::class, 'completedProjects'])->name('completedProjects.index');
 Route::get('/continuingProjects', [ProjectPageController::class, 'continuingProjects'])->name('continuingProjects.index');
+Route::get('/detail/{slug}', [ProjectPageController::class, 'detail'])->name('project.detail');
 
 // MachinePark Route (Öncelikli)
 Route::get('/machinePark', [MachineParkController::class, 'index'])->name('machineParks.index');

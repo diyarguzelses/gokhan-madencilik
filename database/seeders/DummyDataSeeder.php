@@ -29,6 +29,7 @@ class DummyDataSeeder extends Seeder
         // Projeler için sahte veri ekle (Her projeye rastgele bir kategori atanacak)
         foreach (range(1, 10) as $index) {
             DB::table('projects')->insert([
+                'slug' => $faker->unique()->slug,
                 'name' => $faker->sentence(3),
                 'description' => $faker->paragraph(4),
                 'status' => $faker->randomElement([0, 1]), // 0 = Devam Eden, 1 = Tamamlanan

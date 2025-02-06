@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\ProjectImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 
 class ProjectController extends Controller
@@ -51,8 +52,16 @@ class ProjectController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Görsel doğrulama
         ]);
 
+        $slug = Str::slug($request->name);
+
+        // Aynı slug ile başlayan kayıtları sayarak benzersiz hale getirme
+        $slugCount = Project::where('slug', 'LIKE', "{$slug}%")->count();
+        if ($slugCount) {
+            $slug .= '-' . ($slugCount + 1);
+        }
+
         // Proje Oluştur
-        $project = Project::create($request->only(['name', 'description', 'category_id','status']));
+        $project = Project::create($request->only(['name', 'description', 'category_id','status','slug']));
 
         // Görselleri Kaydet
         if ($request->hasFile('images')) {

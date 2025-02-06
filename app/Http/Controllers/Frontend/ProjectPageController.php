@@ -20,4 +20,16 @@ class ProjectPageController extends Controller
 
         return view('front.projects.index', compact('projects', 'status'));
     }
+
+    public function detail($slug)
+    {
+        $projects = Project::where('slug',$slug)->firstOrFail();
+        $status=$projects->status;
+        $projects_img=ProjectImage::all();
+
+
+
+        return view('front.projects.detail', compact('projects','status','projects_img'));
+
+    }
 }

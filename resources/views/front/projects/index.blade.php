@@ -41,7 +41,7 @@
                 @foreach($projects as $project)
                     <div class="col-lg-4 col-md-6 d-flex align-items-stretch aos-init aos-animate mt-4"
                          data-aos="zoom-in" data-aos-delay="100">
-                        <a href="#">
+                        <a  href="{{route('project.detail', $project->slug)}}">
                             <div class="course-item" style="min-height: 450px; display: flex; flex-direction: column;">
                                 <div style="height: 300px; overflow: hidden;">
                                     @if($project->images->isNotEmpty())
