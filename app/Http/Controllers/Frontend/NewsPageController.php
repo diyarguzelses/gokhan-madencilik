@@ -13,7 +13,7 @@ class NewsPageController extends Controller
     }
     public function detail($slug){
 
-        $news = News::where('slug',$slug)->first();
+        $news = News::where('slug',$slug)->firstOrFail();
 
 
 

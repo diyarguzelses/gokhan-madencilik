@@ -10,4 +10,4 @@ class News extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['title', 'content', 'image'];}
+    protected $fillable = ['title', 'content', 'image', 'slug'];}
