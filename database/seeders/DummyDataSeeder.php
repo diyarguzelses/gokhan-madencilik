@@ -41,6 +41,7 @@ class DummyDataSeeder extends Seeder
         // Haberler için sahte veri ekle
         foreach (range(1, 10) as $index) {
             DB::table('news')->insert([
+                'slug' => $faker->unique()->slug,
                 'title' => $faker->sentence(4),
                 'content' => $faker->paragraph(5),
                 'image' => 'default.jpg',

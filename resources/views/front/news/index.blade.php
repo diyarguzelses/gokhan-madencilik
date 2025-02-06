@@ -38,7 +38,7 @@
                             {{ Str::limit($new->content, 150, '...') }}
                         </p>
                     </div>
-                    <a href="#"></a>
+                    <a href="{{route('news.detail', $new->slug)}}"></a>
                 </div>
             @endforeach
 

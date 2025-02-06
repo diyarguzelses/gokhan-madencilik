@@ -27,27 +27,24 @@
             <div class="col-6">
                 <div class="swiper mySwiper d-flex align-items-center justify-content-start">
                     <div class="swiper-wrapper">
-                        @foreach($news as $new)
                             <div class="swiper-slide">
-                                <img src="{{asset('/uploads/news/'.$new->image)}}" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';" class="img-fluid" alt="">
+                                <img src="{{asset('/uploads/news/'.$news->image)}}" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';" class="img-fluid" alt="">
                             </div>
-                        @endforeach
+
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 order-2 order-lg-1 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
-                @if($news->count() > 0)
                     <div class="d-flex align-items-center justify-content-between">
-                        <h2 style="color: var(--accent-color)">{{ $news->first()->title }}</h2>
+                        <h2 style="color: var(--accent-color)">{{ $news->title }}</h2>
                         <div class="date">
-                            <span class="day">{{ $news->first()->created_at->format('d') }}</span>
-                            <span class="month">{{ $news->first()->created_at->locale('tr')->isoFormat('MMM') }}</span>
+                            <span class="day">{{ $news->created_at->format('d') }}</span>
+                            <span class="month">{{ $news->created_at->locale('tr')->isoFormat('MMM') }}</span>
                         </div>
                     </div>
                     <p class="fst-italic">
-                        <span>{{ $news->first()->content }} </span>
+                        <span>{{ $news->content }} </span>
                     </p>
-                @endif
             </div>
         </div>
     </section>

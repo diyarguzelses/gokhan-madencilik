@@ -50,7 +50,17 @@ class NewsController extends Controller {
             $request->image->move(public_path('uploads/news'), $imageName);
         }
 
+        $slug = Str::slug($request->title);
+
+        // Aynı slug ile başlayan kayıtları sayarak benzersiz hale getirme
+        $slugCount = News::where('slug', 'LIKE', "{$slug}%")->count();
+        if ($slugCount) {
+            $slug .= '-' . ($slugCount + 1);
+        }
+
+
         News::create([
+            'slug' => $slug,  // Benzersiz hale getirilmiş slug
             'title' => $request->title,
             'content' => $request->content,
             'image' => $imageName
