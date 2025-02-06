@@ -2348,6 +2348,25 @@ section,
 
 
 
+.mySwiper{
+    max-width: 500px;
+}
 
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+}
 
 

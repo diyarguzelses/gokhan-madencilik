@@ -11,4 +11,8 @@ class NewsPageController extends Controller
         $news = News::all();
         return view('front.news.index',compact('news'));
     }
+    public function detail(){
+        $news = News::all();
+        return view('front.news.detail',compact('news'));
+    }
 }
