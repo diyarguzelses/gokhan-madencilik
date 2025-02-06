@@ -2010,11 +2010,13 @@ section,
 
 
 
+    background-image: url("../img/insaat.png");
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
-    object-fit: cover;
-    margin: 0 70px 60px;
-    width: 190px;
-    height: 415px;
+    margin: 0 50px 60px;
+    width: 250px;
+    height: 475px;
     display: flex;
     align-items: flex-end;
     -webkit-align-items: flex-end;
