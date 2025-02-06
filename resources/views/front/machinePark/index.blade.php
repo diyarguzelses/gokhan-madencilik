@@ -16,7 +16,7 @@
         <nav class="breadcrumbs">
             <div class="container">
                 <ol>
-                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="{{route('homePage.index')}}">Ana Sayfa</a></li>
                     <li class="current">Makina Parkı</li>
                 </ol>
             </div>
@@ -31,8 +31,8 @@
                 @foreach($machinePark as $mp)
                     <div class="col-lg-3 col-sm-6 col-md-4">
                         <div class="card">
-                            <div class="card_image">
-                                <img src="{{asset($mp->image)}}" />
+                            <div class="card_image ">
+                                <img src="{{asset($mp->image)}}" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';" class="rounded-2" />
                             </div>
                             <div class="card_title">
                                 <p>{{$mp->name}}</p>
