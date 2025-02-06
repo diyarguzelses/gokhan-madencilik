@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header bg-primary text-white d-flex justify-content-between">
+        <div class="card-header text-white d-flex justify-content-between" style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px 10px 0 0;">
             <span class="fw-bold fs-5">Sektörler</span>
             <button class="btn btn-light text-primary fw-bold" id="addSectorBtn">
                 <i class="bi bi-plus-circle"></i> Yeni Sektör Ekle

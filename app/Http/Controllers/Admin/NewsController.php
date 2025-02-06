@@ -21,6 +21,7 @@ class NewsController extends Controller {
             })
             ->addColumn('actions', function ($news) {
                 return '
+                  <div class="d-flex alert-gray justify-content-center gap-2">
                     <button class="btn btn-primary btn-sm edit-news"
                         data-id="'.$news->id.'"
                         data-title="'.$news->title.'"
@@ -28,10 +29,11 @@ class NewsController extends Controller {
                         data-image="'.$news->image.'">
                         Düzenle
                     </button>
-                    <button class="btn btn-danger btn-sm delete-news"
+                    <button class="btn btn-danger btn-sm delete-news "
                         data-id="'.$news->id.'">
                         Sil
                     </button>
+                  </div>
                 ';
             })
             ->rawColumns(['image', 'actions'])

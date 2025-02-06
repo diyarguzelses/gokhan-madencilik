@@ -68,13 +68,13 @@
                  style="background: linear-gradient(135deg, #D4A5A5, #F2D1D1);">
                 <div class="card-header text-white fw-bold"
                      style="background: rgba(0, 0, 0, 0.2);">Son Eklenen Projeler</div>
-                <div class="card-body">
+                <div class="card-body mt-4"  >
                     <ul class="list-group list-group-flush">
                         @foreach($latestProjects as $project)
                             <li class="list-group-item d-flex justify-content-between align-items-center"
                                 style="background: rgba(255, 255, 255, 0.2);">
-                                <span>{{ $project->name }}</span>
-                                <small class="text-muted">{{ $project->created_at->format('d.m.Y') }}</small>
+                                <span >{{ $project->name }}</span>
+                                <small  class="text-muted">{{ $project->created_at->format('d.m.Y') }}</small>
                             </li>
                         @endforeach
                     </ul>
@@ -87,7 +87,7 @@
                  style="background: linear-gradient(135deg, #B5EAD7, #C7CEEA);">
                 <div class="card-header text-white fw-bold"
                      style="background: rgba(0, 0, 0, 0.2);">Son Eklenen Haberler</div>
-                <div class="card-body">
+                <div class="card-body mt-4">
                     <ul class="list-group list-group-flush">
                         @foreach($latestNews as $news)
                             <li class="list-group-item d-flex justify-content-between align-items-center"
