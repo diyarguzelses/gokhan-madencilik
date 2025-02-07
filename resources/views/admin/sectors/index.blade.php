@@ -123,17 +123,21 @@
                 reader.readAsDataURL(this.files[0]);
             });
 
-            // Düzenleme Butonuna Basınca Verileri Modal'a Aktar
             $(document).on('click', '.edit-sector', function () {
                 let image = $(this).data('image');
-
-                console.log("Data-image:", image); // Konsolda kontrol et
 
                 $('#sector_id').val($(this).data('id'));
                 $('#name').val($(this).data('name'));
                 $('#text').val($(this).data('text'));
 
-                let imageUrl = image ? `/uploads/sectors/${image}` : '/images/default-placeholder.png';
+                let imageUrl = '/images/default-placeholder.png';
+
+                if (image && image.trim() !== "") {
+                    imageUrl = `/uploads/sectors/${image}`;
+                }
+
+                $('#image').val('');
+
                 $('#previewImage').attr('src', imageUrl).show();
 
                 $('#sectorModal').modal('show');
