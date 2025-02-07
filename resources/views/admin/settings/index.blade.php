@@ -99,7 +99,7 @@
             <h5 class="mb-3">Hazır Renk Paletleri</h5>
             <div class="row g-3" id="colorPalettes">
                 @foreach([
-                     ['#ffffff', '#003da6', '#ffffff', '#000000'],
+                     ['#000000', '#003da6', '#ffffff', '#000000'],
                      ['#34495e', '#e74c3c', '#ecf0f1', '#2c3e50'],
                      ['#3498db', '#e74c3c', '#f5f6fa', '#2d3436'],
                      ['#1abc9c', '#16a085', '#ecf0f1', '#2c3e50'],
