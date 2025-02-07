@@ -100,12 +100,12 @@
                 <h2 style="color: var(--accent-color)">Haberler</h2>
                 <hr class="hr">
             </div>
-            <div class="row gy-4 gap-3">
+            <div class="row gy-4">
                 <div class="col-lg-4 order-1 order-lg-1 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
                     <img src="{{ asset('/uploads/news/'.$lastnew->image) }}" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';" class="img-fluid" style="height: 300px!important;object-fit: cover" alt="">
                 </div>
 
-                <div class="col-lg-7 order-2 order-lg-2 content aos-init aos-animate"  data-aos="fade-up"
+                <div class="col-lg-8 order-2 order-lg-2 content aos-init aos-animate"  data-aos="fade-up"
                      data-aos-delay="200">
                     <h3 style="color: var(--accent-color)">{{$lastnew->title}}</h3>
                     <p class="fsitalict- w-75 bg-white2">
