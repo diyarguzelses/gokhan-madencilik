@@ -65,10 +65,21 @@
                      data-aos-delay="200">
                     <h3 style="color: var(--accent-color)">1990 <br> yılından bu yanabüyüyen güç</h3>
                     <ul class="istatistic ">
-                        <li class="col-lg-6"><i class="fa-solid fa-circle fa-sm"></i><h4>7 <br> Enerji Santrali</h4></li>
-                        <li  class="col-lg-6"><i class="fa-solid fa-circle fa-sm"></i><h4>4 <br> Faaliyet Alanı</h4></li>
-                        <li  class="col-lg-6"><i class="fa-solid fa-circle fa-sm"></i><h4>3000+ <br> İstihdam</h4></li>
-                        <li  class="col-lg-6"><i class="fa-solid fa-circle fa-sm"></i><h4>150+ <br> Makine Alanı</h4></li>
+                        <ul class="row">
+                            <li class="col-lg-6">
+                                <i class="fa-solid fa-circle fa-sm"></i>
+                                <h4>{{ $projectCount }} <br> Projeler</h4>
+                            </li>
+                            <li class="col-lg-6">
+                                <i class="fa-solid fa-circle fa-sm"></i>
+                                <h4>{{ $sectorCount }} <br> Faaliyet Alanı</h4>
+                            </li>
+                            <li class="col-lg-6">
+                                <i class="fa-solid fa-circle fa-sm"></i>
+                                <h4>{{ $machineCount }}+ <br> Makine Sayısı</h4>
+                            </li>
+                        </ul>
+
                     </ul>
 
                 </div>
@@ -88,17 +99,14 @@
             </div>
             <div class="row gy-4">
                 <div class="col-lg-4 order-1 order-lg-1 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                    <img src="{{ asset('front/assets/img/news_1.png') }}" class="img-fluid" alt="">
+                    <img src="{{ asset('/uploads/news/'.$lastnew->image) }}" class="img-fluid" alt="">
                 </div>
 
                 <div class="col-lg-8 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up"
                      data-aos-delay="200">
-                    <h3 style="color: var(--accent-color)">Profesyonel Proje Yönetimi</h3>
+                    <h3 style="color: var(--accent-color)">{{$lastnew->title}}</h3>
                     <p class="fsitalict- w-75 bg-white2">
-                        Çetin İnşaat A.Ş., inşaat ve taahhüt alanında 40 yılı aşkın tecrübesiyle, müşteri memnuniyetini
-                        ön planda tutarak modern, estetik ve sürdürülebilir yapılar inşa etmektedir. Yenilikçi
-                        yaklaşımımız ve güçlü mühendislik kadromuz ile sektördeki en iyi uygulamaları hayata
-                        geçiriyoruz.
+                        {{$lastnew->content}}
                     </p>
                 </div>
 
