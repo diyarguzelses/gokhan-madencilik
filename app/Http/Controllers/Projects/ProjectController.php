@@ -61,8 +61,13 @@ class ProjectController extends Controller
         }
 
         // Proje Oluştur
-        $project = Project::create($request->only(['name', 'description', 'category_id','status','slug']));
-
+        $project = Project::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'status' => $request->status,
+            'slug' => $slug
+        ]);
         // Görselleri Kaydet
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {

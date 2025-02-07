@@ -20,19 +20,15 @@ class SettingsController extends Controller
 
             $request->validate([
                 'navbar_color' => 'required|string|max:7',
-                'sidebar_color' => 'required|string|max:7',
                 'button_color' => 'required|string|max:7',
                 'background_color' => 'required|string|max:7',
-                'navbar_text_color' => 'required|string|max:7',
                 'text_color' => 'required|string|max:7',
             ]);
 
             $this->saveSetting('navbar_color', $request->navbar_color);
-            $this->saveSetting('sidebar_color', $request->sidebar_color);
             $this->saveSetting('button_color', $request->button_color);
             $this->saveSetting('background_color', $request->background_color);
             $this->saveSetting('text_color', $request->text_color);
-            $this->saveSetting('navbar_text_color', $request->navbar_text_color);
 
             return response()->json(['success' => true], 200);
 

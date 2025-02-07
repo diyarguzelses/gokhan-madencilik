@@ -25,11 +25,10 @@ class ProjectPageController extends Controller
     {
         $projects = Project::where('slug',$slug)->firstOrFail();
         $status=$projects->status;
-        $projects_img=ProjectImage::all();
 
 
 
-        return view('front.projects.detail', compact('projects','status','projects_img'));
+        return view('front.projects.detail', compact('projects','status'));
 
     }
 }

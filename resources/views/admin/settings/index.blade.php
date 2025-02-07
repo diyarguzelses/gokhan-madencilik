@@ -41,10 +41,8 @@
         <h6>Girdi Alanları:</h6>
         <ul>
             <li><strong>Navbar Rengi:</strong> Sayfanın üst menüsünün arka plan rengini belirler.</li>
-            <li><strong>Sidebar Rengi:</strong> Yan menünün arka plan rengini belirler.</li>
             <li><strong>Buton Rengi:</strong> Sayfa içindeki butonların rengini belirler.</li>
             <li><strong>Arka Plan Rengi:</strong> Genel sayfa arka plan rengini belirler.</li>
-            <li><strong>Navbar Yazı Rengi:</strong> Üst menüdeki yazı rengini belirler.</li>
             <li><strong>Genel Yazı Rengi:</strong> Sayfa içerisindeki metinlerin rengini belirler.</li>
         </ul>
     </div>
@@ -61,39 +59,29 @@
                 <div class="row gy-4">
                     <!-- Mevcut renk alanları -->
                     <div class="col-md-6">
-                        <label for="navbar_color" class="form-label fw-bold">Navbar Rengi</label>
+                        <label for="navbar_color" class="form-label fw-bolder">Navbar Rengi</label>
                         <input type="color" class="form-control color-input" id="navbar_color" name="navbar_color"
                                value="{{ $settings->where('key', 'navbar_color')->first()->value ?? '#34495e' }}" required>
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="sidebar_color" class="form-label fw-bold">Sidebar Rengi</label>
-                        <input type="color" class="form-control color-input" id="sidebar_color" name="sidebar_color"
-                               value="{{ $settings->where('key', 'sidebar_color')->first()->value ?? '#2c3e50' }}" required>
-                    </div>
 
                     <div class="col-md-6">
-                        <label for="button_color" class="form-label fw-bold">Buton Rengi</label>
+                        <label for="button_color" class="form-label fw-bolder">Buton Rengi</label>
                         <input type="color" class="form-control color-input" id="button_color" name="button_color"
                                value="{{ $settings->where('key', 'button_color')->first()->value ?? '#e74c3c' }}" required>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="background_color" class="form-label fw-bold">Arka Plan Rengi</label>
+                        <label for="background_color" class="form-label fw-bolder">Arka Plan Rengi</label>
                         <input type="color" class="form-control color-input" id="background_color" name="background_color"
                                value="{{ $settings->where('key', 'background_color')->first()->value ?? '#ecf0f1' }}" required>
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="navbar_text_color" class="form-label fw-bold">Navbar Yazı Rengi</label>
-                        <input type="color" class="form-control color-input" id="navbar_text_color" name="navbar_text_color"
-                               value="{{ $settings->where('key', 'navbar_text_color')->first()->value ?? '#ffffff' }}" required>
-                    </div>
 
                     <div class="col-md-6">
-                        <label for="text_color" class="form-label fw-bold">Genel Yazı Rengi</label>
+                        <label for="text_color" class="form-label fw-bolder">Genel Yazı Rengi</label>
                         <input type="color" class="form-control color-input" id="text_color" name="text_color"
-                               value="{{ $settings->where('key', 'text_color')->first()->value ?? '#2c3e50' }}" required>
+                               value="{{     $settings->where('key', 'text_color')->first()->value ?? '#2c3e50' }}" required>
                     </div>
                 </div>
 

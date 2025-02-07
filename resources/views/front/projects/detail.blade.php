@@ -36,12 +36,13 @@
             <div class="col-6">
                 <div class="swiper mySwiper d-flex align-items-center justify-content-start">
                     <div class="swiper-wrapper">
-                        @foreach($projects_img as $img)
+                        @foreach($projects->images as $img)
                             <div class="swiper-slide">
-                                <img src="{{$img->image_path}}" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';" class="img-fluid" alt="">
+                                <img src="{{ asset('/'.$img->image_path) }}"
+                                     onerror="this.onerror=null; this.src='{{ asset('front/assets/img/default-img.png') }}';"
+                                     class="img-fluid" alt="">
                             </div>
                         @endforeach
-
 
                     </div>
                 </div>
