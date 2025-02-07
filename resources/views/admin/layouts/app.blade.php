@@ -36,7 +36,8 @@
 
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{asset('sneat/assets/img/favicon/favicon.ico')}}"/>
+    <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="icon">
+    <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>

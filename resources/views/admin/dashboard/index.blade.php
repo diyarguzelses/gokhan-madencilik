@@ -72,9 +72,9 @@
                     <ul class="list-group list-group-flush">
                         @foreach($latestProjects as $project)
                             <li class="list-group-item d-flex justify-content-between align-items-center"
-                                style="background: rgba(255, 255, 255, 0.2);">
+                                style="background: rgba(255, 255, 255, 0.1);color: white;font-weight: bolder">
                                 <span >{{ $project->name }}</span>
-                                <small  class="text-muted">{{ $project->created_at->format('d.m.Y') }}</small>
+                                <small>{{ $project->created_at->format('d.m.Y') }}</small>
                             </li>
                         @endforeach
                     </ul>
@@ -91,9 +91,9 @@
                     <ul class="list-group list-group-flush">
                         @foreach($latestNews as $news)
                             <li class="list-group-item d-flex justify-content-between align-items-center"
-                                style="background: rgba(255, 255, 255, 0.2);">
+                                style="background: rgba(255, 255, 255, 0.1);color: white;font-weight: bolder">
                                 <span>{{ $news->title }}</span>
-                                <small class="text-muted">{{ $news->created_at->format('d.m.Y') }}</small>
+                                <small>{{ $news->created_at->format('d.m.Y') }}</small>
                             </li>
                         @endforeach
                     </ul>

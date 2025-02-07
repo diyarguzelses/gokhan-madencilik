@@ -16,7 +16,7 @@
         <div class="card-header bg-primary text-white d-flex justify-content-between"  style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px 10px 0 0;">
             <span class="fw-bold fs-5">Kariyer Sayfası</span>
         </div>
-        <div class="card-body">
+        <div class="card-body mt-3">
             <form id="careerForm" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">

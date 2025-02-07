@@ -57,7 +57,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="row gy-4">
+                <div class="row gy-4 mt-3">
                     <div class="col-md-6">
                         <label for="navbar_color" class="form-label fw-bolder">Navbar Rengi</label>
                         <input type="color" class="form-control color-input" id="navbar_color" name="navbar_color"
