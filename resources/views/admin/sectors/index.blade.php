@@ -88,7 +88,8 @@
                         searchable: false,
                         render: function (data) {
                             return `
-                                <button class="btn btn-warning btn-sm edit-sector"
+                               <div class="d-flex align-content-center justify-content-between gap-2">
+                               <button class="btn btn-primary btn-sm edit-sector"
                                     data-id="${data.id}"
                                     data-name="${data.name}"
                                     data-text="${data.text}"
@@ -98,6 +99,7 @@
                                 <button class="btn btn-danger btn-sm delete-sector" data-id="${data.id}">
                                     <i class="bi bi-trash"></i> Sil
                                 </button>
+                               </div>
                             `;
                         }
                     }

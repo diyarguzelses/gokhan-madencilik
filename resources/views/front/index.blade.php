@@ -25,7 +25,7 @@
                 @foreach($firstThreeSectors as $sector)
                     <div class="col-lg-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
                         <div class="member">
-                            <img src="{{asset('uploads/sectors/'.$sector->image)}}" class="img-fluid" alt="">
+                            <img src="{{asset('uploads/sectors/'.$sector->image)}}" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';" class="img-fluid" alt="">
                             <div class="member-content">
                                 <h4>{{$sector->name}}</h4>
                                 <hr>
