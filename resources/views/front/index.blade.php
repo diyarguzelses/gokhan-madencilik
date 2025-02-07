@@ -51,7 +51,7 @@
 
             <div class="row gy-4">
                 <div class="hr_baslik">
-                    <h2 style="color: var(--accent-color)">Rakamlarla Çetinler</h2>
+                    <h2 style="color: var(--accent-color)">Rakamlarla Çetin</h2>
                     <hr class="hr">
                 </div>
 
