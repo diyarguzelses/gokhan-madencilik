@@ -102,7 +102,7 @@
             </div>
             <div class="row gy-4">
                 <div class="col-lg-4 order-1 order-lg-1 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                    <img src="{{ asset('/uploads/news/'.$lastnew->image) }}" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';" class="img-fluid" alt="">
+                    <img src="{{ asset('/uploads/news/'.$lastnew->image) }}" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';" class="img-fluid" style="height: 300px!important;" alt="">
                 </div>
 
                 <div class="col-lg-8 order-2 order-lg-2 content aos-init aos-animate"  data-aos="fade-up"
