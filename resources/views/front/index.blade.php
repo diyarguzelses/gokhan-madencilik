@@ -72,11 +72,14 @@
                             </li>
                             <li class="col-lg-6">
                                 <i class="fa-solid fa-circle fa-sm"></i>
-                                <h4>{{ $sectorCount }} <br> Faaliyet Alanı</h4>
+                                <h4>{{ $sectorCount }} <br> Sektör Alanı</h4>
                             </li>
                             <li class="col-lg-6">
                                 <i class="fa-solid fa-circle fa-sm"></i>
                                 <h4>{{ $machineCount }}+ <br> Makine Sayısı</h4>
+                            </li><li class="col-lg-6">
+                                <i class="fa-solid fa-circle fa-sm"></i>
+                                <h4>{{ $projeCategoryCount }}+ <br> Faaliyet Alanı</h4>
                             </li>
                         </ul>
 

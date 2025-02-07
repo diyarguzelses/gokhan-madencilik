@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Machine;
 use App\Models\News;
 use App\Models\Project;
@@ -19,7 +20,9 @@ class HomePageController extends Controller
         $projectCount = Project::count();
         $sectorCount = Sector::count();
         $machineCount = Machine::sum('quantity');
+        $projeCategoryCount = Category::count();
 
-        return view('front.index', compact('news','firstThreeSectors','nextFourSectors','lastnew','projectCount','sectorCount','machineCount'));
+
+        return view('front.index', compact('news','firstThreeSectors','nextFourSectors','lastnew','projectCount','sectorCount','machineCount','projeCategoryCount'));
     }
 }
