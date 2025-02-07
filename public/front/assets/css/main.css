@@ -1267,6 +1267,7 @@ section,
   border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
   text-align: center;
   margin-bottom: 20px;
+    width: 300px;
 }
 .trainers-index .member_container{
     position: relative;
