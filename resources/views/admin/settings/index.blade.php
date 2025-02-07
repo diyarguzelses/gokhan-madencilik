@@ -36,7 +36,8 @@
 @section('content')
     <div class="alert alert-primary mt-2">
         <h5>Renk Ayar Yönetimi Hakkında</h5>
-        <p>Bu panel, web sitesinin renk şemasını özelleştirmek için kullanılır. Adminler, navbar, sidebar, butonlar ve arka plan için özel renkler seçebilir.</p>
+        <p>Bu panel, web sitesinin renk şemasını özelleştirmek için kullanılır. Adminler, navbar, sidebar, butonlar ve
+            arka plan için özel renkler seçebilir.</p>
 
         <h6>Girdi Alanları:</h6>
         <ul>
@@ -57,31 +58,33 @@
                 @method('PUT')
 
                 <div class="row gy-4">
-                    <!-- Mevcut renk alanları -->
                     <div class="col-md-6">
                         <label for="navbar_color" class="form-label fw-bolder">Navbar Rengi</label>
                         <input type="color" class="form-control color-input" id="navbar_color" name="navbar_color"
-                               value="{{ $settings->where('key', 'navbar_color')->first()->value ?? '#34495e' }}" required>
+                               value="{{ $settings->where('key', 'navbar_color')->first()->value ?? '#34495e' }}"
+                               required>
                     </div>
-
 
                     <div class="col-md-6">
                         <label for="button_color" class="form-label fw-bolder">Buton Rengi</label>
                         <input type="color" class="form-control color-input" id="button_color" name="button_color"
-                               value="{{ $settings->where('key', 'button_color')->first()->value ?? '#e74c3c' }}" required>
+                               value="{{ $settings->where('key', 'button_color')->first()->value ?? '#e74c3c' }}"
+                               required>
                     </div>
 
                     <div class="col-md-6">
                         <label for="background_color" class="form-label fw-bolder">Arka Plan Rengi</label>
-                        <input type="color" class="form-control color-input" id="background_color" name="background_color"
-                               value="{{ $settings->where('key', 'background_color')->first()->value ?? '#ecf0f1' }}" required>
+                        <input type="color" class="form-control color-input" id="background_color"
+                               name="background_color"
+                               value="{{ $settings->where('key', 'background_color')->first()->value ?? '#ecf0f1' }}"
+                               required>
                     </div>
-
 
                     <div class="col-md-6">
                         <label for="text_color" class="form-label fw-bolder">Genel Yazı Rengi</label>
                         <input type="color" class="form-control color-input" id="text_color" name="text_color"
-                               value="{{     $settings->where('key', 'text_color')->first()->value ?? '#2c3e50' }}" required>
+                               value="{{ $settings->where('key', 'text_color')->first()->value ?? '#2c3e50' }}"
+                               required>
                     </div>
                 </div>
 
@@ -92,26 +95,24 @@
 
             <hr class="my-5">
 
-            <!-- Modern Renk Paletleri -->
+            <!-- Hazır Renk Paletleri -->
             <h5 class="mb-3">Hazır Renk Paletleri</h5>
             <div class="row g-3" id="colorPalettes">
-                <!-- Her palet, modern sitelerde tercih edilen renk kombinasyonlarını içerir:
-                     [ navbar_color, sidebar_color, button_color, background_color, navbar_text_color, text_color ] -->
                 @foreach([
-                    ['#34495e', '#2c3e50', '#e74c3c', '#ecf0f1', '#ffffff', '#2c3e50'],
-                    ['#2ecc71', '#27ae60', '#f1c40f', '#ffffff', '#ffffff', '#34495e'],
-                    ['#8e44ad', '#71368a', '#e67e22', '#fdfefe', '#ffffff', '#2c3e50'],
-                    ['#3498db', '#2980b9', '#e74c3c', '#f5f6fa', '#ffffff', '#2d3436']
+                     ['#ffffff', '#003da6', '#ffffff', '#000000'],
+                     ['#34495e', '#e74c3c', '#ecf0f1', '#2c3e50'],
+                     ['#3498db', '#e74c3c', '#f5f6fa', '#2d3436'],
+                     ['#1abc9c', '#16a085', '#ecf0f1', '#2c3e50'],
                 ] as $palette)
                     <div class="col-md-3">
                         <div class="card shadow-sm border-0 palette-card" data-palette="{{ json_encode($palette) }}">
-                            <div class="palette-header" style="height: 50px; background: {{ $palette[0] }};"></div>
-                            <div class="palette-sidebar" style="height: 50px; background: {{ $palette[1] }};"></div>
-                            <div class="palette-button" style="height: 50px; background: {{ $palette[2] }};"></div>
-                            <div class="palette-bg" style="height: 50px; background: {{ $palette[3] }};"></div>
-                            <div class="palette-navbar-text" style="height: 50px; background: {{ $palette[4] }};"></div>
-                            <div class="palette-text" style="height: 50px; background: {{ $palette[5] }};"></div>
-                            <div class="text-center py-2 fw-bold">Paleti Kullan</div>
+                            <div class="palette-preview d-flex flex-column">
+                                <div style="height: 50px; background: {{ $palette[0] }};"></div>
+                                <div style="height: 50px; background: {{ $palette[1] }};"></div>
+                                <div style="height: 50px; background: {{ $palette[2] }};"></div>
+                                <div style="height: 50px; background: {{ $palette[3] }};"></div>
+                            </div>
+                            <div class="text-center py-2 fw-bold palette-apply">Paleti Kullan</div>
                         </div>
                     </div>
                 @endforeach
@@ -126,19 +127,18 @@
             const form = document.getElementById('settingsForm');
             const palettes = document.querySelectorAll('.palette-card');
 
-            // Hazır paletlerden renk seçme
             palettes.forEach(palette => {
                 palette.addEventListener('click', function () {
                     const colors = JSON.parse(this.dataset.palette);
+
                     document.getElementById('navbar_color').value = colors[0];
-                    document.getElementById('sidebar_color').value = colors[1];
-                    document.getElementById('button_color').value = colors[2];
-                    document.getElementById('background_color').value = colors[3];
-                    document.getElementById('navbar_text_color').value = colors[4];
-                    document.getElementById('text_color').value = colors[5];
+                    document.getElementById('button_color').value = colors[1];
+                    document.getElementById('background_color').value = colors[2];
+                    document.getElementById('text_color').value = colors[3];
+
                     Swal.fire({
-                        title: 'Palet Uygulandı!',
-                        html: 'Palet başarıyla renk alanlarına uygulandı.<br><br>Kaydet butonuna bastığınızda renkler uygulanacaktır.',
+                        title: 'Renk Paleti Seçildi',
+                        text: 'Yeni renkler uygulandı! Kaydet butonuna basarak değişiklikleri kaydedebilirsiniz.',
                         icon: 'success',
                         confirmButtonText: 'Tamam'
                     });
