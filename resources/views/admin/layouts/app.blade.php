@@ -81,7 +81,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
             <div class="app-brand demo">
-                <a href=" class="app-brand-link">
+                <a href="#" class="app-brand-link">
               <span class="app-brand-logo demo">
               </span>
                     <span class="app-brand-text menu-header-text fw-bolder ms-3 ">Çetin İnşaat</span>
@@ -104,6 +104,15 @@
                         <div data-i18n="Analytics">Ana Sayfa</div>
                     </a>
                 </li>
+                <!-- Kullanıcı Yönetimi -->
+
+                <li class="menu-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.users.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bxs-user-account"></i>
+                        <div data-i18n="Users">Kullanıcılar</div>
+                    </a>
+                </li>
+
                 <!-- Sayfa Yönetimi -->
                 <li class="menu-item {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.pages.index') }}" class="menu-link">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,20 +16,29 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('username', 'password');
+        $login = $request->input('username');
+        $password = $request->input('password');
 
-        if (Auth::attempt($credentials)) {
+        $user = User::where('username', $login)
+            ->orWhere('email', $login)
+            ->first();
+
+        if ($user && Auth::attempt(['email' => $user->email, 'password' => $password])) {
             return redirect('admin/');
         }
 
-        return back()->withErrors(['message' => 'Kullanıcı adı veya şifre hatalı']);
+        return back()->with(['error' => 'Kullanıcı adı veya şifre hatalı']);
     }
 
-    public function logout()
+
+    public function logout(Request $request)
     {
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         Auth::logout();
 
         return redirect('/login');
     }
+
 }
 

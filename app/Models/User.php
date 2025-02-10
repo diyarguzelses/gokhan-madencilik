@@ -9,9 +9,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use  HasFactory, SoftDeletes;
+    use  HasFactory;
     protected $fillable = [
         'username',
+        'email',
         'password',
         'is_Admin',
     ];

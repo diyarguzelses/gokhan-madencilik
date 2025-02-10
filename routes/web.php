@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\SectorController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Categories\CategoryController;
 use App\Http\Controllers\Frontend\CommunicationController;
@@ -37,8 +38,15 @@ Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth.admin');
 
 
-
 Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function () {
+
+    // 📌 USERS
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/data', [UserController::class, 'getData'])->name('users.data');
+    Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+    Route::put('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
 
     // 📌 DASHBOARD
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
