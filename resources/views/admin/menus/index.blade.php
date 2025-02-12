@@ -207,7 +207,7 @@
                     data: $(this).serialize(),
                     success: function (response) {
                         $('#menuModal').modal('hide');
-                        table.ajax.reload();
+                       window.location.reload();
                         Swal.fire('Başarılı', response.message, 'success');
                     },
                     error: function () {
@@ -238,7 +238,7 @@
                                 _token: '{{ csrf_token() }}'
                             },
                             success: function (response) {
-                                table.ajax.reload();
+                                window.location.reload();
                                 Swal.fire('Silindi!', response.message, 'success');
                             },
                             error: function () {
