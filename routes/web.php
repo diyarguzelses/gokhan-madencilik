@@ -150,7 +150,6 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
 
 //HomePage Route
 Route::get('/', [HomePageController::class, 'index'])->name('homePage.index');
-Route::get('/index', [HomePageController::class, 'index'])->name('homePage.index');
 
 // Communication Route (Öncelikli)
 Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');
