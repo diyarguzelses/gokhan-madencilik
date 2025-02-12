@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\NewsPageController;
 use App\Http\Controllers\Frontend\ProjectPageController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Settings\SettingsController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,6 +32,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+/*Route::get('/migrate-refresh', function () {
+    try {
+        // Artisan komutunu çalıştır
+        Artisan::call('migrate:fresh --seed');
+
+        // Çıktıyı döndür
+        return '<pre>' . Artisan::output() . '</pre>';
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});*/
 
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
