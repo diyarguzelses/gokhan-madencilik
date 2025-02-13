@@ -234,9 +234,13 @@ h6 {
 }
 
 .header .logo img {
-    width: 200px;
+    width: 250px;
     position: absolute;
-    margin-left: 150px;
+    margin-left: 200px;
+}
+.footer-about img {
+    width: 300px;
+
 }
 
 

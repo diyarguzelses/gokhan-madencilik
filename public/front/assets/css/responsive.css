@@ -33,7 +33,9 @@
     .skw-page__half{
         height: 45vh;
     }
-
+    .header .logo img {
+        width: 180px;
+    }
 
 }
 
@@ -51,6 +53,9 @@
     }
     .skw-page__half{
         height: 45vh;
+    }
+    .header .logo img {
+        width: 180px;
     }
 }
 
