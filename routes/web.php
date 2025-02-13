@@ -43,6 +43,9 @@ use Illuminate\Support\Facades\Route;
         return response()->json(['error' => $e->getMessage()], 500);
     }
 });*/
+// Communication Route (Öncelikli)
+Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');
+Route::post('/communication', [CommunicationController::class, 'sendMessage'])->name('communication.sendMessage');
 
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
@@ -151,9 +154,6 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
 //HomePage Route
 Route::get('/', [HomePageController::class, 'index'])->name('homePage.index');
 
-// Communication Route (Öncelikli)
-Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');
-Route::post('/communication', [CommunicationController::class, 'sendMessage'])->name('communication.sendMessage');
 
 // Projects Route (Öncelikli)
 Route::get('/completedProjects', [ProjectPageController::class, 'completedProjects'])->name('completedProjects.index');
