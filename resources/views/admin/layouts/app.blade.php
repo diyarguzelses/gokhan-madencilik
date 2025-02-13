@@ -34,8 +34,7 @@
 
     <meta name="description" content=""/>
 
-
-    <!-- Favicon -->
+      <!-- Favicon -->
     <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="icon">
     <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="apple-touch-icon">
 
@@ -60,9 +59,8 @@
     <link rel="stylesheet" href="{{asset('/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}"/>
 
     <link rel="stylesheet" href="{{asset('/sneat/assets/vendor/libs/apex-charts/apex-charts.css')}}"/>
-    <link href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
 
     <!-- Page CSS -->
 
@@ -311,8 +309,9 @@
 <!-- build:js assets/vendor/js/core.js -->
 
 <script src="{{asset('/sneat/assets/vendor/libs/jquery/jquery.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
 <script src="{{asset('/sneat/assets/vendor/libs/popper/popper.js')}}"></script>
 <script src="{{asset('/sneat/assets/vendor/js/bootstrap.js')}}"></script>
