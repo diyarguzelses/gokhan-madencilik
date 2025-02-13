@@ -22,7 +22,7 @@
         </div>
         <div class="card-body">
             <table id="pagesTable" class="table table-bordered">
-                <thead>
+                <thead><br>
                 <tr>
                     <th>ID</th>
                     <th>Başlık</th>

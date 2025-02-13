@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <table id="usersTable" class="table table-bordered">
-                <thead>
+                <thead><br>
                 <tr>
                     <th>ID</th>
                     <th>Kullanıcı Adı</th>

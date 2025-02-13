@@ -20,7 +20,7 @@
         </div>
         <div class="card-body">
             <table id="menusTable" class="table table-bordered">
-                <thead>
+                <thead><br>
                 <tr>
                     <th>ID</th>
                     <th>Menü Türü</th>

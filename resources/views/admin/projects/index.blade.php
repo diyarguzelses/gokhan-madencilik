@@ -32,7 +32,7 @@
         <div class="card-body py-3">
             <div class="table-responsive">
                 <table id="projectsTable" class="table table-striped table-bordered">
-                    <thead class="fw-bold text-muted bg-light">
+                    <thead class="fw-bold text-muted bg-light"><br>
                     <tr>
                         <th>#</th>
                         <th>Adı</th>
