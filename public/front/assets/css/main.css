@@ -238,9 +238,8 @@ h6 {
     position: absolute;
     margin-left: 200px;
 }
-.footer-about img {
-    width: 300px;!important;
-
+.footer-img{
+    width: 300px!important;
 }
 
 
