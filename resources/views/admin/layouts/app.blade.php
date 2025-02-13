@@ -34,10 +34,9 @@
 
     <meta name="description" content=""/>
 
-    <!-- DataTables & Bootstrap 5 CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.jqueryui.min.css" integrity="sha512-NaFholmQqRn9rmnWrKWrcr/uob4ZiLo4DjD2TJVEa4XoalLAIehJAE4Okjx/PqQPPSRV3EEIaatHWoT7qtVgeQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Favicon -->
     <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="icon">
     <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="apple-touch-icon">
 
@@ -312,15 +311,8 @@
 <!-- build:js assets/vendor/js/core.js -->
 
 <script src="{{asset('/sneat/assets/vendor/libs/jquery/jquery.js')}}"></script>
-<!-- jQuery (Önce jQuery yüklenmeli) -->
-
-<!-- DataTables & Bootstrap 5 JS -->
-<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
-
-<!-- Responsive Eklentisi (Mobil Uyum İçin) -->
-<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.dataTables.min.js"></script>
 
 <script src="{{asset('/sneat/assets/vendor/libs/popper/popper.js')}}"></script>
 <script src="{{asset('/sneat/assets/vendor/js/bootstrap.js')}}"></script>
