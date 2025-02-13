@@ -34,7 +34,9 @@
 
     <meta name="description" content=""/>
 
-      <!-- Favicon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.jqueryui.min.css" integrity="sha512-NaFholmQqRn9rmnWrKWrcr/uob4ZiLo4DjD2TJVEa4XoalLAIehJAE4Okjx/PqQPPSRV3EEIaatHWoT7qtVgeQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Favicon -->
     <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="icon">
     <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="apple-touch-icon">
 
@@ -60,7 +62,7 @@
 
     <link rel="stylesheet" href="{{asset('/sneat/assets/vendor/libs/apex-charts/apex-charts.css')}}"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
 
     <!-- Page CSS -->
 
@@ -309,9 +311,8 @@
 <!-- build:js assets/vendor/js/core.js -->
 
 <script src="{{asset('/sneat/assets/vendor/libs/jquery/jquery.js')}}"></script>
-
-<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.dataTables.min.js"></script>
 
 <script src="{{asset('/sneat/assets/vendor/libs/popper/popper.js')}}"></script>
 <script src="{{asset('/sneat/assets/vendor/js/bootstrap.js')}}"></script>
