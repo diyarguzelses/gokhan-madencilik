@@ -311,7 +311,8 @@
 <!-- build:js assets/vendor/js/core.js -->
 
 <script src="{{asset('/sneat/assets/vendor/libs/jquery/jquery.js')}}"></script>
-<script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.dataTables.min.js"></script>
 
 <script src="{{asset('/sneat/assets/vendor/libs/popper/popper.js')}}"></script>
 <script src="{{asset('/sneat/assets/vendor/js/bootstrap.js')}}"></script>
