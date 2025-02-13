@@ -26,7 +26,7 @@ class CommunicationController extends Controller
                 'email.required' => 'E-mail zorunludur',
                 'email.email' => 'Geçerli bir e-mail adresi giriniz',
                 'message.required' => 'Mesaj alanı zorunludur',
-                'message.max' => 'Mesaj Maximum 255 karakter olmalıdır',
+                'message.max' => 'Mesaj maksimum 255 karakter olmalıdır',
             ]);
 
         $emailData = [
@@ -49,11 +49,16 @@ class CommunicationController extends Controller
                 }
             );
 
+            return response()->json([
+                'success' => true,
+                'message' => 'Mesaj başarıyla gönderildi.'
+            ], 200);
 
-
-            return response()->json(['Success' => 'Mesaj başarıyla gönderildi.']);
         } catch (\Exception $e) {
-            return response()->json(['Error' => 'Mesaj gönderilemedi: ' . $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Mesaj gönderilemedi: ' . $e->getMessage()
+            ], 500);
         }
     }
 }
