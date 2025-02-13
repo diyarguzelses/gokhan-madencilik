@@ -217,7 +217,10 @@
                         <!-- Place this tag where you want the button to render. -->
 
 
-                        <!-- User -->
+                        <a href="{{ route('homePage.index') }}" style="display: inline-block; padding: 10px 20px; background: linear-gradient(45deg, #007BFF, #0056b3); color: white; text-decoration: none; font-weight: bold; border-radius: 8px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); transition: all 0.3s ease-in-out;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            Siteyi Gör
+                        </a>
+
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                data-bs-toggle="dropdown">
@@ -226,6 +229,7 @@
                                          class="w-px-40 h-auto rounded-circle"/>
                                 </div>
                             </a>
+
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
                                     <a class="dropdown-item" href="#">
