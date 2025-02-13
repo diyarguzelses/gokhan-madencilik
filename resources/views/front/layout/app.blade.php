@@ -84,7 +84,7 @@
 
         <a href="{{route('homePage.index')}}" class="logo d-flex align-items-center justify-content-center ">
             <!-- Uncomment the line below if you also wish to use an image logo -->
-            <img src="{{asset('front/assets/img/logo2.jpeg')}}" class="" style="" alt="">
+            <img src="{{asset('front/assets/img/logo3.png')}}" class="" style="" alt="">
             {{--            <h1 class="sitename pt-5">Mentor</h1>--}}
         </a>
         <nav id="navmenu" class="navmenu">
@@ -152,7 +152,7 @@
             <div class="col-lg-4 col-md-6 footer-about">
                 <a href="{{route('homePage.index')}}" class=" " >
                     <!-- Uncomment the line below if you also wish to use an image logo -->
-                    <img src="{{asset('front/assets/img/logo2.jpeg')}}" class="footer-img" style="" alt="">
+                    <img src="{{asset('front/assets/img/logo3.png')}}" class="footer-img" style="" alt="">
                     {{--            <h1 class="sitename pt-5">Mentor</h1>--}}
                 </a>
                 <div class="social-links d-flex m-4 ">
@@ -168,7 +168,7 @@
                     <h4>{{ $menu->name }}</h4>
                     <ul>
                         @foreach($menu->children as $submenu)
-                            <li><a href="{{ $submenu->url }}"><i class="fa-solid fa-angle-right"></i>{{ $submenu->name }}</a></li>
+                            <li><a href="{{ $submenu->url ?? ($submenu->page_id ? route('menu.handle', $submenu->name) : '#') }}"><i class="fa-solid fa-angle-right"></i>{{ $submenu->name }}</a></li>
                         @endforeach
                     </ul>
                 </div>
