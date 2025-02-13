@@ -63,7 +63,7 @@
 
                 <div class="col-lg-6 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up"
                      data-aos-delay="200">
-                    <h3 style="color: var(--accent-color)">1990 <br> yılından bu yanabüyüyen güç</h3>
+                    <h3 style="color: var(--accent-color)">1990 <br> yılından bu yana büyüyen güç</h3>
                     <ul class="istatistic ">
                         <ul class="row">
                             <li class="col-lg-6">
