@@ -16,7 +16,6 @@ class CommunicationController extends Controller
 
     public function sendMessage(Request $request)
     {
-        dd($request->all(),env('MAIL_TO_ADDRESS'));
         $validateData = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -56,6 +55,7 @@ class CommunicationController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Mesaj gönderilemedi: ' . $e->getMessage()
