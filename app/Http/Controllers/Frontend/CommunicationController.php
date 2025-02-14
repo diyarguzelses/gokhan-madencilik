@@ -16,6 +16,7 @@ class CommunicationController extends Controller
 
     public function sendMessage(Request $request)
     {
+        dd($request->all(),env('MAIL_TO_ADDRESS'));
         $validateData = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
