@@ -39,10 +39,10 @@ class CommunicationController extends Controller
             Mail::raw(
                 "Gönderen: {$emailData['name']} ({$emailData['email']})\n\nMesaj:\n{$emailData['messageContent']}",
                 function ($message) use ($emailData) {
-                    $toAddress = env('MAIL_TO_ADDRESS');
+                    $toAddress = config('mail.to_address'); // env yerine config'den çekiyoruz
                     $message->to($toAddress)
                         ->subject('Yeni İletişim Mesajı')
-                        ->from($emailData['email'], $emailData['name']);
+                        ->from(config('mail.from.address'), config('mail.from.name')); // Gönderen olarak sistem mailini kullanıyoruz
                 }
             );
 
