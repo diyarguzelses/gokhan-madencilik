@@ -44,9 +44,9 @@ use Illuminate\Support\Facades\Route;
     }
 });*/
 // Communication Route (Öncelikli)
-Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');
-Route::post('/communication', [CommunicationController::class, 'sendMessage'])->name('communication.sendMessage');
 
+Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');
+Route::post('/sendMessage', [CommunicationController::class, 'sendMessage'])->name('communication.sendMessage');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
