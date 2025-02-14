@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Communications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class CommunicationController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('front.communication.index');
     }
-
 
     public function sendMessage(Request $request)
     {
@@ -20,14 +19,13 @@ class CommunicationController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'message' => 'required|max:255',
-        ],
-            [
-                'name.required' => 'İsim zorunludur',
-                'email.required' => 'E-mail zorunludur',
-                'email.email' => 'Geçerli bir e-mail adresi giriniz',
-                'message.required' => 'Mesaj alanı zorunludur',
-                'message.max' => 'Mesaj maksimum 255 karakter olmalıdır',
-            ]);
+        ], [
+            'name.required' => 'İsim zorunludur',
+            'email.required' => 'E-mail zorunludur',
+            'email.email' => 'Geçerli bir e-mail adresi giriniz',
+            'message.required' => 'Mesaj alanı zorunludur',
+            'message.max' => 'Mesaj maksimum 255 karakter olmalıdır',
+        ]);
 
         $emailData = [
             'name' => $validateData['name'],
@@ -35,14 +33,26 @@ class CommunicationController extends Controller
             'messageContent' => $validateData['message'],
         ];
 
+        // E-posta ayarlarını direkt burada tanımlıyoruz
+        $smtpConfig = [
+            'to_address' => 'cetinsaat.23@gmail.com',
+            'from_address' => 'cetinsaat.23@gmail.com',
+            'from_name' => 'Çetin İnşaat',
+            'smtp_host' => 'smtp.gmail.com',
+            'smtp_port' => 587,
+            'smtp_encryption' => 'tls',
+            'smtp_username' => 'cetinsaat.23@gmail.com',
+            'smtp_password' => 'faev kodo fqqs oqsg', // DİKKAT: Bunu kodda tutmak güvenlik açısından risklidir!
+        ];
+
         try {
             Mail::raw(
                 "Gönderen: {$emailData['name']} ({$emailData['email']})\n\nMesaj:\n{$emailData['messageContent']}",
-                function ($message) use ($emailData) {
-                    $toAddress = config('mail.to_address'); // env yerine config'den çekiyoruz
-                    $message->to($toAddress)
+                function ($message) use ($emailData, $smtpConfig) {
+                    $message->to($smtpConfig['to_address'])
                         ->subject('Yeni İletişim Mesajı')
-                        ->from(config('mail.from.address'), config('mail.from.name')); // Gönderen olarak sistem mailini kullanıyoruz
+                        ->from($smtpConfig['from_address'], $smtpConfig['from_name'])
+                        ->replyTo($emailData['email'], $emailData['name']); // Kullanıcının mailini yanıt olarak belirtiyoruz
                 }
             );
 
