@@ -42,7 +42,7 @@ class CommunicationController extends Controller
             'smtp_port' => 587,
             'smtp_encryption' => 'tls',
             'smtp_username' => 'cetinsaat.23@gmail.com',
-            'smtp_password' => 'faev kodo fqqs oqsg', // DİKKAT: Bunu kodda tutmak güvenlik açısından risklidir!
+            'smtp_password' => 'faevkodofqqsoqsg',
         ];
 
         try {
