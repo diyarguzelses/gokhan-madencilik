@@ -40,9 +40,6 @@ class CommunicationController extends Controller
                 "Gönderen: {$emailData['name']} ({$emailData['email']})\n\nMesaj:\n{$emailData['messageContent']}",
                 function ($message) use ($emailData) {
                     $toAddress = env('MAIL_TO_ADDRESS');
-                    if (!$toAddress) {
-                        throw new \Exception("MAIL_TO_ADDRESS .env dosyasında tanımlı değil!");
-                    }
                     $message->to($toAddress)
                         ->subject('Yeni İletişim Mesajı')
                         ->from($emailData['email'], $emailData['name']);
@@ -55,7 +52,6 @@ class CommunicationController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
-            dd($e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Mesaj gönderilemedi: ' . $e->getMessage()
