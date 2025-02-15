@@ -314,7 +314,12 @@
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
 
-<script src="{{asset('/sneat/assets/vendor/libs/jquery/jquery.js')}}"></script>
+<!-- jQuery (önce yükleyin) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- jQuery UI JS -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.dataTables.min.js"></script>
 

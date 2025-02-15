@@ -92,6 +92,9 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::get('/{id}/edit', [MenuController::class, 'edit'])->name('edit');
         Route::put('/{id}', [MenuController::class, 'update'])->name('update');
         Route::delete('/{id}', [MenuController::class, 'destroy'])->name('destroy');
+        Route::post('/update-order', [MenuController::class, 'updateOrder'])
+            ->name('updateOrder');
+
     });
 
     // 📌 KATEGORİLER

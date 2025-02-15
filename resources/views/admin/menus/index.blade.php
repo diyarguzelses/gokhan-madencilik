@@ -20,8 +20,9 @@
         </div>
         <div class="card-body">
             <table id="menusTable" class="table table-bordered">
-                <thead><br>
+                <thead>
                 <tr>
+                    <th>Sıra</th>
                     <th>ID</th>
                     <th>Menü Türü</th>
                     <th>Adı</th>
@@ -32,6 +33,7 @@
                 </thead>
                 <tbody></tbody>
             </table>
+
         </div>
     </div>
 
@@ -115,6 +117,7 @@
 @section('script')
     <script>
         $(document).ready(function () {
+            // DataTable tanımlaması
             let table = $('#menusTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -123,19 +126,89 @@
                     url: "{{ asset('assets/datatables/turkish.json') }}"
                 },
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'menu_type', name: 'menu_type'},
-                    {data: 'name', name: 'name'},
-                    {
-                        data: 'linked_content',
-                        name: 'linked_content',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {data: 'is_active', name: 'is_active'},
-                    {data: 'actions', name: 'actions', orderable: false, searchable: false}
+                    { data: 'order_number', name: 'order_number' },
+                    { data: 'id', name: 'id' },
+                    { data: 'menu_type', name: 'menu_type' },
+                    { data: 'name', name: 'name' },
+                    { data: 'linked_content', name: 'linked_content', orderable: false, searchable: false },
+                    { data: 'is_active', name: 'is_active' },
+                    { data: 'actions', name: 'actions', orderable: false, searchable: false }
                 ]
             });
+
+            // DataTable her çizildiğinde her satıra data-id attribute'u ekleyelim
+            table.on('draw.dt', function() {
+                $('#menusTable tbody tr').each(function() {
+                    var data = table.row(this).data();
+                    if (data && data.id) {
+                        $(this).attr('data-id', data.id);
+                    } else {
+                        console.warn("Bu satırda id bulunamadı:", data);
+                    }
+                });
+            });
+
+            // jQuery UI Sortable: Menü sıralamasını etkinleştiriyoruz
+            $("#menusTable tbody").sortable({
+                helper: function(e, tr) {
+                    // Her hücrenin genişliğini sabit tutuyoruz
+                    tr.children().each(function() {
+                        $(this).width($(this).width());
+                    });
+                    return tr;
+                },
+                update: function(event, ui) {
+                    let orders = [];
+                    $("#menusTable tbody tr").each(function(index, element) {
+                        let menuId = $(element).attr('data-id');
+                        if (menuId) {
+                            // index + 1 kullanarak sıralama 1'den başlasın
+                            orders.push({ id: menuId, order: index + 1 });
+                        }
+                    });
+                    console.log("Gönderilen orders:", orders);
+
+                    // Eğer orders dizisi boşsa uyarı verelim
+                    if (orders.length === 0) {
+                        Swal.fire({
+                            title: 'Uyarı',
+                            text: 'Sıralanacak menü öğesi bulunamadı.',
+                            icon: 'warning'
+                        });
+                        return;
+                    }
+
+                    // AJAX isteği: Veriyi JSON formatında gönderiyoruz
+                    $.ajax({
+                        url: "{{ route('admin.menus.updateOrder') }}",
+                        method: "POST",
+                        data: JSON.stringify({
+                            _token: "{{ csrf_token() }}",
+                            orders: orders
+                        }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'Başarılı',
+                                text: response.message,
+                                icon: 'success'
+                            }).then(function() {
+                                table.ajax.reload();
+                            });
+                        },
+                        error: function() {
+                            Swal.fire({
+                                title: 'Hata',
+                                text: 'Menü sırası güncellenirken bir hata oluştu.',
+                                icon: 'error'
+                            });
+                        }
+                    });
+                }
+            });
+
+            // -- Aşağıda diğer CRUD işlemleri için mevcut kodlar yer alıyor --
 
             // Menü Tipine Göre Alanları Göster/Gizle
             $('#menu_type').change(function () {
@@ -147,7 +220,7 @@
                 }
             });
 
-            // URL ve Bağlı Sayfa Kontrolü
+            // URL ve Bağlı Sayfa Kontrolü: Aynı anda ikisini seçmeyi engelle
             $('#url, #page_id').on('input change', function () {
                 if ($(this).attr('id') === 'url' && $(this).val().trim() !== '') {
                     $('#page_id').val('');
@@ -163,10 +236,9 @@
                 $('#menuModal').modal('show');
             });
 
-            // Menü Düzenleme
+            // Menü Düzenleme İşlemi
             $(document).on('click', '.edit-menu', function () {
                 let menuId = $(this).data('id');
-
                 $.get(`/admin/menus/${menuId}/edit`, function (data) {
                     $('#menu_id').val(data.id);
                     $('#name').val(data.name);
@@ -179,7 +251,7 @@
                 });
             });
 
-            // Menü Kaydetme & Güncelleme
+            // Menü Kaydetme & Güncelleme İşlemi
             $('#menuForm').submit(function (e) {
                 e.preventDefault();
 
@@ -187,7 +259,7 @@
                 let url = $('#url').val().trim();
                 let pageId = $('#page_id').val();
 
-                // Kullanıcı hem URL hem de bağlı sayfa seçmişse uyarı ver
+                // Hem URL hem de bağlı sayfa seçilmişse uyarı verelim
                 if (url !== '' && pageId !== '') {
                     Swal.fire({
                         icon: 'warning',
@@ -195,7 +267,7 @@
                         text: 'Lütfen ya URL ya da Bağlı Sayfa seçiniz. İkisini aynı anda seçemezsiniz.',
                         confirmButtonText: 'Tamam',
                     });
-                    return; // Formu durdur
+                    return;
                 }
 
                 let requestUrl = menuId ? `/admin/menus/${menuId}` : '/admin/menus';
@@ -207,8 +279,9 @@
                     data: $(this).serialize(),
                     success: function (response) {
                         $('#menuModal').modal('hide');
-                       window.location.reload();
-                        Swal.fire('Başarılı', response.message, 'success');
+                        Swal.fire('Başarılı', response.message, 'success').then(function() {
+                            window.location.reload();
+                        });
                     },
                     error: function () {
                         Swal.fire('Hata', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
@@ -216,10 +289,9 @@
                 });
             });
 
-            // Menü Silme
+            // Menü Silme İşlemi
             $(document).on('click', '.delete-menu', function () {
                 let menuId = $(this).data('id');
-
                 Swal.fire({
                     title: 'Emin misiniz?',
                     text: "Bu menüyü silmek istediğinize emin misiniz?",
@@ -238,8 +310,9 @@
                                 _token: '{{ csrf_token() }}'
                             },
                             success: function (response) {
-                                window.location.reload();
-                                Swal.fire('Silindi!', response.message, 'success');
+                                Swal.fire('Silindi!', response.message, 'success').then(function() {
+                                    window.location.reload();
+                                });
                             },
                             error: function () {
                                 Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
