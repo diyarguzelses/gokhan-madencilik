@@ -14,17 +14,16 @@ class DefaultPageController extends Controller
 
     public function handleMenu($slug)
     {
-
-        $menu = Menu::where('name', $slug)->where('is_active', 1)->firstOrFail();
-
-
+        $menu = Menu::where('name', $slug)
+            ->where('is_active', 1)
+            ->firstOrFail();
 
         if (!empty($menu->url)) {
             return redirect($menu->url);
         }
 
         if ($menu->page_id) {
-            $page = Page::where('id', $menu->page_id)->firstOrFail();
+            $page = Page::with('images')->findOrFail($menu->page_id);
 
             $content = $page->content;
             $words = explode(' ', $content);
@@ -33,7 +32,10 @@ class DefaultPageController extends Controller
             $part1 = implode(' ', array_slice($words, 0, $half));
             $part2 = implode(' ', array_slice($words, $half));
 
-            return view('front.defaultPage.index', compact('part1', 'part2','page'));
+            $image1 = $page->images->first();
+            $image2 = $page->images->skip(1)->first();
+
+            return view('front.defaultPage.index', compact('part1', 'part2', 'page', 'image1', 'image2'));
         }
 
         return redirect('/');

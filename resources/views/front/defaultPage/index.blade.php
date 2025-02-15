@@ -26,35 +26,35 @@
     <section id="about-us" class="section about-us">
 
         <div class="container">
-
             <div class="row gy-4">
-
                 <div class="col-lg-5 order-1 order-lg-2 aos-init aos-animate default_img2" data-aos="fade-up" data-aos-delay="100">
                     <div class="image-container">
-                        <img src="{{asset($page->image)}}" class="img-fluid" alt="">
+                        @if($image1)
+                            <img src="{{ asset($image1->image) }}" class="img-fluid" alt="">
+                        @endif
                     </div>
                 </div>
 
                 <div class="col-lg-6 order-2 order-lg-1 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
-                    <h3>{{$page->title}}</h3>
+                    <h3>{{ $page->title }}</h3>
                     <p class="fst-italic">
-                        {{$part1}}
+                        {{ $part1 }}
                     </p>
                 </div>
-
             </div>
-            <div class="row gy-4 mt-3">
 
-                <div class="col-lg-5 order-1 order-lg-1 aos-init aos-animate default_img" data-aos="fade-up" data-aos-delay="100" >
-                    <img src="{{asset($page->image)}}" class="img-fluid" alt="" style="margin-bottom: 30px">
+            <div class="row gy-4 mt-3">
+                <div class="col-lg-5 order-1 order-lg-1 aos-init aos-animate default_img" data-aos="fade-up" data-aos-delay="100">
+                    @if($image2)
+                        <img src="{{ asset($image2->image) }}" class="img-fluid" alt="" style="margin-bottom: 30px">
+                    @endif
                 </div>
 
                 <div class="col-lg-6 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
                     <p class="fst-italic">
-                       {{$part2}}
+                        {{ $part2 }}
                     </p>
                 </div>
-
             </div>
         </div>
 

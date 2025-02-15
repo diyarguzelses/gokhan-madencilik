@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Page extends Model
+class PageImage extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $fillable = ['page_id', 'image'];
 
-    protected $fillable = ['title', 'content', 'image', 'status'];
-
-    public function images()
+    public function page()
     {
-        return $this->hasMany(PageImage::class);
+        return $this->belongsTo(Page::class);
     }
 }

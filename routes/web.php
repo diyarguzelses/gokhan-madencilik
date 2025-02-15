@@ -79,6 +79,9 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::get('/{id}/edit', [PageController::class, 'edit'])->name('edit');
         Route::put('/{id}', [PageController::class, 'update'])->name('update');
         Route::delete('/{id}', [PageController::class, 'destroy'])->name('destroy');
+        Route::delete('/page-images/{id}', [PageController::class, 'deleteImage'])
+            ->name('deleteImage');
+
     });
 
     // 📌 MENÜ YÖNETİMİ
