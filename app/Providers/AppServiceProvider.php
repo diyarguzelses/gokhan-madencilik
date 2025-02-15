@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
             config(['app.settings' => $settings]);
         }
         if (Schema::hasTable('menus')) {
-            $menus = Menu::where('is_active', 1)->whereNull('parent_id')->with('children')->orderBy('order')->get();
+            $menus = Menu::where('is_active', 1)->whereNull('parent_id')->with('children')->orderBy('order','asc')->get();
             View::share('menus', $menus);
         }
         if (Schema::hasTable('menus')) {

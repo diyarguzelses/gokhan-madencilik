@@ -19,15 +19,19 @@ class Menu extends Model
         'order',
     ];
 
-    public function parent() {
+    public function parent()
+    {
         return $this->belongsTo(Menu::class, 'parent_id');
     }
 
-    public function children() {
-        return $this->hasMany(Menu::class, 'parent_id');
+    public function children()
+    {
+        return $this->hasMany(Menu::class, 'parent_id')->orderBy('order', 'asc');
     }
 
-    public function page() {
+    public function page()
+    {
         return $this->belongsTo(Page::class);
     }
 }
+
