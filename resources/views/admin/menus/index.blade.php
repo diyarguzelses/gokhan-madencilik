@@ -11,6 +11,9 @@
             <li>Mevcut menüleri düzenlemek için <strong>"Düzenle"</strong>, silmek için <strong>"Sil"</strong> butonlarını kullanabilirsiniz.</li>
         </ul>
     </div>
+    <div class="alert alert-primary">
+        <strong>Bilgi:</strong> Menü sırasını değiştirmek için satırları tutup sürükleyebilirsiniz.
+    </div>
     <div class="card">
         <div class="card-header bg-primary text-white d-flex justify-content-between"  style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px 10px 0 0;">
             <span class="fw-bold fs-5">Menü Yönetimi</span>
