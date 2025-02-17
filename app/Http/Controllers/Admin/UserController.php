@@ -15,23 +15,54 @@ class UserController extends Controller
         return view('admin.users.index');
     }
 
+//    public function getData(Request $request)
+//    {
+//        if ($request->ajax()) {
+//            $users = User::query();
+//            return DataTables::of($users)
+//                ->addColumn('role', function ($user) {
+//                    return $user->is_Admin ? '<span class="badge bg-success">Admin</span>' : '<span class="badge bg-secondary">Kullanıcı</span>';
+//                })
+//                ->addColumn('actions', function ($user) {
+//                    return '<button class="btn btn-sm btn-warning edit-user"
+//                                data-id="' . $user->id . '"
+//                                data-username="' . $user->username . '"
+//                                data-email="' . $user->email . '"
+//                                data-role="' . $user->is_Admin . '">
+//                                <i class="bi bi-pencil"></i> Düzenle</button>
+//                            <button class="btn btn-sm btn-danger delete-user" data-id="' . $user->id . '">
+//                                <i class="bi bi-trash"></i> Sil</button>';
+//                })
+//                ->rawColumns(['role', 'actions'])
+//                ->make(true);
+//        }
+//    }
+
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::query();
-            return DataTables::of($users)
+            $query = User::query();
+
+            if (!empty($request->input('search')['value'])) {
+                $searchValue = $request->input('search')['value'];
+                $query->where('username', 'like', "%{$searchValue}%")
+                    ->orWhere('email', 'like', "%{$searchValue}%")
+                    ->orWhereRaw("IF(is_Admin = 1, 'Admin', 'Kullanıcı') LIKE ?", ["%{$searchValue}%"]);
+            }
+
+            return DataTables::of($query)
                 ->addColumn('role', function ($user) {
                     return $user->is_Admin ? '<span class="badge bg-success">Admin</span>' : '<span class="badge bg-secondary">Kullanıcı</span>';
                 })
                 ->addColumn('actions', function ($user) {
                     return '<button class="btn btn-sm btn-warning edit-user"
-                                data-id="' . $user->id . '"
-                                data-username="' . $user->username . '"
-                                data-email="' . $user->email . '"
-                                data-role="' . $user->is_Admin . '">
-                                <i class="bi bi-pencil"></i> Düzenle</button>
-                            <button class="btn btn-sm btn-danger delete-user" data-id="' . $user->id . '">
-                                <i class="bi bi-trash"></i> Sil</button>';
+                            data-id="' . $user->id . '"
+                            data-username="' . $user->username . '"
+                            data-email="' . $user->email . '"
+                            data-role="' . $user->is_Admin . '">
+                            <i class="bi bi-pencil"></i> Düzenle</button>
+                        <button class="btn btn-sm btn-danger delete-user" data-id="' . $user->id . '">
+                            <i class="bi bi-trash"></i> Sil</button>';
                 })
                 ->rawColumns(['role', 'actions'])
                 ->make(true);

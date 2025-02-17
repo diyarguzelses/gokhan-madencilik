@@ -88,7 +88,7 @@
                         searchable: false,
                         render: function (data) {
                             return `
-                               <div class="d-flex align-content-center justify-content-between gap-2">
+                               <div class="d-flex align-content-center gap-2">
                                <button class="btn btn-primary btn-sm edit-sector"
                                     data-id="${data.id}"
                                     data-name="${data.name}"

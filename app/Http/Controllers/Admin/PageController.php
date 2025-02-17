@@ -13,16 +13,61 @@ class PageController extends Controller {
         return view('admin.pages.index');
     }
 
-    public function getData() {
-        $pages = Page::with('images')->orderBy('created_at', 'desc');
+//    public function getData() {
+//        $pages = Page::with('images')->orderBy('created_at', 'desc');
+//
+//        return DataTables::of($pages)
+//            ->addColumn('actions', fn ($page) => '
+//            <button class="btn btn-sm btn-warning edit-page" data-id="' . $page->id . '">Düzenle</button>
+//            <button class="btn btn-sm btn-danger delete-page" data-id="' . $page->id . '">Sil</button>
+//        ')
+//            ->editColumn('image', function ($page) {
+//                // İlk görseli gösterelim, yoksa "Yok" yazalım
+//                return ($page->images->first())
+//                    ? '<img src="/' . $page->images->first()->image . '" class="img-thumbnail" width="50">'
+//                    : 'Yok';
+//            })
+//            ->rawColumns(['actions', 'image'])
+//            ->make(true);
+//    }
 
-        return DataTables::of($pages)
-            ->addColumn('actions', fn ($page) => '
-            <button class="btn btn-sm btn-warning edit-page" data-id="' . $page->id . '">Düzenle</button>
-            <button class="btn btn-sm btn-danger delete-page" data-id="' . $page->id . '">Sil</button>
-        ')
+
+
+    public function getData(Request $request)
+    {
+        $query = Page::with('images');
+
+
+        if ($request->has('order')) {
+            $order        = $request->input('order')[0];
+            $columnIndex  = $order['column'];
+            $sortDirection= $order['dir'];
+            $columnName   = $request->input('columns')[$columnIndex]['name'];
+
+            if (in_array($columnName, ['id','title','content','created_at'])) {
+                $query->orderBy($columnName, $sortDirection);
+            } else {
+                $query->orderBy('created_at', 'desc');
+            }
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+
+        if (!empty($request->input('search')['value'])) {
+            $searchValue = $request->input('search')['value'];
+            $query->where('title', 'like', "%{$searchValue}%")
+                ->orWhere('content', 'like', "%{$searchValue}%");
+        }
+
+        return DataTables::of($query)
+            ->addColumn('actions', function ($page) {
+                return '
+                <button class="btn btn-sm btn-warning edit-page" data-id="' . $page->id . '">Düzenle</button>
+                <button class="btn btn-sm btn-danger delete-page" data-id="' . $page->id . '">Sil</button>
+            ';
+            })
             ->editColumn('image', function ($page) {
-                // İlk görseli gösterelim, yoksa "Yok" yazalım
                 return ($page->images->first())
                     ? '<img src="/' . $page->images->first()->image . '" class="img-thumbnail" width="50">'
                     : 'Yok';
@@ -30,6 +75,7 @@ class PageController extends Controller {
             ->rawColumns(['actions', 'image'])
             ->make(true);
     }
+
 
     public function store(Request $request)
     {
