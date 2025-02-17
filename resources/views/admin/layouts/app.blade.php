@@ -37,8 +37,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.jqueryui.min.css" integrity="sha512-NaFholmQqRn9rmnWrKWrcr/uob4ZiLo4DjD2TJVEa4XoalLAIehJAE4Okjx/PqQPPSRV3EEIaatHWoT7qtVgeQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Favicon -->
-    <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="icon">
-    <link href="{{asset('front/assets/img/favicon_1.png')}}" rel="apple-touch-icon">
+    <link href="{{asset('front/assets/img/favicon_2.png')}}" rel="icon">
+    <link href="{{asset('front/assets/img/favicon_2.png')}}" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
