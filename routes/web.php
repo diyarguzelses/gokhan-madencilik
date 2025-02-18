@@ -142,6 +142,7 @@ Route::prefix('FT23BA23DG12')->middleware('auth.admin')->name('admin.')->group(f
         Route::delete('/{id}', [NewsController::class, 'destroy'])->name('destroy');
         Route::delete('/delete-image/{id}', [NewsController::class, 'deleteImage'])->name('admin.news.deleteImage');
         Route::post('/update-order', [NewsController::class, 'updateOrder'])->name('news-updateOrder');
+        Route::post('/toggle-frontpage/{id}', [NewsController::class, 'toggleFrontpage']) ->name('toggleFrontpage');
 
     });
 

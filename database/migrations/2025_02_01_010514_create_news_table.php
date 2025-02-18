@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('content');
             $table->string('image')->nullable();
             $table->integer('order');
+            $table->boolean('frontpage')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

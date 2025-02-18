@@ -13,6 +13,15 @@
         </ul>
     </div>
 
+    <div class="alert alert-primary mt-2">
+        <h5>Ek bilgi</h5>
+        <p>
+            Yeşil arka plan, anasayfada gösterilen haberi ifade eder. Aynı zamanda haberleri sürükleyerek
+            sıralayabilir, düzenleyebilir veya silebilirsiniz.
+        </p>
+
+    </div>
+
     <div class="card">
         <div class="card-header bg-primary text-white d-flex justify-content-between" style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px 10px 0 0;">
             <span class="fw-bold fs-5">Haberler</span>
@@ -115,7 +124,13 @@
                     },
                     { data: 'image', name: 'image', orderable: false, searchable: false },
                     { data: 'actions', name: 'actions', orderable: false, searchable: false }
-                ]
+                ],
+                createdRow: function (row, data, dataIndex) {
+                    if (data.frontpage) {
+                        $(row).find('td').not(':last-child').css('background-color', '#90ee90');
+                    }
+                }
+
             });
 
             // Her çizimde satırlara data-id attribute ekleyelim
@@ -275,7 +290,6 @@
                 reader.readAsDataURL(this.files[0]);
             });
 
-            // Haber Görselini Silme (Çarpı simgesine tıklandığında)
             $(document).on('click', '#deleteNewsImageIcon', function () {
                 let newsId = $(this).data('id');
                 $.ajax({
@@ -298,5 +312,29 @@
                 });
             });
         });
+        $(document).on('click', '.toggle-frontpage', function () {
+            let newsId = $(this).data('id');
+            let button = $(this);
+
+            $.ajax({
+                url: `/FT23BA23DG12/news/toggle-frontpage/${newsId}`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire('Başarılı', response.message, 'success');
+                        $('#newsTable').DataTable().ajax.reload(null, false);
+                    } else {
+                        Swal.fire('Hata!', response.message, 'error');
+                    }
+                },
+                error: function () {
+                    Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+                }
+            });
+        });
+
     </script>
 @endsection
