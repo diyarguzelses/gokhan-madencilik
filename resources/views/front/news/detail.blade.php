@@ -37,7 +37,7 @@
             <div class="col-lg-6 order-2 order-lg-1 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
                 <div class="d-flex align-items-center justify-content-between">
                     <h2 style="color: var(--accent-color)">
-                        <a href="{{route('news.detail', $new->slug)}}" style="text-decoration: none; color: inherit;">
+                        <a href="{{route('news.detail', $news->slug)}}" style="text-decoration: none; color: inherit;">
                             {{ $news->title }}
                         </a>
                     </h2>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <p class="fst-italic">
-                    <a href="{{route('news.detail', $new->slug)}}" style="text-decoration: none; color: inherit;">
+                    <a href="{{route('news.detail', $news->slug)}}" style="text-decoration: none; color: inherit;">
                         <span>{!! $news->content !!}</span>
                     </a>
                 </p>
