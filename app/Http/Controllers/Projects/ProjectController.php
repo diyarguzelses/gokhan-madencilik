@@ -15,7 +15,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::with('category')->get();
+        $projects = Project::with('category')->orderBy('order')->get();
         return view('admin.projects.index', compact('projects'));
     }
 
