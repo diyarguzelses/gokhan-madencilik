@@ -242,7 +242,7 @@
             // Menü Düzenleme İşlemi
             $(document).on('click', '.edit-menu', function () {
                 let menuId = $(this).data('id');
-                $.get(`/admin/menus/${menuId}/edit`, function (data) {
+                $.get(`/FT23BA23DG12/menus/${menuId}/edit`, function (data) {
                     $('#menu_id').val(data.id);
                     $('#name').val(data.name);
                     $('#url').val(data.url);
@@ -273,7 +273,7 @@
                     return;
                 }
 
-                let requestUrl = menuId ? `/admin/menus/${menuId}` : '/admin/menus';
+                let requestUrl = menuId ? `/FT23BA23DG12/menus/${menuId}` : '/FT23BA23DG12/menus';
                 let method = menuId ? 'PUT' : 'POST';
 
                 $.ajax({

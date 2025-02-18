@@ -13,18 +13,29 @@ class SectorController extends Controller {
     }
 
     public function getData() {
-        $sectors = Sector::select(['id', 'name', 'text', 'image']);
+        $sectors = Sector::select(['id', 'name', 'text', 'image', 'order']);
 
         return DataTables::of($sectors)
+            ->editColumn('order', function ($sector) {
+                return $sector->order;
+            })
             ->addColumn('actions', function ($sector) {
                 return '
-                    <button class="btn btn-primary btn-sm edit-sector" data-id="'.$sector->id.'" data-name="'.$sector->name.'" data-text="'.$sector->text.'">Düzenle</button>
-                    <button class="btn btn-danger btn-sm delete-sector" data-id="'.$sector->id.'">Sil</button>
-                ';
+                <button class="btn btn-primary btn-sm edit-sector"
+                    data-id="'.$sector->id.'"
+                    data-name="'.$sector->name.'"
+                    data-text="'.$sector->text.'">
+                    Düzenle
+                </button>
+                <button class="btn btn-danger btn-sm delete-sector" data-id="'.$sector->id.'">
+                    Sil
+                </button>
+            ';
             })
             ->rawColumns(['actions'])
             ->make(true);
     }
+
 
     public function store(Request $request) {
         $request->validate([
@@ -39,10 +50,14 @@ class SectorController extends Controller {
             $request->image->move(public_path('uploads/sectors'), $imageName);
         }
 
+        $maxOrder = Sector::max('order');
+        $order = $maxOrder ? $maxOrder + 1 : 1;
+
         Sector::create([
             'name' => $request->name,
             'text' => $request->text,
-            'image' => $imageName
+            'image' => $imageName,
+            'order' => $order,
         ]);
 
         return response()->json(['success' => true, 'message' => 'Sektör eklendi.']);
@@ -112,6 +127,27 @@ class SectorController extends Controller {
 
         return response()->json(['success' => false, 'message' => 'Silinecek resim bulunamadı.'], 404);
     }
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->orders;
+
+        if (!is_array($orders) || empty($orders)) {
+            return response()->json(['success' => false, 'message' => 'Sıralama verisi bulunamadı.'], 400);
+        }
+
+        foreach ($orders as $orderData) {
+            if (isset($orderData['id']) && isset($orderData['order'])) {
+                $sector = Sector::find($orderData['id']);
+                if ($sector) {
+                    $sector->order = $orderData['order'];
+                    $sector->save();
+                }
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Sektör sıralaması başarıyla güncellendi.']);
+    }
+
 
 }
 

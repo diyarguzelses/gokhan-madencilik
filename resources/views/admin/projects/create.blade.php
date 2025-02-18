@@ -1,6 +1,5 @@
 @extends('admin.layouts.app')
 
-
 @section('content')
     <div class="card mb-5">
         <div class="card-header border-0 pt-4 pb-4 px-4 d-flex align-items-center justify-content-between"
@@ -12,7 +11,7 @@
         </div>
 
         <div class="card-body py-3">
-            <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
+            <form id="projectForm" action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="name" class="form-label">Proje Adı</label>
@@ -39,7 +38,7 @@
 
                 <div class="mb-3">
                     <label for="description" class="form-label">Açıklama</label>
-                    <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="5" ></textarea>
                 </div>
 
                 <!-- Sürükle Bırak Alanı -->
@@ -61,8 +60,27 @@
 @endsection
 
 @section('script')
+    <!-- CKEditor 5 Classic Editor CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
     <script>
         $(document).ready(function () {
+            // CKEditor 5 Başlatma: Proje açıklaması alanı için
+            ClassicEditor
+                .create(document.querySelector('#description'))
+                .then(editor => {
+                    window.projectEditor = editor;
+                })
+                .catch(error => {
+                    console.error('CKEditor yüklenirken hata oluştu:', error);
+                });
+
+            // Form gönderilmeden önce CKEditor içeriğini textarea'ya aktar
+            $('#projectForm').submit(function (e) {
+                $('#description').val(window.projectEditor.getData());
+            });
+
+            // Sürükle ve Bırak ile Çoklu Dosya Yükleme İşlemleri
             const dropzone = $('#imageDropzone');
             const fileInput = $('#images');
             const previewContainer = $('#imagePreview');
@@ -102,10 +120,10 @@
                 handleFiles(files);
             });
 
-            // Dosyaları işleme ve önizleme
+            // Dosyaları işleme ve önizleme oluşturma
             function handleFiles(files) {
                 Array.from(files).forEach(file => {
-                    // Dosya tipi ve boyutunu kontrol et
+                    // Dosya tipi ve boyutunu kontrol et (2MB limit)
                     if (file.size > 2 * 1024 * 1024) { // 2MB
                         alert('Dosya boyutu 2MB\'ı geçemez: ' + file.name);
                         return;

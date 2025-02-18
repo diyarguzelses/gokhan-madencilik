@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <p class="fst-italic">
-                    <span>{{ $projects->description }} </span>
+                    <span>{!! $projects->description !!} </span>
                 </p>
             </div>
         </div>

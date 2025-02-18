@@ -62,7 +62,7 @@
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <p class="price">{{ Str::limit($project->name, 30) }}</p>
                                         </div>
-                                        <p class="description">{{ Str::limit($project->description, 150) }}</p>
+                                        <p class="description">{!! Str::limit($project->description, 150) !!} }</p>
                                     </div>
                                     <div class="trainer d-flex justify-content-start align-items-center">
                                         <div class="trainer-profile d-flex align-items-center">

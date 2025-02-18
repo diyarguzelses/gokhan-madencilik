@@ -32,8 +32,9 @@
         <div class="card-body py-3">
             <div class="table-responsive">
                 <table id="projectsTable" class="table table-striped table-bordered">
-                    <thead class="fw-bold text-muted bg-light"><br>
+                    <thead class="fw-bold text-muted bg-light">
                     <tr>
+                        <th>Sıra</th>
                         <th>#</th>
                         <th>Adı</th>
                         <th>Kategori</th>
@@ -43,12 +44,15 @@
                     </thead>
                     <tbody></tbody>
                 </table>
+                <small class="text-muted">Satırları tutup sürükleyerek projelerin sırasını değiştirebilirsiniz.</small>
             </div>
         </div>
     </div>
 @endsection
 
 @section('script')
+    <!-- jQuery UI Sortable CDN -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function () {
             // DataTable Initialization
@@ -57,17 +61,22 @@
                 serverSide: true,
                 ajax: '{{ route('admin.projects.data') }}',
                 language: {
-                    url: "{{ asset('assets/datatables/turkish.json') }}" // Türkçe çeviri dosyasını yükle
+                    url: "{{ asset('assets/datatables/turkish.json') }}"
                 },
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'category_name', name: 'category_name'},
+                    { data: 'order', name: 'order' },
+                    { data: 'id', name: 'id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'category_name', name: 'category_name' },
                     {
                         data: 'description',
                         name: 'description',
-                        render: function (data) {
-                            return data.length > 50 ? data.substr(0, 50) + '...' : data;
+                        render: function(data) {
+                            // HTML etiketlerini kaldırıyoruz
+                            var div = document.createElement('div');
+                            div.innerHTML = data;
+                            var plainText = div.textContent || div.innerText || "";
+                            return plainText.length > 50 ? plainText.substr(0, 50) + '...' : plainText;
                         }
                     },
                     {
@@ -76,15 +85,77 @@
                         orderable: false,
                         searchable: false
                     }
-                ],
-                language: {
+                ]
+            });
+
+            // Her çizimde satırlara data-id attribute ekliyoruz
+            table.on('draw.dt', function() {
+                $('#projectsTable tbody tr').each(function() {
+                    var data = table.row(this).data();
+                    if (data && data.id) {
+                        $(this).attr('data-id', data.id);
+                    }
+                });
+            });
+
+            // jQuery UI Sortable: Satırları sürükleyerek sıralama
+            $("#projectsTable tbody").sortable({
+                helper: function(e, tr) {
+                    tr.children().each(function() {
+                        $(this).width($(this).width());
+                    });
+                    return tr;
+                },
+                update: function(event, ui) {
+                    let orders = [];
+                    $("#projectsTable tbody tr").each(function(index) {
+                        let projectId = $(this).attr('data-id');
+                        if (projectId) {
+                            // Sıralama 1'den başlasın
+                            orders.push({ id: projectId, order: index + 1 });
+                        }
+                    });
+                    if (orders.length === 0) {
+                        Swal.fire({
+                            title: 'Uyarı',
+                            text: 'Sıralanacak proje bulunamadı.',
+                            icon: 'warning'
+                        });
+                        return;
+                    }
+                    // AJAX ile yeni sıralamayı gönder
+                    $.ajax({
+                        url: "{{ route('admin.projects.order-updateOrder') }}",
+                        method: "POST",
+                        data: JSON.stringify({
+                            _token: "{{ csrf_token() }}",
+                            orders: orders
+                        }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'Başarılı',
+                                text: response.message,
+                                icon: 'success'
+                            }).then(function() {
+                                table.ajax.reload();
+                            });
+                        },
+                        error: function() {
+                            Swal.fire({
+                                title: 'Hata',
+                                text: 'Proje sırası güncellenirken bir hata oluştu.',
+                                icon: 'error'
+                            });
+                        }
+                    });
                 }
             });
 
-            // Proje Silme
+            // Proje Silme İşlemi
             $(document).on('click', '.delete-project', function () {
                 const projectId = $(this).data('id');
-
                 Swal.fire({
                     title: 'Emin misiniz?',
                     text: "Bu projeyi silmek istediğinize emin misiniz?",
@@ -97,14 +168,12 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `/admin/projects/delete/${projectId}`,
+                            url: `/FT23BA23DG12/projects/delete/${projectId}`,
                             method: 'DELETE',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            },
+                            data: { _token: '{{ csrf_token() }}' },
                             success: function (response) {
                                 if (response.success) {
-                                    table.ajax.reload(); // Tabloyu yenile
+                                    table.ajax.reload();
                                     Swal.fire(
                                         'Silindi!',
                                         'Proje başarıyla silindi.',

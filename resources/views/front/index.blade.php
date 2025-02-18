@@ -30,7 +30,7 @@
                                 <h4>{{$sector->name}}</h4>
                                 <hr>
                                 <p>
-                                    {{ Str::limit($sector->text, 100) }}
+                                    {!! Str::limit($sector->text, 100) !!} }
 
                                 </p>
 
@@ -114,7 +114,7 @@
                      data-aos-delay="200">
                     <h3 style="color: var(--accent-color)">{{$lastnew->title}}</h3>
                     <p class="fsitalict- w-75 bg-white2">
-                        {{ Str::limit($lastnew->content, 550) }}
+                        {!! Str::limit($lastnew->content, 550) !!} }
                     </p>
                 </div>
 
@@ -165,7 +165,7 @@
                                                 <h3>{{ $new->title }}</h3>
                                                 <p>
                                                     <i class="bi bi-quote quote-icon-left"></i>
-                                                    <span>{{ Str::limit($new->content, 200) }}</span>
+                                                    <span>{!!  Str::limit($new->content, 200) !!}</span>
                                                     <i class="bi bi-quote quote-icon-right"></i>
                                                 </p>
                                             </div>

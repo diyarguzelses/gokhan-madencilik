@@ -9,13 +9,17 @@ use App\Models\ProjectImage;
 class ProjectPageController extends Controller
 {
     public function completedProjects(){
-        $projects = Project::where('status', 0)->get();
+        $projects = Project::where('status', 0)
+            ->orderBy('order', 'asc')
+            ->get();
         $status=0;
 
         return view('front.projects.index', compact('projects', 'status'));
     }
     public function continuingProjects(){
-        $projects = Project::where('status', 1)->get();
+        $projects = Project::where('status', 1)
+            ->orderBy('order', 'asc')
+            ->get();
         $status=1;
 
         return view('front.projects.index', compact('projects', 'status'));

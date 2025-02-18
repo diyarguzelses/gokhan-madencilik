@@ -11,8 +11,10 @@
         </div>
 
         <div class="card-body py-3">
-            <form action="{{ route('admin.projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
+            <form id="projectForm" action="{{ route('admin.projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <!-- Güncelleme işleminde HTTP method'unu belirtmek için -->
+                @method('Post')
                 <div class="mb-3">
                     <label for="name" class="form-label">Proje Adı</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ $project->name }}" required>
@@ -34,6 +36,7 @@
                     <label for="description" class="form-label">Açıklama</label>
                     <textarea class="form-control" id="description" name="description" rows="5" required>{{ $project->description }}</textarea>
                 </div>
+
                 <div class="mb-3">
                     <label for="status" class="form-label">Proje Durumu</label>
                     <select class="form-control" id="status" name="status" required>
@@ -77,8 +80,26 @@
 @endsection
 
 @section('script')
+    <!-- CKEditor 5 Classic Editor CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
     <script>
         $(document).ready(function () {
+            // CKEditor 5 Başlatma: Proje açıklaması için
+            ClassicEditor
+                .create(document.querySelector('#description'))
+                .then(editor => {
+                    window.projectEditor = editor;
+                })
+                .catch(error => {
+                    console.error('CKEditor yüklenirken hata oluştu:', error);
+                });
+
+            // Form gönderilmeden önce CKEditor içeriğini textarea'ya aktarıyoruz.
+            $('#projectForm').submit(function () {
+                $('#description').val(window.projectEditor.getData());
+            });
+
+            // Sürükle ve Bırak ile Yeni Görsel Yükleme İşlemleri
             const dropzone = $('#imageDropzone');
             const fileInput = $('#images');
             const previewContainer = $('#imagePreview');
@@ -87,17 +108,17 @@
             // Tıklama ile dosya yükleme alanını açma
             dropzone.on('click', function (e) {
                 e.preventDefault();
-                e.stopPropagation(); // Olayın yayılmasını durdurduk
+                e.stopPropagation();
                 fileInput.trigger('click');
             });
 
-            // Dosya seçildiğinde önizleme oluştur
+            // Dosya seçildiğinde önizleme oluşturma
             fileInput.on('change', function (e) {
                 const files = e.target.files;
                 handleFiles(files);
             });
 
-            // Dosyaları işleme ve önizleme
+            // Dosyaları işleme ve önizleme oluşturma
             function handleFiles(files) {
                 Array.from(files).forEach(file => {
                     if (file.size > 2048 * 1024 || !['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
@@ -109,10 +130,10 @@
                     const reader = new FileReader();
                     reader.onload = function (event) {
                         const imgHtml = `
-                    <div class="me-3 mb-3 position-relative preview-image">
-                        <img src="${event.target.result}" alt="Görsel" style="width: 100px; height: 100px; object-fit: cover;">
-                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-temp-image" data-index="${uploadedFiles.length - 1}">&times;</button>
-                    </div>`;
+                            <div class="me-3 mb-3 position-relative preview-image">
+                                <img src="${event.target.result}" alt="Görsel" style="width: 100px; height: 100px; object-fit: cover;">
+                                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-temp-image" data-index="${uploadedFiles.length - 1}">&times;</button>
+                            </div>`;
                         previewContainer.append(imgHtml);
                     };
                     reader.readAsDataURL(file);
@@ -147,7 +168,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `/projects/image/delete/${imageId}`,
+                            url: `{{ route('admin.projects.deleteImage', ':id') }}`.replace(':id', imageId),
                             method: 'DELETE',
                             data: {
                                 _token: '{{ csrf_token() }}'

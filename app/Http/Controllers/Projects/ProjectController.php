@@ -21,11 +21,15 @@ class ProjectController extends Controller
 
     public function data()
     {
-        $projects = Project::with('category', 'images')->select('projects.*');
+        $projects = Project::with('category', 'images')
+            ->select('projects.*');
 
         return datatables($projects)
             ->addColumn('category_name', function ($project) {
                 return $project->category->name ?? 'Kategori Yok';
+            })
+            ->editColumn('order', function ($project) {
+                return $project->order;
             })
             ->addColumn('actions', function ($project) {
                 return '
@@ -60,14 +64,20 @@ class ProjectController extends Controller
             $slug .= '-' . ($slugCount + 1);
         }
 
+        // Mevcut en yüksek order_number değerini al, yoksa 0 kabul et
+        $lastOrder = Project::max('order');
+        $order = $lastOrder ? $lastOrder + 1 : 1;
+
         // Proje Oluştur
         $project = Project::create([
             'name' => $request->name,
             'description' => $request->description,
             'category_id' => $request->category_id,
             'status' => $request->status,
-            'slug' => $slug
+            'slug' => $slug,
+            'order' => $order,
         ]);
+
         // Görselleri Kaydet
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -102,7 +112,7 @@ class ProjectController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $project->update($request->only(['name', 'description', 'category_id','status']));
+        $project->update($request->only(['name', 'description', 'category_id', 'status']));
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -148,5 +158,26 @@ class ProjectController extends Controller
         $image->delete();
 
         return response()->json(['success' => true, 'message' => 'Görsel başarıyla silindi.']);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->orders;
+
+        if (!is_array($orders) || empty($orders)) {
+            return response()->json(['success' => false, 'message' => 'Sıralama verisi bulunamadı.'], 400);
+        }
+
+        foreach ($orders as $orderData) {
+            if (isset($orderData['id']) && isset($orderData['order'])) {
+                $project = Project::find($orderData['id']);
+                if ($project) {
+                    $project->order = $orderData['order'];
+                    $project->save();
+                }
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Proje sıralaması başarıyla güncellendi.']);
     }
 }

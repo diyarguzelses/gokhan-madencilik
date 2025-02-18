@@ -12,8 +12,8 @@
         </ul>
     </div>
 
-    <div class="card" >
-        <div class="card-header bg-primary text-white d-flex justify-content-between"  style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px 10px 0 0;">
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between" style="background: linear-gradient(135deg, #1e3c72, #2a5298); border-radius: 10px 10px 0 0;">
             <span class="fw-bold fs-5">Kariyer Sayfası</span>
         </div>
         <div class="card-body mt-3">
@@ -26,11 +26,14 @@
                 <div class="mb-3">
                     <label>Görsel</label>
                     <input type="file" class="form-control" name="image" id="image">
-                    @if (!empty($career->image))
-                        <img src="{{ asset('uploads/career/'.$career->image) }}" id="previewImage" class="mt-2" width="100" height="100">
-                    @else
-                        <img id="previewImage" class="mt-2" width="100" height="100" style="display:none;">
-                    @endif
+                    <div id="imageContainer" style="position: relative; display: inline-block;">
+                        @if (!empty($career->image))
+                            <img src="{{ asset('uploads/career/'.$career->image) }}" id="previewImage" class="mt-2" width="100" height="100">
+                            <span id="deleteCareerImageIcon" style="position: absolute; top: 0; right: 0; background: red; color: white; padding: 4px 8px; border-radius: 5px; cursor: pointer;">&times;</span>
+                        @else
+                            <img id="previewImage" class="mt-2" width="100" height="100" style="display:none;">
+                        @endif
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Kaydet</button>
             </form>
@@ -39,20 +42,38 @@
 @endsection
 
 @section('script')
+    <!-- CKEditor 5 Classic Editor CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
     <script>
         $(document).ready(function () {
+            // CKEditor'ü başlatıyoruz.
+            ClassicEditor
+                .create(document.querySelector('#content'))
+                .then(editor => {
+                    window.careerEditor = editor;
+                })
+                .catch(error => {
+                    console.error('CKEditor yüklenirken hata oluştu:', error);
+                });
+
+            // Form gönderimi
             $('#careerForm').submit(function (e) {
                 e.preventDefault();
                 let formData = new FormData(this);
+                // CKEditor içeriğini textarea'ya aktarıyoruz
+                formData.set('content', window.careerEditor.getData());
 
                 $.ajax({
-                    url: '{{ route('admin.career.update') }}',
+                    url: '{{ route("admin.career.update") }}',
                     method: 'POST',
                     data: formData,
                     contentType: false,
                     processData: false,
                     success: function (response) {
-                        Swal.fire('Başarılı', response.message, 'success');
+                        Swal.fire('Başarılı', response.message, 'success').then(() => {
+                            location.reload();
+                        });
+
                     },
                     error: function () {
                         Swal.fire('Hata', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
@@ -60,12 +81,48 @@
                 });
             });
 
-            $('#image').change(function (event) {
+            // Görsel seçildiğinde önizleme
+            $('#image').change(function (e) {
                 let reader = new FileReader();
                 reader.onload = function (e) {
                     $('#previewImage').attr('src', e.target.result).show();
                 };
-                reader.readAsDataURL(event.target.files[0]);
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            // Görsel silme (çarpı simgesine tıklandığında)
+            $(document).on('click', '#deleteCareerImageIcon', function () {
+                Swal.fire({
+                    title: 'Emin misiniz?',
+                    text: "Bu görseli silmek istediğinize emin misiniz?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet, sil!',
+                    cancelButtonText: 'İptal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route("admin.career.career-deleteImage") }}',
+                            method: 'DELETE',
+                            data: { _token: '{{ csrf_token() }}' },
+                            success: function (response) {
+                                if (response.success) {
+                                    $('#previewImage').attr('src', '').hide();
+                                    $('#deleteCareerImageIcon').hide();
+                                    $('#image').val('');
+                                    Swal.fire('Silindi!', response.message, 'success');
+                                } else {
+                                    Swal.fire('Hata!', response.message, 'error');
+                                }
+                            },
+                            error: function () {
+                                Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>

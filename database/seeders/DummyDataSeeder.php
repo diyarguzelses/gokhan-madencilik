@@ -46,6 +46,7 @@ class DummyDataSeeder extends Seeder
                 'title' => $faker->sentence(4),
                 'content' => $faker->paragraph(5),
                 'image' => 'default.jpg',
+                'order' => $index,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -56,8 +57,10 @@ class DummyDataSeeder extends Seeder
             DB::table('machines')->insert([
                 'name' => $faker->word . ' Makinesi',
                 'quantity' => $faker->numberBetween(1, 50),
+                'order' => $index,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
         }
+
     }}

@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <p class="fst-italic">
-                        <span>{{ $news->content }} </span>
+                        <span>{!! $news->content !!}</span>
                     </p>
             </div>
         </div>

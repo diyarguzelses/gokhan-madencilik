@@ -13,9 +13,13 @@ class NewsController extends Controller {
     }
 
     public function getData() {
-        $news = News::select(['id', 'title', 'content', 'image']);
+        $news = News::select(['id', 'title', 'content', 'image', 'order'])
+            ->orderBy('order', 'asc'); // order sütununa göre sıralama
 
         return DataTables::of($news)
+            ->addColumn('order', function ($news) {
+                return $news->order;
+            })
             ->addColumn('image', function ($news) {
                 return $news->image ? '<img src="'.asset('uploads/news/'.$news->image).'" width="50" height="50">' : 'Yok';
             })
@@ -29,8 +33,7 @@ class NewsController extends Controller {
                         data-image="'.$news->image.'">
                         Düzenle
                     </button>
-                    <button class="btn btn-danger btn-sm delete-news "
-                        data-id="'.$news->id.'">
+                    <button class="btn btn-danger btn-sm delete-news" data-id="'.$news->id.'">
                         Sil
                     </button>
                   </div>
@@ -42,9 +45,9 @@ class NewsController extends Controller {
 
     public function store(Request $request) {
         $request->validate([
-            'title' => 'required',
+            'title'   => 'required',
             'content' => 'required',
-            'image' => 'nullable|image|max:2048',
+            'image'   => 'nullable|image|max:2048',
         ]);
 
         $imageName = null;
@@ -54,19 +57,22 @@ class NewsController extends Controller {
         }
 
         $slug = Str::slug($request->title);
-
         // Aynı slug ile başlayan kayıtları sayarak benzersiz hale getirme
         $slugCount = News::where('slug', 'LIKE', "{$slug}%")->count();
         if ($slugCount) {
             $slug .= '-' . ($slugCount + 1);
         }
 
+        // Yeni haber eklenirken, mevcut en yüksek order değerine göre yeni sıra: max + 1
+        $maxOrder = News::max('order');
+        $order = $maxOrder ? $maxOrder + 1 : 1;
 
         News::create([
-            'slug' => $slug,  // Benzersiz hale getirilmiş slug
-            'title' => $request->title,
+            'slug'    => $slug,
+            'title'   => $request->title,
             'content' => $request->content,
-            'image' => $imageName
+            'image'   => $imageName,
+            'order'   => $order,
         ]);
 
         return response()->json(['success' => true, 'message' => 'Haber eklendi.']);
@@ -76,9 +82,9 @@ class NewsController extends Controller {
         $news = News::findOrFail($id);
 
         $request->validate([
-            'title' => 'required',
+            'title'   => 'required',
             'content' => 'required',
-            'image' => 'nullable|image|max:2048',
+            'image'   => 'nullable|image|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -94,9 +100,9 @@ class NewsController extends Controller {
         }
 
         $news->update([
-            'title' => $request->title,
+            'title'   => $request->title,
             'content' => $request->content,
-            'image' => $news->image
+            'image'   => $news->image,
         ]);
 
         return response()->json(['success' => true, 'message' => 'Haber güncellendi.']);
@@ -133,6 +139,25 @@ class NewsController extends Controller {
         return response()->json(['success' => false, 'message' => 'Silinecek resim bulunamadı.'], 404);
     }
 
+    // Yeni: Haber sıralamasını güncelleme metodu
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->orders; // Örneğin: [ { id: 3, order: 1 }, { id: 5, order: 2 }, ... ]
 
+        if (!is_array($orders) || empty($orders)) {
+            return response()->json(['success' => false, 'message' => 'Sıralama verisi bulunamadı.'], 400);
+        }
+
+        foreach ($orders as $orderData) {
+            if (isset($orderData['id']) && isset($orderData['order'])) {
+                $news = News::find($orderData['id']);
+                if ($news) {
+                    $news->order = $orderData['order'];
+                    $news->save();
+                }
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Haber sıralaması başarıyla güncellendi.']);
+    }
 }
-

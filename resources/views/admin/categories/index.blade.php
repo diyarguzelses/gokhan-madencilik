@@ -121,7 +121,7 @@
                 $('#categoryModalLabel').text('Kategori Düzenle');
                 $('#method').val('post');
                 $('#name').val(name);
-                $('#categoryForm').attr('action', `/admin/categories/${id}`);
+                $('#categoryForm').attr('action', `/FT23BA23DG12/categories/${id}`);
                 $('#categoryModal').modal('show');
             });
 
@@ -141,7 +141,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `/admin/categories/${id}`,
+                            url: `/FT23BA23DG12/categories/${id}`,
                             method: 'DELETE',
                             data: {_token: '{{ csrf_token() }}'},
                             success: function () {

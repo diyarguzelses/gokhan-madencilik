@@ -53,7 +53,7 @@ Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth.admin');
 
 
-Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function () {
+Route::prefix('FT23BA23DG12')->middleware('auth.admin')->name('admin.')->group(function () {
 
     // 📌 USERS
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -115,6 +115,7 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::put('/{id}', [SectorController::class, 'update'])->name('update');
         Route::delete('/{id}', [SectorController::class, 'destroy'])->name('destroy');
         Route::delete('/delete-image/{id}', [SectorController::class, 'deleteImage'])->name('admin.sectors.deleteImage');
+        Route::post('/update-order', [SectorController::class, 'updateOrder'])->name('updateOrder');
 
     });
 
@@ -127,6 +128,8 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::put('/{id}', [MachineController::class, 'update'])->name('update');
         Route::delete('/{id}', [MachineController::class, 'destroy'])->name('destroy');
         Route::delete('/delete-image/{id}', [MachineController::class, 'deleteImage'])->name('admin.machines.deleteImage');
+        Route::post('/update-order', [MachineController::class, 'updateOrder'])->name('machines-updateOrder');
+
     });
 
     // 📌 HABERLER
@@ -138,6 +141,7 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::put('/{id}', [NewsController::class, 'update'])->name('update');
         Route::delete('/{id}', [NewsController::class, 'destroy'])->name('destroy');
         Route::delete('/delete-image/{id}', [NewsController::class, 'deleteImage'])->name('admin.news.deleteImage');
+        Route::post('/update-order', [NewsController::class, 'updateOrder'])->name('news-updateOrder');
 
     });
 
@@ -145,6 +149,8 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
     Route::prefix('career')->name('career.')->group(function () {
         Route::get('/', [CareerController::class, 'edit'])->name('edit');
         Route::post('/', [CareerController::class, 'update'])->name('update');
+        Route::delete('/delete-image', [CareerController::class, 'deleteImage'])
+            ->name('career-deleteImage');
     });
 
     // 📌 PROJELER
@@ -156,6 +162,8 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::get('/edit/{id}', [ProjectController::class, 'edit'])->name('edit');
         Route::post('/{id}', [ProjectController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [ProjectController::class, 'destroy'])->name('destroy');
+        Route::delete('/image/delete/{id}', [ProjectController::class, 'destroyImage'])->name('deleteImage');
+        Route::post('order/update-order', [ProjectController::class, 'updateOrder'])->name('order-updateOrder');
     });
 
 

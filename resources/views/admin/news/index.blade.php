@@ -22,8 +22,9 @@
         </div>
         <div class="card-body">
             <table id="newsTable" class="table table-bordered">
-                <thead><br>
+                <thead>
                 <tr>
+                    <th>Sıra</th>
                     <th>ID</th>
                     <th>Başlık</th>
                     <th>İçerik</th>
@@ -33,6 +34,7 @@
                 </thead>
                 <tbody></tbody>
             </table>
+            <small class="text-muted">Satırları tutup sürükleyerek haberlerin sırasını değiştirebilirsiniz.</small>
         </div>
     </div>
 
@@ -55,18 +57,16 @@
                         </div>
                         <div class="mb-3">
                             <label>İçerik</label>
-                            <textarea class="form-control" name="content" id="content" required></textarea>
+                            <textarea class="form-control" name="content" id="content"></textarea>
                         </div>
                         <div class="mb-3">
                             <label>Resim</label>
                             <input type="file" class="form-control" name="image" id="image">
                             <div id="newsImageContainer" style="position: relative; display: inline-block;">
                                 <img id="previewImage" class="mt-2" width="100" height="100" style="display: none;">
-                                <!-- Çarpı simgesi: resmi silmek için -->
-                                <span id="deleteNewsImageIcon" style="position: absolute; top:0; right: 0; background: red; color: white; padding: 6px 10px;border-radius: 5px ; cursor: pointer; display: none;">&times;</span>
+                                <span id="deleteNewsImageIcon" style="position: absolute; top:0; right: 0; background: red; color: white; padding: 6px 10px; border-radius: 5px; cursor: pointer; display: none;">&times;</span>
                             </div>
                         </div>
-
                         <button type="submit" class="btn btn-primary w-100">Kaydet</button>
                     </form>
                 </div>
@@ -76,8 +76,22 @@
 @endsection
 
 @section('script')
+    <!-- CKEditor 5 Classic Editor CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+    <!-- jQuery UI Sortable CDN -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function () {
+            // CKEditor Başlatma: "İçerik" alanı için
+            ClassicEditor
+                .create(document.querySelector('#content'))
+                .then(editor => {
+                    window.courseEditor = editor;
+                })
+                .catch(error => {
+                    console.error('CKEditor yüklenirken hata oluştu:', error);
+                });
+
             let table = $('#newsTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -86,15 +100,86 @@
                     url: "{{ asset('assets/datatables/turkish.json') }}"
                 },
                 columns: [
+                    { data: 'order', name: 'order' },
                     { data: 'id', name: 'id' },
                     { data: 'title', name: 'title' },
-                    {data: 'content', name: 'content', render: function(data) {
-                            return data.length > 200 ? data.substring(0, 200) + '...' : data;
+                    {
+                        data: 'content',
+                        name: 'content',
+                        render: function(data) {
+                            let div = document.createElement("div");
+                            div.innerHTML = data;
+                            let plainText = div.textContent || div.innerText || "";
+                            return plainText.length > 200 ? plainText.substring(0, 200) + '...' : plainText;
                         }
                     },
                     { data: 'image', name: 'image', orderable: false, searchable: false },
                     { data: 'actions', name: 'actions', orderable: false, searchable: false }
                 ]
+            });
+
+            // Her çizimde satırlara data-id attribute ekleyelim
+            table.on('draw.dt', function() {
+                $('#newsTable tbody tr').each(function() {
+                    var data = table.row(this).data();
+                    if (data && data.id) {
+                        $(this).attr('data-id', data.id);
+                    }
+                });
+            });
+
+            // jQuery UI Sortable: Satırları sürükleyerek sıralama
+            $("#newsTable tbody").sortable({
+                helper: function(e, tr) {
+                    tr.children().each(function() {
+                        $(this).width($(this).width());
+                    });
+                    return tr;
+                },
+                update: function(event, ui) {
+                    let orders = [];
+                    $("#newsTable tbody tr").each(function(index) {
+                        let newsId = $(this).attr('data-id');
+                        if (newsId) {
+                            orders.push({ id: newsId, order: index + 1 });
+                        }
+                    });
+                    if (orders.length === 0) {
+                        Swal.fire({
+                            title: 'Uyarı',
+                            text: 'Sıralanacak haber bulunamadı.',
+                            icon: 'warning'
+                        });
+                        return;
+                    }
+                    // AJAX ile yeni sıralamayı gönder
+                    $.ajax({
+                        url: "{{ route('admin.news.news-updateOrder') }}",
+                        method: "POST",
+                        data: JSON.stringify({
+                            _token: "{{ csrf_token() }}",
+                            orders: orders
+                        }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'Başarılı',
+                                text: response.message,
+                                icon: 'success'
+                            }).then(function() {
+                                table.ajax.reload();
+                            });
+                        },
+                        error: function() {
+                            Swal.fire({
+                                title: 'Hata',
+                                text: 'Haber sırası güncellenirken bir hata oluştu.',
+                                icon: 'error'
+                            });
+                        }
+                    });
+                }
             });
 
             // Yeni Haber Ekle Butonu
@@ -111,28 +196,27 @@
             $(document).on('click', '.edit-news', function () {
                 $('#news_id').val($(this).data('id'));
                 $('#title').val($(this).data('title'));
-                $('#content').val($(this).data('content'));
+                let contentHtml = $(this).data('content');
+                window.courseEditor.setData(contentHtml);
                 $('#_method').val('PUT');
 
                 let image = $(this).data('image');
                 if (image) {
                     $('#previewImage').attr('src', '/uploads/news/' + image).show();
-                    // Eğer resim varsa silme simgesini göster ve haber id'sini ata
                     $('#deleteNewsImageIcon').show().data('id', $(this).data('id'));
                 } else {
                     $('#previewImage').hide();
                     $('#deleteNewsImageIcon').hide();
                 }
-
                 $('#newsModal').modal('show');
             });
 
-            // Form Gönderme (Yeni Kayıt veya Güncelleme)
+            // Form Gönderimi (Yeni Kayıt veya Güncelleme)
             $('#newsForm').submit(function (e) {
                 e.preventDefault();
                 let formData = new FormData(this);
                 let newsId = $('#news_id').val();
-                let url = newsId ? `/admin/news/${newsId}` : '/admin/news';
+                let url = newsId ? `/FT23BA23DG12/news/${newsId}` : '/FT23BA23DG12/news';
 
                 $.ajax({
                     url: url,
@@ -154,7 +238,6 @@
             // Haber Silme Butonu
             $(document).on('click', '.delete-news', function () {
                 let newsId = $(this).data('id');
-
                 Swal.fire({
                     title: 'Emin misiniz?',
                     text: "Bu haberi silmek istediğinize emin misiniz?",
@@ -167,7 +250,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `/admin/news/${newsId}`,
+                            url: `/FT23BA23DG12/news/${newsId}`,
                             method: 'DELETE',
                             data: { _token: '{{ csrf_token() }}' },
                             success: function (response) {
@@ -187,22 +270,23 @@
                 let reader = new FileReader();
                 reader.onload = function (e) {
                     $('#previewImage').attr('src', e.target.result).show();
-                    // Yeni resim seçilince silme simgesini gizle
                     $('#deleteNewsImageIcon').hide();
                 };
                 reader.readAsDataURL(this.files[0]);
             });
 
-            // Haber Görselini Silme (Çarpı simgesine tıklandığında, onay sormadan)
+            // Haber Görselini Silme (Çarpı simgesine tıklandığında)
             $(document).on('click', '#deleteNewsImageIcon', function () {
                 let newsId = $(this).data('id');
                 $.ajax({
-                    url: `/admin/news/delete-image/${newsId}`,
+                    url: `/FT23BA23DG12/news/delete-image/${newsId}`,
                     method: 'DELETE',
                     data: { _token: '{{ csrf_token() }}' },
                     success: function (response) {
                         if (response.success) {
                             $('#previewImage').attr('src', '').hide();
+                            $('#image').val('');
+
                             $('#deleteNewsImageIcon').hide();
                         } else {
                             Swal.fire('Hata!', response.message, 'error');

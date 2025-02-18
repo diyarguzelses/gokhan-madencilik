@@ -118,7 +118,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `/admin/users/delete/${userId}`,
+                            url: `/FT23BA23DG12/users/delete/${userId}`,
                             method: 'DELETE',
                             data: {
                                 _token: '{{ csrf_token() }}'
@@ -138,7 +138,7 @@
             $('#userForm').submit(function (e) {
                 e.preventDefault();
                 let userId = $('#user_id').val();
-                let url = userId ? `/admin/users/update/${userId}` : '/admin/users/store';
+                let url = userId ? `/FT23BA23DG12/users/update/${userId}` : '/FT23BA23DG12/users/store';
                 let method = userId ? 'PUT' : 'POST';
 
                 $.ajax({

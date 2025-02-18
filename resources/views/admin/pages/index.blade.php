@@ -58,7 +58,7 @@
                         </div>
                         <div class="mb-3">
                             <label>İçerik</label>
-                            <textarea class="form-control" name="content" id="content" required></textarea>
+                            <textarea class="form-control" name="content" id="content" ></textarea>
                         </div>
 
                         <!-- Çoklu Görsel Yükleme Alanı -->
@@ -81,8 +81,18 @@
 @endsection
 
 @section('script')
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
     <script>
         $(document).ready(function () {
+            ClassicEditor
+                .create(document.querySelector('#content'))
+                .then(editor => {
+                    window.pageEditor = editor;
+                })
+                .catch(error => {
+                    console.error('CKEditor yüklenirken hata oluştu:', error);
+                });
             let table = $('#pagesTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -97,7 +107,10 @@
                         data: 'content',
                         name: 'content',
                         render: function(data) {
-                            return data.length > 200 ? data.substring(0, 200) + '...' : data;
+                            let div = document.createElement("div");
+                            div.innerHTML = data;
+                            let plainText = div.textContent || div.innerText || "";
+                            return plainText.length > 200 ? plainText.substring(0, 200) + '...' : plainText;
                         }
                     },
                     {
@@ -126,17 +139,21 @@
                 $('#pageForm')[0].reset();
                 $('#page_id').val('');
                 $('#imagePreview').html('');
+                if (window.pageEditor) {
+                    window.pageEditor.setData(''); // CKEditor içeriğini temizle
+                }
                 $('#pageModal').modal('show');
+
             });
 
 // Sayfa düzenleme işlemi (Edit)
             $(document).on('click', '.edit-page', function () {
                 let pageId = $(this).data('id');
 
-                $.get(`/admin/pages/${pageId}/edit`, function (data) {
+                $.get(`/FT23BA23DG12/pages/${pageId}/edit`, function (data) {
                     $('#page_id').val(data.id);
                     $('#title').val(data.title);
-                    $('#content').val(data.content);
+                    window.pageEditor.setData(data.content);
 
                     // Mevcut görselleri (varsa) silme butonuyla birlikte ekrana bastırıyoruz
                     if(data.images && data.images.length > 0){
@@ -162,7 +179,7 @@
                 e.preventDefault();
                 let formData = new FormData(this);
                 let pageId = $('#page_id').val();
-                let url = pageId ? `/admin/pages/${pageId}` : '/admin/pages';
+                let url = pageId ? `/FT23BA23DG12/pages/${pageId}` : '/FT23BA23DG12/pages';
 
                 if (pageId) {
                     formData.append('_method', 'PUT');
@@ -280,7 +297,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `/admin/pages/${pageId}`,
+                            url: `/FT23BA23DG12/pages/${pageId}`,
                             method: 'DELETE',
                             data: {
                                 _token: '{{ csrf_token() }}'
@@ -314,7 +331,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: `/admin/pages/page-images/${imageId}`,
+                        url: `/FT23BA23DG12/pages/page-images/${imageId}`,
                         method: 'DELETE',
                         data: {
                             _token: '{{ csrf_token() }}'

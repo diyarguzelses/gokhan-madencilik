@@ -38,7 +38,7 @@
                 <div class="col-lg-6 order-2 order-lg-1 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
                     <h3>Kariyer</h3>
                     <p class="fst-italic">
-                        {{$part1}}
+                        {!! $part1 !!}
                     </p>
                 </div>
 
@@ -51,7 +51,7 @@
 
                 <div class="col-lg-6 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
                     <p class="fst-italic">
-                        {{$part2}}
+                        {!! $part2 !!}
                     </p>
                 </div>
 

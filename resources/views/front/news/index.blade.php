@@ -35,7 +35,7 @@
                         <div class="date"><span class="day">{{ $new->created_at->format('d') }}</span><span class="month">{{ $new->created_at->format('M') }}</span></div>
                         <h3>{{ Str::limit($new->title, 40, '...') }}</h3>
                         <p >
-                            {{ Str::limit($new->content, 150, '...') }}
+                            {!! Str::limit($new->content, 150, '...') !!}
                         </p>
                     </div>
                     <a href="{{route('news.detail', $new->slug)}}"></a>

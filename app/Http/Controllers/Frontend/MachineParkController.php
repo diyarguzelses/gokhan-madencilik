@@ -8,7 +8,7 @@ use App\Models\Machine;
 class MachineParkController extends Controller
 {
     public function index(){
-        $machinePark=Machine::all();
+        $machinePark = Machine::orderBy('order', 'asc')->get();
 
         return view('front.machinePark.index',compact('machinePark'));
     }

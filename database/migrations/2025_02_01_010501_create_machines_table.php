@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('image')->nullable();
             $table->integer('quantity');
+            $table->integer('order');
             $table->softDeletes();
             $table->timestamps();
         });

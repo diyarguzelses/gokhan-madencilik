@@ -16,7 +16,7 @@ class MachineController extends Controller
 
     public function getData()
     {
-        $machines = Machine::select(['id', 'name', 'quantity', 'image']);
+        $machines = Machine::select(['id', 'name', 'quantity', 'image', 'order']);
 
         return DataTables::of($machines)
             ->addColumn('image', function ($machine) {
@@ -24,14 +24,8 @@ class MachineController extends Controller
             })
             ->addColumn('actions', function ($machine) {
                 return '
-                    <button class="btn btn-primary btn-sm edit-machine"
-                        data-id="' . $machine->id . '">
-                        Düzenle
-                    </button>
-                    <button class="btn btn-danger btn-sm delete-machine"
-                        data-id="' . $machine->id . '">
-                        Sil
-                    </button>
+                    <button class="btn btn-primary btn-sm edit-machine" data-id="' . $machine->id . '">Düzenle</button>
+                    <button class="btn btn-danger btn-sm delete-machine" data-id="' . $machine->id . '">Sil</button>
                 ';
             })
             ->rawColumns(['image', 'actions'])
@@ -41,9 +35,9 @@ class MachineController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'     => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $data = $request->only('name', 'quantity');
@@ -55,6 +49,9 @@ class MachineController extends Controller
             $data['image'] = 'machines/' . $imageName;
         }
 
+        $maxOrder = Machine::max('order');
+        $data['order'] = $maxOrder ? $maxOrder + 1 : 1;
+
         Machine::create($data);
 
         return response()->json(['success' => true, 'message' => 'Makine eklendi.']);
@@ -63,9 +60,9 @@ class MachineController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'     => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $machine = Machine::findOrFail($id);
@@ -121,5 +118,24 @@ class MachineController extends Controller
         return response()->json(['success' => false, 'message' => 'Silinecek görsel bulunamadı.'], 404);
     }
 
-}
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->orders; // Örneğin: [ { id: 3, order: 1 }, { id: 5, order: 2 }, ... ]
 
+        if (!is_array($orders) || empty($orders)) {
+            return response()->json(['success' => false, 'message' => 'Sıralama verisi bulunamadı.'], 400);
+        }
+
+        foreach ($orders as $orderData) {
+            if (isset($orderData['id']) && isset($orderData['order'])) {
+                $machine = Machine::find($orderData['id']);
+                if ($machine) {
+                    $machine->order = $orderData['order'];
+                    $machine->save();
+                }
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Makine sıralaması başarıyla güncellendi.']);
+    }
+}
