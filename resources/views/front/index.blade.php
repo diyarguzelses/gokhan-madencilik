@@ -114,7 +114,7 @@
                      data-aos-delay="200">
                     <h3 style="color: var(--accent-color)">{{$lastnew->title}}</h3>
                     <p class="fsitalict- w-75 bg-white2">
-                        {{$lastnew->content}}
+                        {{ Str::limit($lastnew->content, 550) }}
                     </p>
                 </div>
 

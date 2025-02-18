@@ -105,5 +105,21 @@ class MachineController extends Controller
         $machine = Machine::findOrFail($id);
         return response()->json($machine);
     }
+
+    public function deleteImage($id)
+    {
+        $machine = Machine::findOrFail($id);
+
+        if ($machine->image && file_exists(public_path($machine->image))) {
+            unlink(public_path($machine->image));
+            $machine->image = null;
+            $machine->save();
+
+            return response()->json(['success' => true, 'message' => 'Görsel silindi.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Silinecek görsel bulunamadı.'], 404);
+    }
+
 }
 

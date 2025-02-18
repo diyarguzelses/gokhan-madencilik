@@ -114,6 +114,8 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::get('/{id}/edit', [SectorController::class, 'edit'])->name('edit');
         Route::put('/{id}', [SectorController::class, 'update'])->name('update');
         Route::delete('/{id}', [SectorController::class, 'destroy'])->name('destroy');
+        Route::delete('/delete-image/{id}', [SectorController::class, 'deleteImage'])->name('admin.sectors.deleteImage');
+
     });
 
     // 📌 MAKİNE PARKI
@@ -124,6 +126,7 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::get('/{id}/edit', [MachineController::class, 'edit'])->name('edit');
         Route::put('/{id}', [MachineController::class, 'update'])->name('update');
         Route::delete('/{id}', [MachineController::class, 'destroy'])->name('destroy');
+        Route::delete('/delete-image/{id}', [MachineController::class, 'deleteImage'])->name('admin.machines.deleteImage');
     });
 
     // 📌 HABERLER
@@ -134,6 +137,8 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
         Route::get('/{id}/edit', [NewsController::class, 'edit'])->name('edit');
         Route::put('/{id}', [NewsController::class, 'update'])->name('update');
         Route::delete('/{id}', [NewsController::class, 'destroy'])->name('destroy');
+        Route::delete('/delete-image/{id}', [NewsController::class, 'deleteImage'])->name('admin.news.deleteImage');
+
     });
 
     // 📌 KARİYER

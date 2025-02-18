@@ -117,5 +117,22 @@ class NewsController extends Controller {
         return response()->json(['success' => true, 'message' => 'Haber silindi.']);
     }
 
+    public function deleteImage($id)
+    {
+        $news = News::findOrFail($id);
+        if ($news->image) {
+            $imagePath = public_path('uploads/news/' . $news->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $news->image = null;
+            $news->save();
+
+            return response()->json(['success' => true, 'message' => 'Resim silindi.']);
+        }
+        return response()->json(['success' => false, 'message' => 'Silinecek resim bulunamadı.'], 404);
+    }
+
+
 }
 

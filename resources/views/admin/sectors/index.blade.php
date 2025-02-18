@@ -44,11 +44,14 @@
                             <label>Açıklama</label>
                             <textarea class="form-control" id="text" required></textarea>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 position-relative">
                             <label>Resim</label>
                             <input type="file" class="form-control" id="image" accept="image/*">
-                            <img id="previewImage" src="/images/default-placeholder.png" class="img-fluid mt-2"
-                                 style="max-height: 200px; display: none;">
+                            <div id="imageContainer" style="position: relative; display: inline-block;">
+                                <img id="previewImage" src="/images/default-placeholder.png" class="img-fluid mt-4" style="max-height: 200px; display: none;">
+                                <!-- Çarpı simgesi (delete icon) -->
+                                <span id="deleteImageIcon" style="position: absolute; top:20px; right: 0px; background: red; color: white; padding: 6px 12px;border-radius: 5px ; cursor: pointer; display: none;">&times;</span>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Kaydet</button>
                     </form>
@@ -59,159 +62,187 @@
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function () {
-            let table = $('#sectorsTable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{{ route('admin.sectors.data') }}',
-                language: {
-                    url: "{{ asset('assets/datatables/turkish.json') }}"
+<script>
+    $(document).ready(function () {
+        let table = $('#sectorsTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('admin.sectors.data') }}',
+            language: {
+                url: "{{ asset('assets/datatables/turkish.json') }}"
+            },
+            columns: [
+                {data: 'id', name: 'id'},
+                {data: 'name', name: 'name'},
+                {data: 'text', name: 'text'},
+                {
+                    data: 'image',
+                    name: 'image',
+                    orderable: false,
+                    searchable: false,
+                    render: function (data) {
+                        let imageUrl = data ? `/uploads/sectors/${data}` : '/images/default-placeholder.png';
+                        return `<img src="${imageUrl}" class="img-thumbnail" width="50">`;
+                    }
                 },
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'text', name: 'text'},
-                    {
-                        data: 'image',
-                        name: 'image',
-                        orderable: false,
-                        searchable: false,
-                        render: function (data) {
-                            let imageUrl = data ? `/uploads/sectors/${data}` : '/images/default-placeholder.png';
-                            return `<img src="${imageUrl}" class="img-thumbnail" width="50">`;
-                        }
-                    },
-                    {
-                        data: null,
-                        orderable: false,
-                        searchable: false,
-                        render: function (data) {
-                            return `
-                               <div class="d-flex align-content-center gap-2">
-                               <button class="btn btn-primary btn-sm edit-sector"
-                                    data-id="${data.id}"
-                                    data-name="${data.name}"
-                                    data-text="${data.text}"
-                                    data-image="${data.image}">
-                                    <i class="bi bi-pencil"></i> Düzenle
-                                </button>
-                                <button class="btn btn-danger btn-sm delete-sector" data-id="${data.id}">
-                                    <i class="bi bi-trash"></i> Sil
-                                </button>
-                               </div>
-                            `;
-                        }
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    render: function (data) {
+                        return `
+                       <div class="d-flex align-items-center gap-2">
+                           <button class="btn btn-primary btn-sm edit-sector"
+                                data-id="${data.id}"
+                                data-name="${data.name}"
+                                data-text="${data.text}"
+                                data-image="${data.image}">
+                                <i class="bi bi-pencil"></i> Düzenle
+                            </button>
+                            <button class="btn btn-danger btn-sm delete-sector" data-id="${data.id}">
+                                <i class="bi bi-trash"></i> Sil
+                            </button>
+                       </div>
+                    `;
                     }
-                ]
-            });
-
-            // Yeni Sektör Ekle Butonu
-            $('#addSectorBtn').click(function () {
-                $('#sectorForm')[0].reset();
-                $('#sector_id').val('');
-                $('#previewImage').hide();
-                $('#sectorModal').modal('show');
-            });
-
-            // Resim Yüklerken Önizleme
-            $('#image').change(function () {
-                let reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#previewImage').attr('src', e.target.result).show();
-                };
-                reader.readAsDataURL(this.files[0]);
-            });
-
-            $(document).on('click', '.edit-sector', function () {
-                let image = $(this).data('image');
-
-                $('#sector_id').val($(this).data('id'));
-                $('#name').val($(this).data('name'));
-                $('#text').val($(this).data('text'));
-
-                let imageUrl = '/images/default-placeholder.png';
-
-                if (image && image.trim() !== "") {
-                    imageUrl = `/uploads/sectors/${image}`;
                 }
+            ]
+        });
 
-                $('#image').val('');
+        // Yeni Sektör Ekle Butonu
+        $('#addSectorBtn').click(function () {
+            $('#sectorForm')[0].reset();
+            $('#sector_id').val('');
+            $('#previewImage').hide();
+            $('#deleteImageIcon').hide();
+            $('#sectorModal').modal('show');
+        });
 
-                $('#previewImage').attr('src', imageUrl).show();
+        // Resim Yüklerken Önizleme
+        $('#image').change(function () {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                $('#previewImage').attr('src', e.target.result).show();
+                // Eğer yeni resim seçiliyorsa, çarpı simgesini gizleyelim (çünkü bu yeni resim henüz kaydedilmemiş)
+                $('#deleteImageIcon').hide();
+            };
+            reader.readAsDataURL(this.files[0]);
+        });
 
-                $('#sectorModal').modal('show');
-            });
+        // Sektör Düzenleme
+        $(document).on('click', '.edit-sector', function () {
+            let sectorId = $(this).data('id');
+            let name = $(this).data('name');
+            let text = $(this).data('text');
+            let image = $(this).data('image');
 
-            // Form Gönderme (Yeni Kayıt veya Güncelleme)
-            $('#sectorForm').submit(function (e) {
-                e.preventDefault();
-                let sectorId = $('#sector_id').val();
-                let formData = new FormData();
+            $('#sector_id').val(sectorId);
+            $('#name').val(name);
+            $('#text').val(text);
 
-                formData.append('_token', '{{ csrf_token() }}');
-                formData.append('name', $('#name').val());
-                formData.append('text', $('#text').val());
+            let imageUrl = '/images/default-placeholder.png';
+            if (image && image.trim() !== "") {
+                imageUrl = `/uploads/sectors/${image}`;
+                // Eğer düzenlemede resim varsa, çarpı simgesini göster
+                $('#deleteImageIcon').show().data('id', sectorId);
+            } else {
+                $('#deleteImageIcon').hide();
+            }
+            $('#image').val('');
+            $('#previewImage').attr('src', imageUrl).show();
 
-                let imageFile = $('#image')[0].files[0];
-                if (imageFile) {
-                    formData.append('image', imageFile);
+            $('#sectorModal').modal('show');
+        });
+
+        // Form Gönderme (Yeni Kayıt veya Güncelleme)
+        $('#sectorForm').submit(function (e) {
+            e.preventDefault();
+            let sectorId = $('#sector_id').val();
+            let formData = new FormData();
+
+            formData.append('_token', '{{ csrf_token() }}');
+            formData.append('name', $('#name').val());
+            formData.append('text', $('#text').val());
+
+            let imageFile = $('#image')[0].files[0];
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            let url = sectorId ? `/admin/sectors/${sectorId}` : '/admin/sectors';
+            if (sectorId) {
+                formData.append('_method', 'PUT');
+            }
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    table.ajax.reload();
+                    $('#sectorModal').modal('hide');
+                    Swal.fire('Başarılı', response.message, 'success');
+                },
+                error: function () {
+                    Swal.fire('Hata', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
                 }
-
-                let url = sectorId ? `/admin/sectors/${sectorId}` : '/admin/sectors';
-                let method = sectorId ? 'POST' : 'POST';
-
-                if (sectorId) {
-                    formData.append('_method', 'PUT');
-                }
-
-                $.ajax({
-                    url: url,
-                    method: method,
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        table.ajax.reload();
-                        $('#sectorModal').modal('hide');
-                        Swal.fire('Başarılı', response.message, 'success');
-                    },
-                    error: function () {
-                        Swal.fire('Hata', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
-                    }
-                });
-            });
-
-            // Sektör Silme
-            $(document).on('click', '.delete-sector', function () {
-                let sectorId = $(this).data('id');
-
-                Swal.fire({
-                    title: 'Emin misiniz?',
-                    text: "Bu sektörü silmek istediğinize emin misiniz?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Evet, sil!',
-                    cancelButtonText: 'Hayır'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: `/admin/sectors/${sectorId}`,
-                            method: 'DELETE',
-                            data: {_token: '{{ csrf_token() }}'},
-                            success: function (response) {
-                                table.ajax.reload();
-                                Swal.fire('Silindi!', response.message, 'success');
-                            },
-                            error: function () {
-                                Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
-                            }
-                        });
-                    }
-                });
             });
         });
-    </script>
+
+        // Sektör Silme
+        $(document).on('click', '.delete-sector', function () {
+            let sectorId = $(this).data('id');
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: "Bu sektörü silmek istediğinize emin misiniz?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet, sil!',
+                cancelButtonText: 'Hayır'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/admin/sectors/${sectorId}`,
+                        method: 'DELETE',
+                        data: {_token: '{{ csrf_token() }}'},
+                        success: function (response) {
+                            table.ajax.reload();
+                            Swal.fire('Silindi!', response.message, 'success');
+                        },
+                        error: function () {
+                            Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+
+        $(document).on('click', '#deleteImageIcon', function () {
+            let sectorId = $(this).data('id');
+            $.ajax({
+                url: `/admin/sectors/delete-image/${sectorId}`,
+                method: 'DELETE',
+                data: { _token: '{{ csrf_token() }}' },
+                success: function (response) {
+                    if(response.success) {
+                        // Önizleme resmi varsayılan placeholder'a döner
+                        $('#previewImage').attr('src', '/images/default-placeholder.png');
+                        $('#deleteImageIcon').hide();
+                    } else {
+                        Swal.fire('Hata!', response.message, 'error');
+                    }
+                },
+                error: function () {
+                    Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+                }
+            });
+        });
+    });
+
+</script>
 @endsection

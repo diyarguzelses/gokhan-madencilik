@@ -21,7 +21,7 @@
                 <i class="bi bi-plus-circle"></i> Yeni Menü Ekle
             </button>
         </div>
-        <div class="card-body">
+        <div class="card-body mt-5">
             <table id="menusTable" class="table table-bordered">
                 <thead>
                 <tr>

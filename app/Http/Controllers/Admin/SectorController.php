@@ -95,5 +95,23 @@ class SectorController extends Controller {
         return response()->json(['success' => true, 'message' => 'Sektör silindi.']);
     }
 
+    public function deleteImage($id)
+    {
+        $sector = Sector::findOrFail($id);
+
+        if ($sector->image) {
+            $imagePath = public_path('uploads/sectors/'.$sector->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $sector->image = null;
+            $sector->save();
+
+            return response()->json(['success' => true, 'message' => 'Resim silindi.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Silinecek resim bulunamadı.'], 404);
+    }
+
 }
 

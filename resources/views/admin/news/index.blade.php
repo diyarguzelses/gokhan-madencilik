@@ -60,8 +60,13 @@
                         <div class="mb-3">
                             <label>Resim</label>
                             <input type="file" class="form-control" name="image" id="image">
-                            <img id="previewImage" class="mt-2" width="100" height="100" style="display:none;">
+                            <div id="newsImageContainer" style="position: relative; display: inline-block;">
+                                <img id="previewImage" class="mt-2" width="100" height="100" style="display: none;">
+                                <!-- Çarpı simgesi: resmi silmek için -->
+                                <span id="deleteNewsImageIcon" style="position: absolute; top:0; right: 0; background: red; color: white; padding: 6px 10px;border-radius: 5px ; cursor: pointer; display: none;">&times;</span>
+                            </div>
                         </div>
+
                         <button type="submit" class="btn btn-primary w-100">Kaydet</button>
                     </form>
                 </div>
@@ -76,16 +81,19 @@
             let table = $('#newsTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('admin.news.data') }}',
+                ajax: '{{ route("admin.news.data") }}',
                 language: {
-                    url: "{{ asset('assets/datatables/turkish.json') }}" // Türkçe çeviri dosyasını yükle
+                    url: "{{ asset('assets/datatables/turkish.json') }}"
                 },
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'title', name: 'title'},
-                    {data: 'content', name: 'content'},
-                    {data: 'image', name: 'image', orderable: false, searchable: false},
-                    {data: 'actions', name: 'actions', orderable: false, searchable: false}
+                    { data: 'id', name: 'id' },
+                    { data: 'title', name: 'title' },
+                    {data: 'content', name: 'content', render: function(data) {
+                            return data.length > 200 ? data.substring(0, 200) + '...' : data;
+                        }
+                    },
+                    { data: 'image', name: 'image', orderable: false, searchable: false },
+                    { data: 'actions', name: 'actions', orderable: false, searchable: false }
                 ]
             });
 
@@ -94,6 +102,8 @@
                 $('#newsForm')[0].reset();
                 $('#news_id').val('');
                 $('#_method').val('POST');
+                $('#previewImage').hide();
+                $('#deleteNewsImageIcon').hide();
                 $('#newsModal').modal('show');
             });
 
@@ -107,8 +117,11 @@
                 let image = $(this).data('image');
                 if (image) {
                     $('#previewImage').attr('src', '/uploads/news/' + image).show();
+                    // Eğer resim varsa silme simgesini göster ve haber id'sini ata
+                    $('#deleteNewsImageIcon').show().data('id', $(this).data('id'));
                 } else {
                     $('#previewImage').hide();
+                    $('#deleteNewsImageIcon').hide();
                 }
 
                 $('#newsModal').modal('show');
@@ -120,11 +133,10 @@
                 let formData = new FormData(this);
                 let newsId = $('#news_id').val();
                 let url = newsId ? `/admin/news/${newsId}` : '/admin/news';
-                let method = newsId ? 'POST' : 'POST';
 
                 $.ajax({
                     url: url,
-                    method: method,
+                    method: 'POST',
                     data: formData,
                     contentType: false,
                     processData: false,
@@ -139,7 +151,7 @@
                 });
             });
 
-            // Silme Butonu
+            // Haber Silme Butonu
             $(document).on('click', '.delete-news', function () {
                 let newsId = $(this).data('id');
 
@@ -157,9 +169,7 @@
                         $.ajax({
                             url: `/admin/news/${newsId}`,
                             method: 'DELETE',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            },
+                            data: { _token: '{{ csrf_token() }}' },
                             success: function (response) {
                                 table.ajax.reload();
                                 Swal.fire('Silindi!', response.message, 'success');
@@ -172,6 +182,37 @@
                 });
             });
 
+            // Resim Seçildiğinde Önizleme
+            $('#image').change(function (e) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#previewImage').attr('src', e.target.result).show();
+                    // Yeni resim seçilince silme simgesini gizle
+                    $('#deleteNewsImageIcon').hide();
+                };
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            // Haber Görselini Silme (Çarpı simgesine tıklandığında, onay sormadan)
+            $(document).on('click', '#deleteNewsImageIcon', function () {
+                let newsId = $(this).data('id');
+                $.ajax({
+                    url: `/admin/news/delete-image/${newsId}`,
+                    method: 'DELETE',
+                    data: { _token: '{{ csrf_token() }}' },
+                    success: function (response) {
+                        if (response.success) {
+                            $('#previewImage').attr('src', '').hide();
+                            $('#deleteNewsImageIcon').hide();
+                        } else {
+                            Swal.fire('Hata!', response.message, 'error');
+                        }
+                    },
+                    error: function () {
+                        Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+                    }
+                });
+            });
         });
     </script>
 @endsection

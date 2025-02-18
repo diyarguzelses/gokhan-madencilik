@@ -59,7 +59,12 @@
                         <div class="mb-3">
                             <label>Görsel</label>
                             <input type="file" class="form-control" name="image" id="image">
-                            <img id="previewImage" src="" class="mt-2 img-thumbnail" style="max-width: 100px; display: none;">
+                            <!-- Resim container -->
+                            <div id="imageContainer" style="position: relative; display: inline-block;">
+                                <img id="previewImage" src="" class="mt-2 img-thumbnail" style="max-width: 100px; display: none;">
+                                <!-- Çarpı simgesi: görsel silme -->
+                                <span id="deleteImageIcon" style="position: absolute; top:20px; right: 0px; background: red; color: white; padding: 6px 12px;border-radius: 5px ; cursor: pointer; display: none;">&times;</span>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Kaydet</button>
                     </form>
@@ -92,8 +97,8 @@
             $('#addMachineBtn').click(function () {
                 $('#machineForm')[0].reset();
                 $('#machine_id').val('');
-                $('#modalTitle').text('Yeni Makine Ekle');
                 $('#previewImage').hide();
+                $('#deleteImageIcon').hide();
                 $('#machineModal').modal('show');
             });
 
@@ -107,10 +112,12 @@
                     $('#quantity').val(data.quantity);
                     if (data.image) {
                         $('#previewImage').attr('src', '/' + data.image).show();
+                        // Eğer düzenlemede resim varsa, çarpı simgesini göster
+                        $('#deleteImageIcon').show().data('id', data.id);
                     } else {
                         $('#previewImage').hide();
+                        $('#deleteImageIcon').hide();
                     }
-                    $('#modalTitle').text('Makineyi Düzenle');
                     $('#machineModal').modal('show');
                 });
             });
@@ -121,7 +128,6 @@
                 let formData = new FormData(this);
                 let machineId = $('#machine_id').val();
                 let url = machineId ? `/admin/machines/${machineId}` : '/admin/machines';
-                let method = machineId ? 'POST' : 'POST';
 
                 if (machineId) {
                     formData.append('_method', 'PUT');
@@ -129,7 +135,7 @@
 
                 $.ajax({
                     url: url,
-                    method: method,
+                    method: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -147,7 +153,6 @@
             // Makine Silme
             $(document).on('click', '.delete-machine', function () {
                 let machineId = $(this).data('id');
-
                 Swal.fire({
                     title: 'Emin misiniz?',
                     text: "Bu makineyi silmek istediğinize emin misiniz?",
@@ -162,9 +167,7 @@
                         $.ajax({
                             url: `/admin/machines/${machineId}`,
                             method: 'DELETE',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            },
+                            data: { _token: '{{ csrf_token() }}' },
                             success: function (response) {
                                 table.ajax.reload();
                                 Swal.fire('Silindi!', response.message, 'success');
@@ -182,10 +185,33 @@
                 let reader = new FileReader();
                 reader.onload = function (e) {
                     $('#previewImage').attr('src', e.target.result).show();
+                    // Yeni resim seçildiğinde, çarpı simgesini gizleyelim
+                    $('#deleteImageIcon').hide();
                 };
                 reader.readAsDataURL(event.target.files[0]);
             });
 
+            // Görsel Silme (Çarpı simgesine tıklandığında, onay sormadan)
+            $(document).on('click', '#deleteImageIcon', function () {
+                let machineId = $(this).data('id');
+                $.ajax({
+                    url: `/admin/machines/delete-image/${machineId}`,
+                    method: 'DELETE',
+                    data: { _token: '{{ csrf_token() }}' },
+                    success: function (response) {
+                        if(response.success) {
+                            $('#previewImage').attr('src', '').hide();
+                            $('#deleteImageIcon').hide();
+                        } else {
+                            Swal.fire('Hata!', response.message, 'error');
+                        }
+                    },
+                    error: function () {
+                        Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+                    }
+                });
+            });
         });
+
     </script>
 @endsection
