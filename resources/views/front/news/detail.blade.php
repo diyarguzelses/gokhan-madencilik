@@ -35,17 +35,24 @@
                 </div>
             </div>
             <div class="col-lg-6 order-2 order-lg-1 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <h2 style="color: var(--accent-color)">{{ $news->title }}</h2>
-                        <div class="date">
-                            <span class="day">{{ $news->created_at->format('d') }}</span>
-                            <span class="month">{{ $news->created_at->locale('tr')->isoFormat('MMM') }}</span>
-                        </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <h2 style="color: var(--accent-color)">
+                        <a href="{{route('news.detail', $new->slug)}}" style="text-decoration: none; color: inherit;">
+                            {{ $news->title }}
+                        </a>
+                    </h2>
+                    <div class="date">
+                        <span class="day">{{ $news->created_at->format('d') }}</span>
+                        <span class="month">{{ $news->created_at->locale('tr')->isoFormat('MMM') }}</span>
                     </div>
-                    <p class="fst-italic">
+                </div>
+                <p class="fst-italic">
+                    <a href="{{route('news.detail', $new->slug)}}" style="text-decoration: none; color: inherit;">
                         <span>{!! $news->content !!}</span>
-                    </p>
+                    </a>
+                </p>
             </div>
+
         </div>
     </section>
 

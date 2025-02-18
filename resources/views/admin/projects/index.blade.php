@@ -63,6 +63,7 @@
                 language: {
                     url: "{{ asset('assets/datatables/turkish.json') }}"
                 },
+                order: [[0, 'asc']],
                 columns: [
                     { data: 'order', name: 'order' },
                     { data: 'id', name: 'id' },
