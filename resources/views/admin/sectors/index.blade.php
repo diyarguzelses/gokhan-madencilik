@@ -14,7 +14,7 @@
 
     <div class="card mb-5">
         <!-- Kart Başlık -->
-        <div class="card-header text-white d-flex justify-content-between"
+        <div class="card-header text-white d-flex justify-content-between mb-3"
              style="background: linear-gradient(135deg, #1e3c72, #2a5298); border-radius: 10px 10px 0 0;">
             <span class="fw-bold fs-5">Sektörler</span>
             <button class="btn btn-light text-primary fw-bold" id="addSectorBtn">
@@ -22,8 +22,8 @@
             </button>
         </div>
         <!-- Kart İçerik -->
-        <div class="card-body">
-            <table id="sectorsTable" class="table table-bordered">
+        <div class="card-body m-2">
+            <table id="sectorsTable" class="table table-bordered mt-3">
                 <thead>
                 <tr>
                     <th>Sıra</th>

@@ -154,48 +154,41 @@
                                   }
                                 }
                             </script>
-                            <div class="swiper-wrapper" id="swiper-wrapper-c278e8a742a39911" aria-live="off"
-                                 style="transition-duration: 0ms; transform: translate3d(-1974px, 0px, 0px); transition-delay: 0ms;">
 
-                                @foreach ($news as $new)
-                                    <div class="swiper-slide" role="group" aria-label="4 / 5"
-                                         style="width: 638px; margin-right: 20px;">
-                                        <div class="testimonial-wrap">
-                                            <div class="testimonial-item">
-                                                <img src="{{ asset('/uploads/news/'.$new->image) }}"
-                                                     onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';"
-                                                     class="testimonial-img" alt="Haber Resmi">
-                                                <h3>{{ $new->title }}</h3>
-                                                <p>
-                                                    <i class="bi bi-quote quote-icon-left"></i>
-                                                    <span>{!!  Str::limit($new->content, 200) !!}</span>
-                                                    <i class="bi bi-quote quote-icon-right"></i>
-                                                </p>
+                            <div class="swiper-wrapper">
+                                @foreach ($news as $index => $new)
+                                    <div class="swiper-slide">
+                                        <a href="{{ route('news.detail', $new->slug) }}">
+                                            <div class="testimonial-wrap">
+                                                <div class="testimonial-item">
+                                                    <img src="{{ asset('/uploads/news/'.$new->image) }}"
+                                                         onerror="this.onerror=null; this.src='{{ asset('front/assets/img/default-img.png') }}';"
+                                                         class="testimonial-img" alt="Haber Resmi">
+                                                    <h3>{{ $new->title }}</h3>
+                                                    <p>
+                                                        <i class="bi bi-quote quote-icon-left"></i>
+                                                        <span>{!! Str::limit($new->content, 200) !!}</span>
+                                                        <i class="bi bi-quote quote-icon-right"></i>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </a>
                                     </div>
                                 @endforeach
+                            </div>
 
+                            <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                                @foreach ($news as $index => $new)
+                                    <span class="swiper-pagination-bullet {{ $loop->first ? 'swiper-pagination-bullet-active' : '' }}" tabindex="0" role="button" aria-label="Go to slide {{ $loop->iteration }}"></span>
+                                @endforeach
                             </div>
-                            <div
-                                class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
-                                <span class="swiper-pagination-bullet" tabindex="0" role="button"
-                                      aria-label="Go to slide 1"></span>
-                                <span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0"
-                                      role="button" aria-label="Go to slide 2" aria-current="true"></span>
-                                <span class="swiper-pagination-bullet" tabindex="0" role="button"
-                                      aria-label="Go to slide 3"></span>
-                                <span class="swiper-pagination-bullet" tabindex="0" role="button"
-                                      aria-label="Go to slide 4"></span>
-                                <span class="swiper-pagination-bullet" tabindex="0" role="button"
-                                      aria-label="Go to slide 5"></span>
-                            </div>
+
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
+
 
     </section>
 
