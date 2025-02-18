@@ -113,10 +113,12 @@
                 <div class="col-lg-8 order-2 order-lg-2 content aos-init aos-animate"  data-aos="fade-up"
                      data-aos-delay="200">
                     @if(isset($lastnew) && $lastnew->title)
-                        <h3 style="color: var(--accent-color)">{{ $lastnew->title }}</h3>
-                        <p class="fsitalict- w-75 bg-white2">
-                            {!! Str::limit($lastnew->content, 550) !!}
-                        </p>
+                            <a href="{{ route('news.detail', $lastnew->slug) }}" style="color: black!important;">
+                                <h3 style="color: var(--accent-color)">{{ $lastnew->title }}</h3>
+                                <div class="fsitalict- w-75 bg-white2 mr-2 ">
+                                    {!! Str::limit($lastnew->content, 450) !!}
+                                </div>
+                            </a>
                     @endif
 
                 </div>
