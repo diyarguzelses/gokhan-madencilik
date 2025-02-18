@@ -204,6 +204,9 @@
                 $('#_method').val('POST');
                 $('#previewImage').hide();
                 $('#deleteNewsImageIcon').hide();
+                if (window.courseEditor) {
+                    window.courseEditor.setData('');
+                }
                 $('#newsModal').modal('show');
             });
 
