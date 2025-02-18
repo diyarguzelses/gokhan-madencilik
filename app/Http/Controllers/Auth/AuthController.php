@@ -24,7 +24,7 @@ class AuthController extends Controller
             ->first();
 
         if ($user && Auth::attempt(['email' => $user->email, 'password' => $password])) {
-            return redirect('admin/');
+            return redirect('FT23BA23DG12/');
         }
 
         return back()->with(['error' => 'Kullanıcı adı veya şifre hatalı']);
