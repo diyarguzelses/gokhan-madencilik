@@ -22,7 +22,9 @@ class ProjectController extends Controller
     public function data()
     {
         $projects = Project::with('category', 'images')
-            ->select('projects.*');
+            ->select('projects.*')
+            ->orderBy('order', 'asc');
+
 
         return datatables($projects)
             ->addColumn('category_name', function ($project) {
