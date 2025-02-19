@@ -45,7 +45,7 @@
                         <i class="bi bi-envelope flex-shrink-0"></i>
                         <div>
                             <h3>E-posta</h3>
-                            <p>info@cetin-insaat.com.tr</p>
+                            <p>cetin@cetininsaat.info</p>
                         </div>
                     </div>
                 </div>
