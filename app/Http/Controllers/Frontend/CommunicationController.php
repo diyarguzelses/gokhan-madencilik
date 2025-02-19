@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CommunicationMail;
 use App\Models\Communications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -35,27 +36,8 @@ class CommunicationController extends Controller
             'messageContent' => $validateData['message'],
         ];
 
-        try {
-            Mail::raw(
-                "Gönderen: {$emailData['name']} ({$emailData['email']})\n\nMesaj:\n{$emailData['messageContent']}",
-                function ($message) use ($emailData) {
-                    $toAddress = env('MAIL_TO_ADDRESS');
-                    $message->to($toAddress)
-                        ->subject('Yeni İletişim Mesajı')
-                        ->from($emailData['email'], $emailData['name']);
-                }
-            );
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Mesaj başarıyla gönderildi.'
-            ], 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Mesaj gönderilemedi: ' . $e->getMessage()
-            ], 500);
-        }
+        Mail::to(env('MAIL_TO_ADDRESS'))->send(new CommunicationMail($emailData));
+        return response()->json(['status' => 'success']);
     }
 }

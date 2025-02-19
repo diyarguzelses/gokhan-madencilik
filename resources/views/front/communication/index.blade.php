@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="col-lg-8">
-                    <form action="{{ route('communication.sendMessage') }}" method="POST" class="php-email-form aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+                    <form action="" method="POST" class="php-email-form aos-init aos-animate" id="sendFeedbackForm" data-aos="fade-up" data-aos-delay="200">
                         @csrf
                         <div class="row gy-4">
                             <div class="col-md-6">
@@ -68,9 +68,9 @@
 
                             <div class="col-md-12 text-center">
                                 <div class="loading alert alert-warning text-center" style="display:none;">Gönderiliyor...</div>
-                                <div class="error-message alert alert-danger text-center" style="display:none;"></div>
                                 <div class="sent-message alert alert-success text-center" style="display:none;"></div>
-                                <button type="submit" class="btn btn-primary">Gönder</button>
+                                <div class="error-message alert alert-danger text-center" style="display:none;"></div>
+                                <button type="button" id="sendMailButton" onclick="sendFeedback()" class="btn btn-primary">Gönder</button>
                             </div>
                         </div>
                     </form>
@@ -88,48 +88,58 @@
 @endsection
 
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
-        $(document).ready(function() {
-            $('.php-email-form').on('submit', function(e) {
-                e.preventDefault(); // Formun klasik gönderimini engelle
+        function sendFeedback(){
+            var formData = new FormData(document.getElementById('sendFeedbackForm'));
 
-                var form = $(this);
-                var url = form.attr('action');
-
-                // Mesaj alanlarını sıfırla
-                form.find('.loading').show();
-                form.find('.error-message').hide().text('');
-                form.find('.sent-message').hide().text('');
-
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: form.serialize(), // Form verilerini seri hale getirir
-                    dataType: "json",
-                    success: function(response) {
-                        form.find('.loading').hide();
-
-                        if (response.success) {
-                            form.find('.sent-message').text(response.message).show();
-                            form.find('.error-message').hide();
-                            form[0].reset(); // Formu sıfırla
-                        } else {
-                            form.find('.error-message').text(response.message || 'Bir hata oluştu.').show();
-                            form.find('.sent-message').hide();
+            $.ajax({
+                url: '{{ route("communication.sendMessage") }}',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {'X-CSRF-TOKEN': "{{csrf_token()}} "},
+                beforeSend: function () {
+                    Swal.fire({
+                        title: 'Lütfen Bekleyiniz...',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading()
                         }
-                    },
-                    error: function(xhr) {
-                        form.find('.loading').hide();
-                        try {
-                            var err = JSON.parse(xhr.responseText);
-                            form.find('.error-message').text(err.message || 'Bir hata oluştu.').show();
-                        } catch (e) {
-                            form.find('.error-message').text('Sunucudan beklenmeyen bir yanıt alındı.').show();
-                        }
-                        form.find('.sent-message').hide();
+                    });
+                },
+                success: function (response) {
+                    if (response.status == 'success') {
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Başarılı!",
+                            text: "Geri bildiriminiz gönderildi!",
+                            timer: 3000, // 3 saniye sonra otomatik kapanacak
+                            showConfirmButton: false // "Tamam" butonunu kaldırır
+                        }).then(() => {
+                            window.location.reload(); // Sayfayı yenile
+                        });
                     }
-                });
+                },
+                error: function (xhr) {
+                    let errors = xhr.responseJSON.errors;
+
+                    let errorMessages = '';
+                    $.each(errors, function (key, value) {
+
+                    });
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Hata!",
+                        confirmButtonText: "Tamam"
+                    });
+                }
             });
-        });
+        }
     </script>
 @endsection
