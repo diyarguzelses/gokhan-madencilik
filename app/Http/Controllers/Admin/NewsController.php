@@ -13,48 +13,42 @@ class NewsController extends Controller {
     }
 
     public function getData() {
-        $news = News::select(['id', 'title', 'content', 'image', 'order','frontpage'])
-            ->orderBy('order', 'asc'); // order sütununa göre sıralama
+        $news = News::select(['id', 'title', 'content', 'image', 'order', 'frontpage'])
+            ->orderBy('order', 'asc');
 
         return DataTables::of($news)
             ->addColumn('order', function ($news) {
                 return $news->order;
             })
             ->addColumn('image', function ($news) {
-                return $news->image ? '<img src="'.asset('uploads/news/'.$news->image).'" width="50" height="50">' : 'Yok';
+                return $news->image
+                    ? '<img src="' . asset('uploads/news/' . $news->image) . '" width="50" height="50">'
+                    : 'Yok';
             })
             ->addColumn('actions', function ($news) {
                 $toggleButton = '';
                 if (!$news->frontpage) {
                     $toggleButton = '<button class="btn btn-success btn-sm toggle-frontpage"
-            data-id="'.$news->id.'"
-            data-frontpage="'.$news->frontpage.'">
-            Anasayfada Göster
-        </button>';
+                    data-id="' . $news->id . '"
+                    data-frontpage="' . $news->frontpage . '">
+                    Anasayfada Göster
+                </button>';
                 }
                 return '
-      <div class="d-flex alert-gray justify-content-center gap-2">
-        '.$toggleButton.'
-        <button class="btn btn-primary btn-sm edit-news"
-            data-id="'.$news->id.'"
-            data-title="'.$news->title.'"
-            data-content="'.$news->content.'"
-            data-image="'.$news->image.'"
-            data-frontpage="'.$news->frontpage.'">
-            Düzenle
-        </button>
-        <button class="btn btn-danger btn-sm delete-news" data-id="'.$news->id.'">
-            Sil
-        </button>
-      </div>
-    ';
+            <div class="d-flex alert-gray justify-content-center gap-2">
+                ' . $toggleButton . '
+                <button class="btn btn-primary btn-sm edit-news"
+                    data-id="' . $news->id . '">
+                    Düzenle
+                </button>
+                <button class="btn btn-danger btn-sm delete-news" data-id="' . $news->id . '">
+                    Sil
+                </button>
+            </div>
+            ';
             })
             ->rawColumns(['image', 'actions'])
             ->make(true);
-
-
-
-
     }
 
     public function store(Request $request) {
@@ -199,6 +193,18 @@ class NewsController extends Controller {
             'frontpage' => $news->frontpage
         ]);
     }
+    public function getContent($id)
+    {
+        $news = News::findOrFail($id);
+        return response()->json([
+            'id'        => $news->id,
+            'title'     => $news->title,
+            'content'   => $news->content,
+            'image'     => $news->image,
+            'frontpage' => $news->frontpage,
+        ]);
+    }
+
 
 
 }

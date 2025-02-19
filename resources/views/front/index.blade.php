@@ -110,18 +110,18 @@
                 </div>
 
 
-                <div class="col-lg-8 order-2 order-lg-2 content aos-init aos-animate"  data-aos="fade-up"
-                     data-aos-delay="200">
+                <div class="col-lg-8 order-2 order-lg-2 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
                     @if(isset($lastnew) && $lastnew->title)
-                            <a href="{{ route('news.detail', $lastnew->slug) }}" style="color: black!important;">
-                                <h3 style="color: var(--accent-color)">{{ $lastnew->title }}</h3>
-                                <div class="fsitalict- w-75 bg-white2 mr-2 ">
-                                    {!! Str::limit($lastnew->content, 450) !!}
-                                </div>
-                            </a>
+                        <a href="{{ route('news.detail', $lastnew->slug) }}" style="color: black!important;">
+                            <h3 style="color: var(--accent-color)">{{ $lastnew->title }}</h3>
+                            <div class="fsitalict- w-75 bg-white2 mr-2">
+                                {!! htmlExcerpt($lastnew->content, 450) !!}
+                            </div>
+                        </a>
                     @endif
-
                 </div>
+
+
 
             </div>
 
@@ -169,7 +169,7 @@
                                                     <h3>{{ $new->title }}</h3>
                                                     <p>
                                                         <i class="bi bi-quote quote-icon-left"></i>
-                                                        <span>{!! Str::limit($new->content, 200) !!}</span>
+                                                        <span>{!! htmlExcerpt($new->content, 200) !!}</span>
                                                         <i class="bi bi-quote quote-icon-right"></i>
                                                     </p>
                                                 </div>
@@ -184,6 +184,7 @@
                                     <span class="swiper-pagination-bullet {{ $loop->first ? 'swiper-pagination-bullet-active' : '' }}" tabindex="0" role="button" aria-label="Go to slide {{ $loop->iteration }}"></span>
                                 @endforeach
                             </div>
+
 
                         </div>
                     </div>

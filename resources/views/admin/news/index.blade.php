@@ -119,7 +119,7 @@
                             let div = document.createElement("div");
                             div.innerHTML = data;
                             let plainText = div.textContent || div.innerText || "";
-                            return plainText.length > 200 ? plainText.substring(0, 200) + '...' : plainText;
+                            return plainText.length > 50 ? plainText.substring(0, 50) + '...' : plainText;
                         }
                     },
                     { data: 'image', name: 'image', orderable: false, searchable: false },
@@ -130,7 +130,6 @@
                         $(row).find('td').not(':last-child').css('background-color', '#90ee90');
                     }
                 }
-
             });
 
             // Her çizimde satırlara data-id attribute ekleyelim
@@ -210,23 +209,32 @@
                 $('#newsModal').modal('show');
             });
 
-            // Haber Düzenleme Butonu
+            // AJAX ile Haber Düzenleme: "Düzenle" butonuna tıklandığında içerik çekme
             $(document).on('click', '.edit-news', function () {
-                $('#news_id').val($(this).data('id'));
-                $('#title').val($(this).data('title'));
-                let contentHtml = $(this).data('content');
-                window.courseEditor.setData(contentHtml);
-                $('#_method').val('PUT');
+                let newsId = $(this).data('id');
+                $.ajax({
+                    url: `/FT23BA23DG12/news/get-content/${newsId}`,
+                    type: 'GET',
+                    success: function(response) {
+                        // Modal alanlarını dolduralım
+                        $('#news_id').val(response.id);
+                        $('#title').val(response.title);
+                        window.courseEditor.setData(response.content);
+                        $('#_method').val('PUT');
 
-                let image = $(this).data('image');
-                if (image) {
-                    $('#previewImage').attr('src', '/uploads/news/' + image).show();
-                    $('#deleteNewsImageIcon').show().data('id', $(this).data('id'));
-                } else {
-                    $('#previewImage').hide();
-                    $('#deleteNewsImageIcon').hide();
-                }
-                $('#newsModal').modal('show');
+                        if (response.image) {
+                            $('#previewImage').attr('src', '/uploads/news/' + response.image).show();
+                            $('#deleteNewsImageIcon').show().data('id', response.id);
+                        } else {
+                            $('#previewImage').hide();
+                            $('#deleteNewsImageIcon').hide();
+                        }
+                        $('#newsModal').modal('show');
+                    },
+                    error: function() {
+                        Swal.fire('Hata!', 'İçerik çekilirken bir hata oluştu, lütfen tekrar deneyin.', 'error');
+                    }
+                });
             });
 
             // Form Gönderimi (Yeni Kayıt veya Güncelleme)
@@ -303,7 +311,6 @@
                         if (response.success) {
                             $('#previewImage').attr('src', '').hide();
                             $('#image').val('');
-
                             $('#deleteNewsImageIcon').hide();
                         } else {
                             Swal.fire('Hata!', response.message, 'error');
@@ -315,16 +322,14 @@
                 });
             });
         });
+
+        // Toggle Frontpage İşlemi
         $(document).on('click', '.toggle-frontpage', function () {
             let newsId = $(this).data('id');
-            let button = $(this);
-
             $.ajax({
                 url: `/FT23BA23DG12/news/toggle-frontpage/${newsId}`,
                 method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
+                data: { _token: '{{ csrf_token() }}' },
                 success: function (response) {
                     if (response.success) {
                         Swal.fire('Başarılı', response.message, 'success');
@@ -338,6 +343,5 @@
                 }
             });
         });
-
     </script>
 @endsection

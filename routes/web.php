@@ -144,6 +144,10 @@ Route::prefix('FT23BA23DG12')->middleware('auth.admin')->name('admin.')->group(f
         Route::post('/update-order', [NewsController::class, 'updateOrder'])->name('news-updateOrder');
         Route::post('/toggle-frontpage/{id}', [NewsController::class, 'toggleFrontpage']) ->name('toggleFrontpage');
 
+        Route::get('/get-content/{id}', [NewsController::class, 'getContent'])
+            ->name('getContent');
+
+
     });
 
     // 📌 KARİYER
