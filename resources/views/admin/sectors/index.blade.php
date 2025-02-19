@@ -58,7 +58,7 @@
                         </div>
                         <div class="mb-3">
                             <label>Açıklama</label>
-                            <!-- required kaldırıldı -->
+                            <!-- CKEditor'ün yükleneceği alan -->
                             <textarea class="form-control" id="text" name="text"></textarea>
                         </div>
                         <div class="mb-3 position-relative">
@@ -84,16 +84,55 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function () {
-            // CKEditor Başlatma: "Açıklama" alanı için
+            // CKEditor için Custom Upload Adapter Plugin
+            function MyCustomUploadAdapterPlugin(editor) {
+                editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                    return new MyUploadAdapter(loader);
+                };
+            }
+
+            class MyUploadAdapter {
+                constructor(loader) {
+                    this.loader = loader;
+                }
+                upload() {
+                    return this.loader.file
+                        .then(file => new Promise((resolve, reject) => {
+                            const data = new FormData();
+                            data.append('upload', file);
+                            fetch('/api/ckeditor/upload', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: data
+                            })
+                                .then(response => response.json())
+                                .then(result => {
+                                    resolve({ default: result.url });
+                                })
+                                .catch(error => {
+                                    reject('Dosya yüklenirken hata oluştu: ' + error);
+                                });
+                        }));
+                }
+                abort() {}
+            }
+
+            // CKEditor Başlatma – "Açıklama" alanı için; CKEditor instance'ını window.sectorEditor olarak kaydediyoruz
             ClassicEditor
-                .create(document.querySelector('#text'))
+                .create(document.querySelector('#text'), {
+                    extraPlugins: [ MyCustomUploadAdapterPlugin ]
+                })
                 .then(editor => {
                     window.sectorEditor = editor;
+                    console.log('Editor custom adapter ile yüklendi.');
                 })
                 .catch(error => {
                     console.error('CKEditor yüklenirken hata oluştu:', error);
                 });
 
+            // DataTables – Sektörler tablosu
             let table = $('#sectorsTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -130,12 +169,13 @@
                         orderable: false,
                         searchable: false,
                         render: function(data) {
+                            // Düz metin içindeki tırnak işaretleri sorun yaratabilir; bu nedenle data-text değeri için encodeURIComponent kullanabilirsiniz.
                             return `
                                 <div class="d-flex align-items-center gap-2">
                                     <button class="btn btn-primary btn-sm edit-sector"
                                         data-id="${data.id}"
                                         data-name="${data.name}"
-                                        data-text='${data.text}'
+                                        data-text="${encodeURIComponent(data.text)}"
                                         data-image="${data.image}">
                                         <i class="bi bi-pencil"></i> Düzenle
                                     </button>
@@ -172,7 +212,6 @@
                     $("#sectorsTable tbody tr").each(function(index) {
                         let sectorId = $(this).attr('data-id');
                         if (sectorId) {
-                            // Sıralama 1'den başlasın
                             orders.push({ id: sectorId, order: index + 1 });
                         }
                     });
@@ -184,7 +223,6 @@
                         });
                         return;
                     }
-                    // AJAX ile yeni sıralamayı gönder
                     $.ajax({
                         url: "{{ route('admin.sectors.updateOrder') }}",
                         method: "POST",
@@ -240,7 +278,8 @@
             $(document).on('click', '.edit-sector', function () {
                 let sectorId = $(this).data('id');
                 let name = $(this).data('name');
-                let text = $(this).data('text');
+                // data-text değerini decode ederek kullanıyoruz
+                let text = decodeURIComponent($(this).data('text'));
                 let image = $(this).data('image');
 
                 $('#sector_id').val(sectorId);
@@ -263,6 +302,7 @@
             // Form Gönderme (Yeni Kayıt veya Güncelleme)
             $('#sectorForm').submit(function (e) {
                 e.preventDefault();
+                // CKEditor'den alınan içerik textarea'ya aktarılıyor
                 $('#text').val(window.sectorEditor.getData());
                 let sectorId = $('#sector_id').val();
                 let formData = new FormData();

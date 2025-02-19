@@ -5,6 +5,7 @@
     }
 </style>
 @section('content')
+    <!-- Sayfa Yönetimi İçeriği -->
     <div class="alert alert-primary mt-2">
         <h5>Sayfa Yönetimi Hakkında</h5>
         <p>Bu panel, adminlerin web sitesine yeni sayfalar eklemesini, mevcut sayfaları düzenlemesini ve silmesini sağlar.</p>
@@ -26,7 +27,7 @@
         </div>
         <div class="card-body">
             <table id="pagesTable" class="table table-bordered">
-                <thead><br>
+                <thead>
                 <tr>
                     <th>ID</th>
                     <th>Başlık</th>
@@ -60,7 +61,6 @@
                             <label>İçerik</label>
                             <textarea class="form-control" name="content" id="content" ></textarea>
                         </div>
-
                         <!-- Çoklu Görsel Yükleme Alanı -->
                         <div class="mb-3">
                             <label class="form-label">Sayfa Görselleri</label>
@@ -71,7 +71,6 @@
                             <input type="file" id="images" name="images[]" class="d-none" multiple>
                             <div id="imagePreview" class="d-flex flex-wrap mt-2"></div>
                         </div>
-
                         <button type="submit" class="btn btn-primary w-100">Kaydet</button>
                     </form>
                 </div>
@@ -82,17 +81,57 @@
 
 @section('script')
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-
     <script>
+        // Custom Upload Adapter Plugin
+        function MyCustomUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                return new MyUploadAdapter(loader);
+            };
+        }
+
+        class MyUploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
+            }
+            upload() {
+                return this.loader.file
+                    .then(file => new Promise((resolve, reject) => {
+                        const data = new FormData();
+                        data.append('upload', file);
+
+                        fetch('/api/ckeditor/upload', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: data
+                        })
+                            .then(response => response.json())
+                            .then(result => {
+                                resolve({ default: result.url });
+                            })
+                            .catch(error => {
+                                reject('Dosya yüklenirken hata oluştu: ' + error);
+                            });
+                    }));
+            }
+            abort() { }
+        }
+
+        // CKEditor Başlatma: window.pageEditor olarak ayarlıyoruz
+        ClassicEditor
+            .create(document.querySelector('#content'), {
+                extraPlugins: [ MyCustomUploadAdapterPlugin ]
+            })
+            .then(editor => {
+                window.pageEditor = editor; // Dikkat: pageEditor olarak kaydediyoruz.
+                console.log('Editor custom adapter ile yüklendi.');
+            })
+            .catch(error => {
+                console.error('CKEditor yüklenirken hata oluştu:', error);
+            });
+
         $(document).ready(function () {
-            ClassicEditor
-                .create(document.querySelector('#content'))
-                .then(editor => {
-                    window.pageEditor = editor;
-                })
-                .catch(error => {
-                    console.error('CKEditor yüklenirken hata oluştu:', error);
-                });
             let table = $('#pagesTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -101,8 +140,8 @@
                     url: "{{ asset('assets/datatables/turkish.json') }}"
                 },
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'title', name: 'title'},
+                    { data: 'id', name: 'id' },
+                    { data: 'title', name: 'title' },
                     {
                         data: 'content',
                         name: 'content',
@@ -110,7 +149,7 @@
                             let div = document.createElement("div");
                             div.innerHTML = data;
                             let plainText = div.textContent || div.innerText || "";
-                            return plainText.length > 200 ? plainText.substring(0, 200) + '...' : plainText;
+                            return plainText.length > 50 ? plainText.substring(0, 50) + '...' : plainText;
                         }
                     },
                     {
@@ -130,40 +169,36 @@
                             }
                         }
                     },
-                    {data: 'actions', name: 'actions', orderable: false, searchable: false}
+                    { data: 'actions', name: 'actions', orderable: false, searchable: false }
                 ]
             });
 
-            // Sayfa ekle butonu
+            // Yeni Sayfa Ekle Butonu
             $('#addPageBtn').click(function () {
                 $('#pageForm')[0].reset();
                 $('#page_id').val('');
                 $('#imagePreview').html('');
                 if (window.pageEditor) {
-                    window.pageEditor.setData(''); // CKEditor içeriğini temizle
+                    window.pageEditor.setData('');
                 }
                 $('#pageModal').modal('show');
-
             });
 
-// Sayfa düzenleme işlemi (Edit)
+            // Sayfa Düzenleme İşlemi
             $(document).on('click', '.edit-page', function () {
                 let pageId = $(this).data('id');
-
                 $.get(`/FT23BA23DG12/pages/${pageId}/edit`, function (data) {
                     $('#page_id').val(data.id);
                     $('#title').val(data.title);
                     window.pageEditor.setData(data.content);
-
-                    // Mevcut görselleri (varsa) silme butonuyla birlikte ekrana bastırıyoruz
                     if(data.images && data.images.length > 0){
                         let previewHtml = '';
                         data.images.forEach(function(img) {
                             previewHtml += `
-                <div class="me-2 mb-2 position-relative existing-image">
-                    <img src="/${img.image}" class="img-thumbnail" width="80">
-                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-existing-image" data-id="${img.id}">&times;</button>
-                </div>`;
+                            <div class="me-2 mb-2 position-relative existing-image">
+                                <img src="/${img.image}" class="img-thumbnail" width="80">
+                                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-existing-image" data-id="${img.id}">&times;</button>
+                            </div>`;
                         });
                         $('#imagePreview').html(previewHtml);
                     } else {
@@ -173,8 +208,7 @@
                 });
             });
 
-
-            // Form gönderimi
+            // Form Gönderimi
             $('#pageForm').submit(function (e) {
                 e.preventDefault();
                 let formData = new FormData(this);
@@ -237,7 +271,6 @@
 
             function handleFiles(files) {
                 Array.from(files).forEach(file => {
-                    // Dosya boyutu ve türü kontrolü (maksimum 2MB)
                     if (file.size > 2 * 1024 * 1024) {
                         alert('Dosya boyutu 2MB\'ı geçemez: ' + file.name);
                         return;
@@ -246,45 +279,38 @@
                         alert('Geçersiz dosya türü: ' + file.name);
                         return;
                     }
-
                     uploadedFiles.push(file);
                     const reader = new FileReader();
                     reader.onload = function (event) {
                         const imgHtml = `
-                    <div class="me-3 mb-3 position-relative preview-image">
-                        <img src="${event.target.result}" alt="Görsel" style="width: 100px; height: 100px; object-fit: cover;">
-                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-temp-image" data-index="${uploadedFiles.length - 1}">&times;</button>
-                    </div>`;
+                        <div class="me-3 mb-3 position-relative preview-image">
+                            <img src="${event.target.result}" alt="Görsel" style="width: 100px; height: 100px; object-fit: cover;">
+                            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-temp-image" data-index="${uploadedFiles.length - 1}">&times;</button>
+                        </div>`;
                         previewContainer.append(imgHtml);
                     };
                     reader.readAsDataURL(file);
                 });
-
-                // input dosyalarını güncelle
                 const dataTransfer = new DataTransfer();
                 uploadedFiles.forEach(file => dataTransfer.items.add(file));
                 fileInput[0].files = dataTransfer.files;
             }
 
-            // Geçici görsel silme
             $(document).on('click', '.delete-temp-image', function () {
                 const index = $(this).data('index');
                 uploadedFiles.splice(index, 1);
                 $(this).closest('.preview-image').remove();
-
                 const dataTransfer = new DataTransfer();
                 uploadedFiles.forEach(file => dataTransfer.items.add(file));
                 fileInput[0].files = dataTransfer.files;
-
                 $('.delete-temp-image').each(function (i) {
                     $(this).attr('data-index', i);
                 });
             });
 
-            // Silme işlemi (sayfa silme)
+            // Sayfa silme işlemi
             $(document).on('click', '.delete-page', function () {
                 let pageId = $(this).data('id');
-
                 Swal.fire({
                     title: 'Emin misiniz?',
                     text: "Bu sayfayı silmek istediğinize emin misiniz?",
@@ -299,9 +325,7 @@
                         $.ajax({
                             url: `/FT23BA23DG12/pages/${pageId}`,
                             method: 'DELETE',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            },
+                            data: { _token: '{{ csrf_token() }}' },
                             success: function (response) {
                                 table.ajax.reload();
                                 Swal.fire('Silindi!', response.message, 'success');
@@ -314,10 +338,10 @@
                 });
             });
         });
+
         $(document).on('click', '.delete-existing-image', function () {
             let imageId = $(this).data('id');
             let $btn = $(this);
-
             Swal.fire({
                 zIndex: 20002133123,
                 title: 'Emin misiniz?',
@@ -333,9 +357,7 @@
                     $.ajax({
                         url: `/FT23BA23DG12/pages/page-images/${imageId}`,
                         method: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
+                        data: { _token: '{{ csrf_token() }}' },
                         success: function (response) {
                             Swal.fire({
                                 zIndex: 20002133123,
@@ -359,6 +381,5 @@
                 }
             });
         });
-
     </script>
 @endsection

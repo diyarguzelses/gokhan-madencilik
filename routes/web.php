@@ -18,8 +18,10 @@ use App\Http\Controllers\Frontend\NewsPageController;
 use App\Http\Controllers\Frontend\ProjectPageController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Settings\SettingsController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 
 /*
@@ -196,3 +198,17 @@ Route::get('/career', [App\Http\Controllers\Frontend\CareerController::class, 'i
 
 // DefaultPage Route (En Sona Alındı ve Çakışmalar Önendi)
 Route::get('/{slug}', [DefaultPageController::class, 'handleMenu'])->name('menu.handle');
+Route::post('/api/ckeditor/upload', function (Request $request) {
+    if ($request->hasFile('upload')) {
+        $file = $request->file('upload');
+        $fileName = time() . '_' . \Illuminate\Support\Str::random(10) . '.' . $file->getClientOriginalExtension();
+
+        $destinationPath = public_path('uploads/ckeditor');
+        $file->move($destinationPath, $fileName);
+
+        $url = asset('uploads/ckeditor/' . $fileName);
+
+        return response()->json(['url' => $url]);
+    }
+    return response()->json(['error' => ['message' => 'Dosya yüklenemedi.']], 400);
+});
