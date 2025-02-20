@@ -21,7 +21,7 @@
                 @csrf
                 <div class="mb-3">
                     <label>İçerik</label>
-                    <textarea class="form-control" name="content" id="content" required>{{ $career->content ?? '' }}</textarea>
+                    <textarea class="form-control" name="content" id="content" >{{ $career->content ?? '' }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label>Görsel</label>
@@ -47,10 +47,54 @@
     <script>
         $(document).ready(function () {
             // CKEditor'ü başlatıyoruz.
+            function MyCustomUploadAdapterPlugin(editor) {
+                editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                    return new MyUploadAdapter(loader);
+                };
+            }
+
+            class MyUploadAdapter {
+                constructor(loader) {
+                    this.loader = loader;
+                }
+
+                upload() {
+                    return this.loader.file
+                        .then(file => new Promise((resolve, reject) => {
+                            const data = new FormData();
+                            data.append('upload', file);
+
+                            fetch('/api/ckeditor/upload', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: data
+                            })
+                                .then(response => response.json())
+                                .then(result => {
+
+                                    resolve({
+                                        default: result.url
+                                    });
+                                })
+                                .catch(error => {
+                                    reject('Dosya yüklenirken hata oluştu: ' + error);
+                                });
+                        }));
+                }
+                abort() {
+
+                }
+            }
             ClassicEditor
-                .create(document.querySelector('#content'))
+                .create(document.querySelector('#content'), {
+                    extraPlugins: [ MyCustomUploadAdapterPlugin ],
+
+                })
                 .then(editor => {
-                    window.careerEditor = editor;
+                    window.courseEditor = editor;
+                    console.log('Editor custom adapter ile yüklendi.');
                 })
                 .catch(error => {
                     console.error('CKEditor yüklenirken hata oluştu:', error);
