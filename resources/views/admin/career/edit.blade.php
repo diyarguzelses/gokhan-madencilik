@@ -100,10 +100,8 @@
                     }));
             }
             abort() {
-                // İptal işlemleri (opsiyonel)
             }
         }
-        // CKEditor'ü başlatıyoruz (link özelliklerine dokunmadan varsayılan yapılandırmayı kullanıyoruz)
         ClassicEditor
             .create(document.querySelector('#content'), {
                 extraPlugins: [ MyCustomUploadAdapterPlugin ]

@@ -30,7 +30,7 @@
                                 <h4>{{$sector->name}}</h4>
                                 <hr>
                                 <p>
-                                    {!! Str::limit($sector->text, 100) !!} }
+                                    {!! Str::limit($sector->text, 100) !!}
 
                                 </p>
 
