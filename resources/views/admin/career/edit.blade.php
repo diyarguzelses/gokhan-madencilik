@@ -47,54 +47,10 @@
     <script>
         $(document).ready(function () {
             // CKEditor'ü başlatıyoruz.
-            function MyCustomUploadAdapterPlugin(editor) {
-                editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-                    return new MyUploadAdapter(loader);
-                };
-            }
-
-            class MyUploadAdapter {
-                constructor(loader) {
-                    this.loader = loader;
-                }
-
-                upload() {
-                    return this.loader.file
-                        .then(file => new Promise((resolve, reject) => {
-                            const data = new FormData();
-                            data.append('upload', file);
-
-                            fetch('/api/ckeditor/upload', {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                },
-                                body: data
-                            })
-                                .then(response => response.json())
-                                .then(result => {
-
-                                    resolve({
-                                        default: result.url
-                                    });
-                                })
-                                .catch(error => {
-                                    reject('Dosya yüklenirken hata oluştu: ' + error);
-                                });
-                        }));
-                }
-                abort() {
-
-                }
-            }
             ClassicEditor
-                .create(document.querySelector('#content'), {
-                    extraPlugins: [ MyCustomUploadAdapterPlugin ],
-
-                })
+                .create(document.querySelector('#content'))
                 .then(editor => {
-                    window.courseEditor = editor;
-                    console.log('Editor custom adapter ile yüklendi.');
+                    window.careerEditor = editor;
                 })
                 .catch(error => {
                     console.error('CKEditor yüklenirken hata oluştu:', error);
