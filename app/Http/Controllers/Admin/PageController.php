@@ -8,8 +8,10 @@ use App\Models\Page;
 use App\Models\Menu;
 use Yajra\DataTables\Facades\DataTables;
 
-class PageController extends Controller {
-    public function index() {
+class PageController extends Controller
+{
+    public function index()
+    {
         return view('admin.pages.index');
     }
 
@@ -32,19 +34,18 @@ class PageController extends Controller {
 //    }
 
 
-
     public function getData(Request $request)
     {
         $query = Page::with('images');
 
 
         if ($request->has('order')) {
-            $order        = $request->input('order')[0];
-            $columnIndex  = $order['column'];
-            $sortDirection= $order['dir'];
-            $columnName   = $request->input('columns')[$columnIndex]['name'];
+            $order = $request->input('order')[0];
+            $columnIndex = $order['column'];
+            $sortDirection = $order['dir'];
+            $columnName = $request->input('columns')[$columnIndex]['name'];
 
-            if (in_array($columnName, ['id','title','content','created_at'])) {
+            if (in_array($columnName, ['id', 'title', 'content', 'created_at'])) {
                 $query->orderBy($columnName, $sortDirection);
             } else {
                 $query->orderBy('created_at', 'desc');
@@ -80,7 +81,7 @@ class PageController extends Controller {
     public function store(Request $request)
     {
         $request->validate([
-            'title'   => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'content' => 'required|string',
             // Görseller isteğe bağlı, her birinin tipini ve boyutunu kontrol edelim
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
@@ -117,10 +118,7 @@ class PageController extends Controller {
         }
     }
 
-    public function edit($id) {
-        $page = Page::with('images')->findOrFail($id);
-        return response()->json($page);
-    }
+
 
 
     public function update(Request $request, $id)
@@ -129,7 +127,7 @@ class PageController extends Controller {
             $page = Page::findOrFail($id);
 
             $request->validate([
-                'title'   => 'required|string|max:255',
+                'title' => 'required|string|max:255',
                 'content' => 'required|string',
                 'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
@@ -162,17 +160,20 @@ class PageController extends Controller {
         }
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         Page::findOrFail($id)->delete();
         return response()->json(['message' => 'Sayfa başarıyla silindi.']);
     }
 
-    public function show($menu_url) {
+    public function show($menu_url)
+    {
         $menu = Menu::where('url', $menu_url)->firstOrFail();
         $page = $menu->page;
 
         return view($page ? 'pages.show' : 'pages.default_page', compact('menu', 'page'));
     }
+
     public function deleteImage($id)
     {
         try {
@@ -190,10 +191,20 @@ class PageController extends Controller {
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Görsel silinirken bir hata oluştu!',
-                'error'   => $e->getMessage()
+                'error' => $e->getMessage()
             ], 500);
         }
     }
 
+    public function create()
+    {
+        return view('admin.pages.create');
+    }
+
+    public function edit($id)
+    {
+        $page = Page::findOrFail($id);
+        return view('admin.pages.edit', compact('page'));
+    }
 }
 

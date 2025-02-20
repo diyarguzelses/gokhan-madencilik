@@ -87,6 +87,7 @@ class MachineController extends Controller
     public function destroy($id)
     {
         $machine = Machine::findOrFail($id);
+        $deletedOrder = $machine->order;
 
         if ($machine->image && file_exists(public_path($machine->image))) {
             unlink(public_path($machine->image));
@@ -94,8 +95,11 @@ class MachineController extends Controller
 
         $machine->delete();
 
+        Machine::where('order', '>', $deletedOrder)->decrement('order');
+
         return response()->json(['success' => true, 'message' => 'Makine silindi.']);
     }
+
 
     public function edit($id)
     {

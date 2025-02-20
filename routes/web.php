@@ -78,9 +78,11 @@ Route::prefix('FT23BA23DG12')->middleware('auth.admin')->name('admin.')->group(f
         Route::get('/', [PageController::class, 'index'])->name('index');
         Route::get('/data', [PageController::class, 'getData'])->name('data');
         Route::post('/', [PageController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [PageController::class, 'edit'])->name('edit');
         Route::put('/{id}', [PageController::class, 'update'])->name('update');
         Route::delete('/{id}', [PageController::class, 'destroy'])->name('destroy');
+        Route::get('/create', [PageController::class, 'create'])->name('create');
+        Route::get('/{id}/edit', [PageController::class, 'edit'])->name('edit');
+
         Route::delete('/page-images/{id}', [PageController::class, 'deleteImage'])
             ->name('deleteImage');
 
@@ -118,6 +120,9 @@ Route::prefix('FT23BA23DG12')->middleware('auth.admin')->name('admin.')->group(f
         Route::delete('/{id}', [SectorController::class, 'destroy'])->name('destroy');
         Route::delete('/delete-image/{id}', [SectorController::class, 'deleteImage'])->name('admin.sectors.deleteImage');
         Route::post('/update-order', [SectorController::class, 'updateOrder'])->name('updateOrder');
+        Route::get('/create', [SectorController::class, 'create'])->name('create');
+        Route::get('/{id}/edit', [SectorController::class, 'edit'])->name('edit');
+
 
     });
 
@@ -145,6 +150,9 @@ Route::prefix('FT23BA23DG12')->middleware('auth.admin')->name('admin.')->group(f
         Route::delete('/delete-image/{id}', [NewsController::class, 'deleteImage'])->name('admin.news.deleteImage');
         Route::post('/update-order', [NewsController::class, 'updateOrder'])->name('news-updateOrder');
         Route::post('/toggle-frontpage/{id}', [NewsController::class, 'toggleFrontpage']) ->name('toggleFrontpage');
+        Route::get('/create', [NewsController::class, 'create'])->name('create');
+        Route::get('/{id}/edit', [NewsController::class, 'edit'])->name('edit');
+
 
         Route::get('/get-content/{id}', [NewsController::class, 'getContent'])
             ->name('getContent');

@@ -80,9 +80,15 @@ class MenuController extends Controller {
     }
 
     public function destroy($id) {
-        Menu::findOrFail($id)->delete();
+        $menu = Menu::findOrFail($id);
+        $deletedOrder = $menu->order;
+        $menu->delete();
+
+        Menu::where('order', '>', $deletedOrder)->decrement('order');
+
         return response()->json(['message' => 'Menü başarıyla silindi.']);
     }
+
     public function updateOrder(Request $request)
     {
         $orders = $request->input('orders');

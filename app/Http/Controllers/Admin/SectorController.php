@@ -97,9 +97,10 @@ class SectorController extends Controller {
 
     public function destroy($id) {
         $sector = Sector::findOrFail($id);
+        $deletedOrder = $sector->order;
 
         if ($sector->image) {
-            $imagePath = public_path('uploads/sectors/'.$sector->image);
+            $imagePath = public_path('uploads/sectors/' . $sector->image);
             if (file_exists($imagePath)) {
                 unlink($imagePath);
             }
@@ -107,8 +108,11 @@ class SectorController extends Controller {
 
         $sector->delete();
 
+        Sector::where('order', '>', $deletedOrder)->decrement('order');
+
         return response()->json(['success' => true, 'message' => 'Sektör silindi.']);
     }
+
 
     public function deleteImage($id)
     {
@@ -148,6 +152,17 @@ class SectorController extends Controller {
         return response()->json(['success' => true, 'message' => 'Sektör sıralaması başarıyla güncellendi.']);
     }
 
+    public function create()
+    {
+        return view('admin.sectors.create');
+    }
+
+
+    public function edit($id)
+    {
+        $sector = Sector::findOrFail($id);
+        return view('admin.sectors.edit', compact('sector'));
+    }
 
 }
 

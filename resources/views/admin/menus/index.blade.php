@@ -307,7 +307,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `/admin/menus/${menuId}`,
+                            url: `/FT23BA23DG12/menus/${menuId}`,
                             method: 'DELETE',
                             data: {
                                 _token: '{{ csrf_token() }}'

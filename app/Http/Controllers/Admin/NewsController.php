@@ -119,8 +119,10 @@ class NewsController extends Controller {
     public function destroy($id) {
         $news = News::findOrFail($id);
 
+        $deletedOrder = $news->order;
+
         if ($news->image) {
-            $imagePath = public_path('uploads/news/'.$news->image);
+            $imagePath = public_path('uploads/news/' . $news->image);
             if (file_exists($imagePath)) {
                 unlink($imagePath);
             }
@@ -128,8 +130,11 @@ class NewsController extends Controller {
 
         $news->delete();
 
+        \App\Models\News::where('order', '>', $deletedOrder)->decrement('order');
+
         return response()->json(['success' => true, 'message' => 'Haber silindi.']);
     }
+
 
     public function deleteImage($id)
     {
@@ -203,6 +208,19 @@ class NewsController extends Controller {
             'image'     => $news->image,
             'frontpage' => $news->frontpage,
         ]);
+    }
+
+
+    public function create()
+    {
+        return view('admin.news.create');
+    }
+
+
+    public function edit($id)
+    {
+        $news = News::findOrFail($id);
+        return view('admin.news.edit', compact('news'));
     }
 
 
