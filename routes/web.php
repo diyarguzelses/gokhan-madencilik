@@ -147,11 +147,12 @@ Route::prefix('FT23BA23DG12')->middleware('auth.admin')->name('admin.')->group(f
         Route::get('/{id}/edit', [NewsController::class, 'edit'])->name('edit');
         Route::put('/{id}', [NewsController::class, 'update'])->name('update');
         Route::delete('/{id}', [NewsController::class, 'destroy'])->name('destroy');
-        Route::delete('/delete-image/{id}', [NewsController::class, 'deleteImage'])->name('admin.news.deleteImage');
+        Route::delete('/delete-image/{id}', [NewsController::class, 'deleteImage'])->name('deleteImage');
         Route::post('/update-order', [NewsController::class, 'updateOrder'])->name('news-updateOrder');
         Route::post('/toggle-frontpage/{id}', [NewsController::class, 'toggleFrontpage']) ->name('toggleFrontpage');
         Route::get('/create', [NewsController::class, 'create'])->name('create');
         Route::get('/{id}/edit', [NewsController::class, 'edit'])->name('edit');
+        Route::delete('/delete-cover/{id}', [NewsController::class, 'deleteCover'])->name('deleteCover');
 
 
         Route::get('/get-content/{id}', [NewsController::class, 'getContent'])

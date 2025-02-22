@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Models\NewsImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
@@ -53,35 +54,45 @@ class NewsController extends Controller {
 
     public function store(Request $request) {
         $request->validate([
-            'title'   => 'required',
-            'content' => 'required',
-            'image'   => 'nullable|image|max:2048',
+            'title'       => 'required',
+            'content'     => 'required',
+            'cover_image' => 'nullable|image|max:2048',
+            'images.*'    => 'nullable|image|max:2048',
         ]);
 
-        $imageName = null;
-        if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('uploads/news'), $imageName);
-        }
-
         $slug = Str::slug($request->title);
-        // Aynı slug ile başlayan kayıtları sayarak benzersiz hale getirme
         $slugCount = News::where('slug', 'LIKE', "{$slug}%")->count();
         if ($slugCount) {
             $slug .= '-' . ($slugCount + 1);
         }
 
-        // Yeni haber eklenirken, mevcut en yüksek order değerine göre yeni sıra: max + 1
         $maxOrder = News::max('order');
         $order = $maxOrder ? $maxOrder + 1 : 1;
 
-        News::create([
+        // Kapak fotoğrafı için dosya kontrolü
+        $coverImageName = null;
+        if ($request->hasFile('cover_image')) {
+            $coverImageName = time().'_'.Str::random(5).'.'.$request->cover_image->extension();
+            $request->cover_image->move(public_path('uploads/news'), $coverImageName);
+        }
+
+        // News kaydını kapak fotoğrafı bilgisiyle oluşturuyoruz
+        $news = News::create([
             'slug'    => $slug,
             'title'   => $request->title,
             'content' => $request->content,
-            'image'   => $imageName,
+            'image'   => $coverImageName, // Kapak fotoğrafı
             'order'   => $order,
         ]);
+
+        // Ek görselleri kaydetme
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $imageName = time().'_'.Str::random(5).'.'.$file->extension();
+                $file->move(public_path('uploads/news'), $imageName);
+                $news->images()->create(['image' => $imageName]);
+            }
+        }
 
         return response()->json(['success' => true, 'message' => 'Haber eklendi.']);
     }
@@ -90,21 +101,23 @@ class NewsController extends Controller {
         $news = News::findOrFail($id);
 
         $request->validate([
-            'title'   => 'required',
-            'content' => 'required',
-            'image'   => 'nullable|image|max:2048',
+            'title'       => 'required',
+            'content'     => 'required',
+            'cover_image' => 'nullable|image|max:2048',
+            'images.*'    => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('uploads/news'), $imageName);
+        // Kapak fotoğrafı kontrolü: Yeni dosya varsa eski kapak silinsin
+        if ($request->hasFile('cover_image')) {
+            $coverImageName = time().'_'.Str::random(5).'.'.$request->cover_image->extension();
+            $request->cover_image->move(public_path('uploads/news'), $coverImageName);
             if ($news->image) {
                 $oldImagePath = public_path('uploads/news/'.$news->image);
                 if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
                 }
             }
-            $news->image = $imageName;
+            $news->image = $coverImageName;
         }
 
         $news->update([
@@ -113,14 +126,23 @@ class NewsController extends Controller {
             'image'   => $news->image,
         ]);
 
+        // Yeni ek görsellerin eklenmesi
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $imageName = time().'_'.Str::random(5).'.'.$file->extension();
+                $file->move(public_path('uploads/news'), $imageName);
+                $news->images()->create(['image' => $imageName]);
+            }
+        }
+
         return response()->json(['success' => true, 'message' => 'Haber güncellendi.']);
     }
 
     public function destroy($id) {
         $news = News::findOrFail($id);
-
         $deletedOrder = $news->order;
 
+        // Kapak fotoğrafı varsa siliniyor
         if ($news->image) {
             $imagePath = public_path('uploads/news/' . $news->image);
             if (file_exists($imagePath)) {
@@ -128,31 +150,33 @@ class NewsController extends Controller {
             }
         }
 
-        $news->delete();
+        // İlişkili tüm ek resimler siliniyor
+        foreach ($news->images as $newsImage) {
+            $imagePath = public_path('uploads/news/' . $newsImage->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $newsImage->delete();
+        }
 
+        $news->delete();
         \App\Models\News::where('order', '>', $deletedOrder)->decrement('order');
 
         return response()->json(['success' => true, 'message' => 'Haber silindi.']);
     }
 
-
     public function deleteImage($id)
     {
-        $news = News::findOrFail($id);
-        if ($news->image) {
-            $imagePath = public_path('uploads/news/' . $news->image);
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
-            }
-            $news->image = null;
-            $news->save();
-
-            return response()->json(['success' => true, 'message' => 'Resim silindi.']);
+        $newsImage = NewsImage::findOrFail($id);
+        $imagePath = public_path('uploads/news/' . $newsImage->image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
         }
-        return response()->json(['success' => false, 'message' => 'Silinecek resim bulunamadı.'], 404);
+        $newsImage->delete();
+
+        return response()->json(['success' => true, 'message' => 'Resim silindi.']);
     }
 
-    // Yeni: Haber sıralamasını güncelleme metodu
     public function updateOrder(Request $request)
     {
         $orders = $request->orders; // Örneğin: [ { id: 3, order: 1 }, { id: 5, order: 2 }, ... ]
@@ -173,6 +197,7 @@ class NewsController extends Controller {
 
         return response()->json(['success' => true, 'message' => 'Haber sıralaması başarıyla güncellendi.']);
     }
+
     public function toggleFrontpage($id, Request $request)
     {
         $news = News::find($id);
@@ -198,6 +223,7 @@ class NewsController extends Controller {
             'frontpage' => $news->frontpage
         ]);
     }
+
     public function getContent($id)
     {
         $news = News::findOrFail($id);
@@ -205,24 +231,35 @@ class NewsController extends Controller {
             'id'        => $news->id,
             'title'     => $news->title,
             'content'   => $news->content,
-            'image'     => $news->image,
+            'cover'     => $news->image,
             'frontpage' => $news->frontpage,
         ]);
     }
-
 
     public function create()
     {
         return view('admin.news.create');
     }
 
-
     public function edit($id)
     {
         $news = News::findOrFail($id);
         return view('admin.news.edit', compact('news'));
     }
+    public function deleteCover($id)
+    {
+        $news = News::findOrFail($id);
+        if ($news->image) {
+            $imagePath = public_path('uploads/news/' . $news->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $news->image = null;
+            $news->save();
 
-
+            return response()->json(['success' => true, 'message' => 'Kapak resmi silindi.']);
+        }
+        return response()->json(['success' => false, 'message' => 'Silinecek kapak resmi bulunamadı.'], 404);
+    }
 
 }

@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class News extends Model
+class NewsImage extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['title', 'content', 'image', 'slug', 'order', 'frontpage'];
+    protected $table = 'news_images';
+    protected $fillable = ['news_id', 'image'];
 
-    public function images()
+    public function news()
     {
-        return $this->hasMany(NewsImage::class);
+        return $this->belongsTo(News::class);
     }
 }
