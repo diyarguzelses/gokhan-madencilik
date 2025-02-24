@@ -158,7 +158,7 @@
                 <div class="social-links d-flex m-4 ">
                     <a href=""><i class="bi bi-twitter-x"></i></a>
                     <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href="https://www.instagram.com/cetininsaat01?igsh=MWIzaG1pdjZna2RtZg=="><i class="bi bi-instagram"></i></a>
                 </div>
 
             </div>
@@ -179,7 +179,7 @@
                 <ul>
                     <li><a href="#"><i class="fa-solid fa-location-dot"></i>Kızılırmak Mah. <br>Dumlupınar Bulvarı Next Level A Blok -3/39 ANKARA</a></li>
                     <li><i class="fa-solid fa-phone"></i>+(90) 312 478 39 13</li>
-                    <li><i class="fa-solid fa-envelope"></i>info@cetin-insaat.com.tr</li>
+                    <li><i class="fa-solid fa-envelope"></i>cetin@cetininsaat.info</li>
                 </ul>
             </div>
 

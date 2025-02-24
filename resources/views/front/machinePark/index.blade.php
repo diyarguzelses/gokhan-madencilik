@@ -37,9 +37,9 @@
                             <div class="card_title">
                                 <p>{{$mp->name}}</p>
                             </div>
-                            <div class="card_title2">
-                                <p>Adet : {{$mp->quantity}}</p>
-                            </div>
+{{--                            <div class="card_title2">--}}
+{{--                                <p>Adet : {{$mp->quantity}}</p>--}}
+{{--                            </div>--}}
                         </div>
                     </div>
 

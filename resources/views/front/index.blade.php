@@ -167,7 +167,7 @@
                                                     <img src="{{ asset('/uploads/news/'.$new->image) }}"
                                                          onerror="this.onerror=null; this.src='{{ asset('front/assets/img/default-img.png') }}';"
                                                          class="testimonial-img" alt="Haber Resmi">
-                                                    <h3>{{ $new->title }}</h3>
+                                                    <h3>{{ Str::limit(($new->title), 70) }}</h3>
                                                     <p>
                                                         <i class="bi bi-quote quote-icon-left"></i>
                                                         <span>{{ Str::limit(strip_tags($new->content), 200) }}</span>
