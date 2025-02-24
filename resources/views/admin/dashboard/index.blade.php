@@ -137,20 +137,33 @@
             let projectTitles = {!! json_encode($latestProjects->pluck('name')->toArray()) !!};
             let projectDates = {!! json_encode($latestProjects->pluck('created_at')->map(fn($date) => $date->format('Y-m'))->toArray()) !!};
 
-            // Bar grafikte her çubuğa farklı renk atamak için
+            let shortenedProjectTitles = projectTitles.map(title => title.length > 20 ? title.substring(0, 20) + '...' : title);
+
+
             let barColors = projectTitles.map(() => getRandomColor());
 
             new Chart(ctx2, {
                 type: 'bar',
                 data: {
-                    labels: projectTitles,
+                    labels: shortenedProjectTitles, // 🔹 Kısaltılmış proje isimlerini kullan
                     datasets: [{
                         label: 'Proje Ekleme Tarihi',
                         data: projectDates.map(date => new Date(date + "-01").getTime()),
-                        backgroundColor: barColors // Her çubuğa farklı renk atanıyor
+                        backgroundColor: barColors // 🔹 Her çubuğa farklı renk atanıyor
                     }]
                 },
                 options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    let index = tooltipItems[0].dataIndex;
+                                    return projectTitles[index]; // 🔹 Tam proje ismini tooltip'te göster
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         x: {
                             title: { display: true, text: 'Projeler' }
@@ -170,6 +183,7 @@
             @else
             console.warn("Proje Zaman Grafiği için yeterli veri yok.");
             @endif
+
 
         });
     </script>
