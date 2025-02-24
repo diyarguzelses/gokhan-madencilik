@@ -24,32 +24,59 @@
 
     <section class="container my-4">
         <div class="row">
-            <!-- Sol Kolon: Kapak Fotoğrafı ve Ek Görseller -->
+{{--            <!-- Sol Kolon: Kapak Fotoğrafı ve Ek Görseller -->--}}
+{{--            <div class="col-md-6">--}}
+{{--                <!-- Kapak Fotoğrafı -->--}}
+{{--                <div class="swiper mySwiper d-flex align-items-center justify-content-start">--}}
+{{--                    <div class="swiper-wrapper">--}}
+{{--                        <div class="swiper-slide">--}}
+{{--                            <img src="{{ asset('/uploads/news/'.$news->image) }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/img/default-img.png') }}';" class="img-fluid" alt="">--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <br>--}}
+{{--                <!-- Ek Haber Görselleri (Swiper Slider) -->--}}
+{{--                @if($news->images->isNotEmpty())--}}
+{{--                    <div class="swiper mySwiper" style="max-height: 300px;">--}}
+{{--                        <div class="swiper-wrapper">--}}
+{{--                            @foreach($news->images as $img)--}}
+{{--                                <div class="swiper-slide">--}}
+{{--                                    <img src="{{ asset('uploads/news/'.$img->image) }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/img/default-img.png') }}';" alt="Ek Haber Resmi" class="img-fluid" style="max-width: 100%; height: auto;">--}}
+{{--                                </div>--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
+{{--                        <div class="swiper-pagination"></div>--}}
+{{--                        <div class="swiper-button-next"></div>--}}
+{{--                        <div class="swiper-button-prev"></div>--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+{{--            </div>--}}
             <div class="col-md-6">
-                <!-- Kapak Fotoğrafı -->
                 <div class="swiper mySwiper d-flex align-items-center justify-content-start">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <img src="{{ asset('/uploads/news/'.$news->image) }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/img/default-img.png') }}';" class="img-fluid" alt="">
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <!-- Ek Haber Görselleri (Swiper Slider) -->
-                @if($news->images->isNotEmpty())
-                    <div class="swiper mySwiper" style="max-height: 300px;">
-                        <div class="swiper-wrapper">
+                        @if(isset($news) && $news->images->isNotEmpty())
                             @foreach($news->images as $img)
                                 <div class="swiper-slide">
-                                    <img src="{{ asset('uploads/news/'.$img->image) }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/img/default-img.png') }}';" alt="Ek Haber Resmi" class="img-fluid" style="max-width: 100%; height: auto;">
+                                    <img src="{{ asset('uploads/news/'.$img->image) }}"
+                                         onerror="this.onerror=null; this.src='{{ asset('front/assets/img/default-img.png') }}';"
+                                         alt="Ek Haber Resmi"
+                                         class="img-fluid"
+                                         style="max-width: 100%; height: auto;">
                                 </div>
                             @endforeach
-                        </div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
+                        @else
+                            <div class="swiper-slide">
+                                <img src="{{ asset('front/assets/img/default-img.png') }}"
+                                     alt="Varsayılan Resim"
+                                     class="img-fluid"
+                                     style="max-width: 100%; height: auto;">
+                            </div>
+                        @endif
+
+
+
                     </div>
-                @endif
+                </div>
             </div>
             <!-- Sağ Kolon: Haber İçeriği -->
             <div class="col-md-6 order-2 order-md-1 content aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">

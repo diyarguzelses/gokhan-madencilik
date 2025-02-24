@@ -115,7 +115,8 @@
                         <a href="{{ route('news.detail', $lastnew->slug) }}" style="color: black!important;">
                             <h3 style="color: var(--accent-color)">{{ $lastnew->title }}</h3>
                             <div class="fsitalict- w-75 bg-white2 mr-2">
-                                {!! htmlExcerpt($lastnew->content, 450) !!}
+                                {!! Str::limit(strip_tags($lastnew->content), 450) !!}
+
                             </div>
                         </a>
                     @endif
@@ -169,7 +170,7 @@
                                                     <h3>{{ $new->title }}</h3>
                                                     <p>
                                                         <i class="bi bi-quote quote-icon-left"></i>
-                                                        <span>{!! htmlExcerpt($new->content, 200) !!}</span>
+                                                        <span>{{ Str::limit(strip_tags($new->content), 200) }}</span>
                                                         <i class="bi bi-quote quote-icon-right"></i>
                                                     </p>
                                                 </div>
