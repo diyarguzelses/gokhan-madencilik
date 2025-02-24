@@ -15,7 +15,7 @@ class HomePageController extends Controller
     public function index(){
         $news = News::latest()->get();
         $firstThreeSectors = Sector::take(3)->get();
-        $nextFourSectors = Sector::skip(3)->take(4)->get();
+        $nextFourSectors = Sector::get();
         $lastnew = News::where('frontpage',1)->first();
         $projectCount = Project::count();
         $sectorCount = Sector::count();

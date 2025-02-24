@@ -86,10 +86,10 @@
                             {{ $news->title }}
                         </a>
                     </h2>
-                    <div class="date">
-                        <span class="day">{{ $news->created_at->format('d') }}</span>
-                        <span class="month">{{ $news->created_at->locale('tr')->isoFormat('MMM') }}</span>
-                    </div>
+{{--                    <div class="date">--}}
+{{--                        <span class="day">{{ $news->created_at->format('d') }}</span>--}}
+{{--                        <span class="month">{{ $news->created_at->locale('tr')->isoFormat('MMM') }}</span>--}}
+{{--                    </div>--}}
                 </div>
                 <p class="fst-italic">
                     <a href="{{ route('news.detail', $news->slug) }}" style="text-decoration: none; color: inherit;">

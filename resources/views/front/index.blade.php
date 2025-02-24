@@ -197,7 +197,7 @@
     </section>
 
 
-   @if($nextFourSectors->count() > 2)
+
     <section class="game-section">
         <div class="container hr_baslik">
             <h2 style="color: var(--accent-color)">Faaliyet Alanları</h2>
@@ -206,7 +206,7 @@
 
         <div class="owl-carousel custom-carousel owl-theme">
             @foreach($nextFourSectors as $sector)
-                <div class="item" style="background-image: url('/uploads/sectors/{{ $sector->image }}');" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';">
+                <div class="item" style="background-image: url('/uploads/sectors/{{ $sector->image }}');cursor: auto" onerror="this.onerror=null; this.src='{{asset('front/assets/img/default-img.png')}}';">
                     <div class="item-desc">
                         <h4>{{ $sector->name }}</h4>
                     </div>
@@ -217,7 +217,7 @@
 
 
     </section>
-   @endif
+
 
 
 

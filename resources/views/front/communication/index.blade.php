@@ -31,14 +31,16 @@
                         <i class="bi bi-geo-alt flex-shrink-0"></i>
                         <div>
                             <h3>Adres</h3>
-                            <p>Kızılırmak Mah dumlu Pınar bulvarı <br> Next Level A Blok3/39 ANKARA</p>
+                            <p>Kızılırmak Mah. Dumlu Pınar Bulvarı <br> Next Level A Blok 3/39 ANKARA</p>
+                            <p class="mt-3">İcadiye Mah. Hürriyet Cad. <br> No:27/403 ELAZIĞ</p>
                         </div>
                     </div>
                     <div class="info-item d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
                         <i class="bi bi-telephone flex-shrink-0"></i>
                         <div>
                             <h3>Bizi Arayın</h3>
-                            <p>+(90) 312.478 39 13</p>
+                            <p>+(90) 312 478 39 13 ~ Ankara</p>
+                            <p>+(90) 424 237 19 19 ~ Elazığ</p>
                         </div>
                     </div>
                     <div class="info-item d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="500">
