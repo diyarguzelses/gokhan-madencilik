@@ -116,6 +116,7 @@
                             <h3 style="color: var(--accent-color)">{{ $lastnew->title }}</h3>
                             <div class="fsitalict- w-75 bg-white2 mr-2">
                                 {!! Str::limit(strip_tags($lastnew->content), 450) !!}
+                                <a href="{{ route('news.detail', $lastnew->slug) }}" style="color: var(--accent-color)"> Devamını gör</a>
 
                             </div>
                         </a>
