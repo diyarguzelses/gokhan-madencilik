@@ -51,7 +51,7 @@
 
             <div class="row gy-4">
                 <div class="hr_baslik">
-                    <h2 style="color: var(--accent-color)">Rakamlarla Çetin İnşaat</h2>
+                    <h2 style="color: var(--accent-color)">Rakamlarla Gökhan Madencilik</h2>
                     <hr class="hr">
                 </div>
 

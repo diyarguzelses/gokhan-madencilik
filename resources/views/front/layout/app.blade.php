@@ -22,13 +22,13 @@
 
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Çetin İnşaat</title>
+    <title>Gökhan Madencilik</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="{{asset('front/assets/img/favicon_2.png')}}" rel="icon">
-    <link href="{{asset('front/assets/img/favicon_2.png')}}" rel="apple-touch-icon">
+    <link href="{{asset('front/assets/img/gokhan_madencilik.png')}}" rel="icon">
+    <link href="{{asset('front/assets/img/gokhan_madencilik.png')}}" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -84,8 +84,8 @@
 
         <a href="{{route('homePage.index')}}" class="logo d-flex align-items-center justify-content-center ">
             <!-- Uncomment the line below if you also wish to use an image logo -->
-            <img src="{{asset('front/assets/img/logo3.png')}}" class="" style="" alt="">
-            {{--            <h1 class="sitename pt-5">Mentor</h1>--}}
+{{--            <img src="{{asset('front/assets/img/logo3.png')}}" class="" style="" alt="">--}}
+                        <h1 class="sitename ">Gökhan Madencilik</h1>
         </a>
         <nav id="navmenu" class="navmenu">
             <ul>
@@ -152,13 +152,13 @@
             <div class="col-lg-4 col-md-6 footer-about">
                 <a href="{{route('homePage.index')}}" class=" " >
                     <!-- Uncomment the line below if you also wish to use an image logo -->
-                    <img src="{{asset('front/assets/img/logo3.png')}}" class="footer-img" style="" alt="">
-                    {{--            <h1 class="sitename pt-5">Mentor</h1>--}}
+{{--                    <img src="{{asset('front/assets/img/logo3.png')}}" class="footer-img" style="" alt="">--}}
+                                <h1 class="sitename2 ">Gökhan Madencilik</h1>
                 </a>
                 <div class="social-links d-flex m-4 ">
                     <a href=""><i class="bi bi-twitter-x"></i></a>
                     <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href="https://www.instagram.com/cetininsaat01?igsh=MWIzaG1pdjZna2RtZg=="><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
                 </div>
 
             </div>
@@ -177,9 +177,9 @@
             <div class="col-lg-2 col-md-3 footer-links">
                 <h4>İletişim</h4>
                 <ul>
-                    <li><a href="#"><i class="fa-solid fa-location-dot"></i>Kızılırmak Mah. <br>Dumlupınar Bulvarı Next Level A Blok -3/39 ANKARA</a></li>
-                    <li><i class="fa-solid fa-phone"></i>+(90) 312 478 39 13</li>
-                    <li><i class="fa-solid fa-envelope"></i>cetin@cetininsaat.info</li>
+                    <li><a href="#"><i class="fa-solid fa-location-dot"></i>Çarşı, Hürriyet Cd. <br> No:36 D:312, 23200 Elazığ/Merkez</a></li>
+                    <li><i class="fa-solid fa-phone"></i>+(90) 533 294 07 14</li>
+                    <li><i class="fa-solid fa-envelope"></i></li>
                 </ul>
             </div>
 
@@ -191,7 +191,7 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename"><a href="">Çetin İnşaat</a> </strong> <span>Tüm Hakları Saklıdır</span></p>
+        <p>© <span>Copyright</span> <strong class="px-1 sitename"><a href="">Gökhan Madencilik</a> </strong> <span>Tüm Hakları Saklıdır</span></p>
 
     </div>
 

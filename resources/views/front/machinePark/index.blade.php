@@ -8,7 +8,7 @@
                 <div class="row d-flex justify-content-start ">
                     <div class="col-lg-5">
                         <h1>Makina Parkı</h1>
-                        <p class="mb-0">Çetin İnşaat, modern teknolojiyle müşteri beklentilerini kalite-fiyat dengesiyle karşılar ve yenilikçi, kaliteli hizmeti hedefler.</p>
+                        <p class="mb-0">Gökhan Madencilik, modern teknolojiyle müşteri beklentilerini kalite-fiyat dengesiyle karşılar ve yenilikçi, kaliteli hizmeti hedefler.</p>
                     </div>
                 </div>
             </div>

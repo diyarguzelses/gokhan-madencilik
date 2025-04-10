@@ -245,11 +245,19 @@ h6 {
 
 .header .logo h1 {
   font-weight: 700;
-  font-size: 30px;
+  font-size: 23px;
   margin: 0;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--accent-color);
+}
+.sitename2{
+    font-weight: 700;
+    font-size: 23px;
+    margin: 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent-color);
 }
 
 .header .btn-getstarted,

@@ -31,23 +31,21 @@
                         <i class="bi bi-geo-alt flex-shrink-0"></i>
                         <div>
                             <h3>Adres</h3>
-                            <p>Kızılırmak Mah. Dumlu Pınar Bulvarı <br> Next Level A Blok 3/39 ANKARA</p>
-                            <p class="mt-3">İcadiye Mah. Hürriyet Cad. <br> No:27/403 ELAZIĞ</p>
+                            <p>Çarşı, Hürriyet Cd. No:36 D:312, 23200 <br> Elazığ Merkez/Elazığ</p>
                         </div>
                     </div>
                     <div class="info-item d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
                         <i class="bi bi-telephone flex-shrink-0"></i>
                         <div>
                             <h3>Bizi Arayın</h3>
-                            <p>+(90) 312 478 39 13 ~ Ankara</p>
-                            <p>+(90) 424 237 19 19 ~ Elazığ</p>
+                            <p>+(90) 533 294 07 14</p>
                         </div>
                     </div>
                     <div class="info-item d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="500">
                         <i class="bi bi-envelope flex-shrink-0"></i>
                         <div>
                             <h3>E-posta</h3>
-                            <p>cetin@cetininsaat.info</p>
+                            <p></p>
                         </div>
                     </div>
                 </div>
@@ -72,7 +70,7 @@
                                 <div class="loading alert alert-warning text-center" style="display:none;">Gönderiliyor...</div>
                                 <div class="sent-message alert alert-success text-center" style="display:none;"></div>
                                 <div class="error-message alert alert-danger text-center" style="display:none;"></div>
-                                <button type="button" id="sendMailButton" onclick="sendFeedback()" class="btn btn-primary">Gönder</button>
+                                <button type="button" id="sendMailButton" onclick="sendFeedback()" class="btn" style="color: white;background: var(--accent-color)">Gönder</button>
                             </div>
                         </div>
                     </form>
@@ -81,9 +79,7 @@
         </div>
 
         <div class="mt-5 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
-            <iframe style="border:0; width: 100%; height: 300px;"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3060.3533217282024!2d32.810201875831666!3d39.91110867152534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34e44431b677d%3A0x9ef3e1957b025555!2sNext%20Level!5e0!3m2!1sen!2sus!4v1738013975243!5m2!1sen!2sus"
-                    frameborder="0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe  style="border:0; width: 100%; height: 300px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3114.908750629103!2d39.2270154!3d38.6739651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4076c0794e09a48f%3A0x602c04b78a798fc8!2zR8OWS0hBTiBNQURFTkPEsEzEsEs!5e0!3m2!1str!2str!4v1744294980573!5m2!1str!2str" width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </section>
 
