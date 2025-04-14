@@ -21,8 +21,10 @@ class HomePageController extends Controller
         $sectorCount = Sector::count();
         $machineCount = Machine::sum('quantity');
         $projeCategoryCount = Category::count();
+        $personnelSetting = Setting::where('key', 'personnel_count')->first();
+        $personnelCount = $personnelSetting?->value ?? 1;
+        $personnelUpdatedAt = $personnelSetting?->updated_at;
 
-
-        return view('front.index', compact('news','firstThreeSectors','nextFourSectors','lastnew','projectCount','sectorCount','machineCount','projeCategoryCount'));
+        return view('front.index', compact('news','firstThreeSectors','nextFourSectors','lastnew','projectCount','sectorCount','machineCount','projeCategoryCount','personnelCount', 'personnelUpdatedAt'));
     }
 }

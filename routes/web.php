@@ -72,6 +72,7 @@ Route::prefix('FT23BA23DG12')->middleware('auth.admin')->name('admin.')->group(f
     // 📌 AYARLAR
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::put('/settings/personnel-update', [SettingsController::class, 'personnelUpdate'])->name('settings.personnel.update');
 
     // 📌 SAYFA YÖNETİMİ
     Route::prefix('pages')->name('pages.')->group(function () {

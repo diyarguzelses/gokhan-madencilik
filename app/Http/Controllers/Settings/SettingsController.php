@@ -46,4 +46,21 @@ class SettingsController extends Controller
             $setting->save();
         }
     }
+    public function personnelUpdate(Request $request)
+    {
+        $request->validate([
+            'personnel_count' => 'required|integer|min:0',
+        ]);
+
+        $key = 'personnel_count';
+        $value = $request->input('personnel_count');
+
+        Setting::updateOrCreate(
+            ['key' => $key],
+            ['value' => $value]
+        );
+
+        return response()->json(['success' => true]);
+    }
+
 }
