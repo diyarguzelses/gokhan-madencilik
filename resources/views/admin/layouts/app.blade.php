@@ -30,15 +30,15 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Çetin Panel</title>
+    <title>Gökhan Madencilik Panel</title>
 
     <meta name="description" content=""/>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.jqueryui.min.css" integrity="sha512-NaFholmQqRn9rmnWrKWrcr/uob4ZiLo4DjD2TJVEa4XoalLAIehJAE4Okjx/PqQPPSRV3EEIaatHWoT7qtVgeQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Favicon -->
-    <link href="{{asset('front/assets/img/favicon_2.png')}}" rel="icon">
-    <link href="{{asset('front/assets/img/favicon_2.png')}}" rel="apple-touch-icon">
+    <link href="{{asset('front/assets/img/gokhan_madencilik.png')}}" rel="icon">
+    <link href="{{asset('front/assets/img/gokhan_madencilik.png')}}" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -84,7 +84,7 @@
                 <a href="#" class="app-brand-link">
               <span class="app-brand-logo demo">
               </span>
-                    <span class="app-brand-text menu-header-text fw-bolder ms-3 ">Çetin İnşaat</span>
+                    <span class="app-brand-text menu-header-text fw-bolder ">Gökhan Madencilik</span>
                 </a>
 
 
