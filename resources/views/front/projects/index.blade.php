@@ -13,7 +13,7 @@
                         @else
                             <h1>DEVAM EDEN PROJELERİMİZ</h1>
                         @endif
-                        <p class="mb-0">Çetin İnşaat, modern teknolojiyle müşteri beklentilerini kalite-fiyat dengesiyle
+                        <p class="mb-0">Gökhan Madencilik, modern teknolojiyle müşteri beklentilerini kalite-fiyat dengesiyle
                             karşılar ve yenilikçi, kaliteli hizmeti hedefler.</p>
                     </div>
                 </div>
